@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Система заданий Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Заголовок -->
+        <div class="text-center mb-5">
+            <h1 class="display-4 mb-3">🐍 Система генерации и проверки заданий Python</h1>
+            <p class="lead text-muted">
+                Автоматическая генерация учебных заданий и проверка решений с использованием нейронных сетей
+            </p>
+        </div>
+
+        <!-- Основные возможности -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-magic fa-3x text-primary"></i>
+                        </div>
+                        <h5 class="card-title">Генерация заданий</h5>
+                        <p class="card-text">
+                            Автоматическое создание заданий различной сложности по программированию на Python
+                        </p>
+                        <a href="{{ url_for('main.generate_task') }}" class="btn btn-primary">
+                            Создать задание
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-check-circle fa-3x text-success"></i>
+                        </div>
+                        <h5 class="card-title">Проверка решений</h5>
+                        <p class="card-text">
+                            Автоматическая проверка корректности и качества написанного кода
+                        </p>
+                        <a href="{{ url_for('main.list_tasks') }}" class="btn btn-success">
+                            Решить задание
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <i class="fas fa-brain fa-3x text-info"></i>
+                        </div>
+                        <h5 class="card-title">Анализ качества</h5>
+                        <p class="card-text">
+                            Оценка качества кода с помощью нейронных сетей и анализа стиля
+                        </p>
+                        <a href="#" class="btn btn-info" onclick="showStatistics()">
+                            Посмотреть статистику
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Информация о системе -->
+        <div class="card">
+            <div class="card-header">
+                <h4 class="mb-0">О системе</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Возможности системы:</h6>
+                        <ul>
+                            <li>Генерация заданий по различным темам Python</li>
+                            <li>Проверка синтаксиса и выполнения кода</li>
+                            <li>Анализ качества и стиля программирования</li>
+                            <li>Оценка сложности решений</li>
+                            <li>Предоставление подсказок и рекомендаций</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Технологии:</h6>
+                        <ul>
+                            <li>Python 3.8+ с Flask</li>
+                            <li>Простая нейронная сеть для анализа кода</li>
+                            <li>SQLite для хранения данных</li>
+                            <li>CodeMirror для редактирования кода</li>
+                            <li>Bootstrap для интерфейса</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Быстрый старт -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h4 class="mb-0">Быстрый старт</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Для преподавателей:</h6>
+                        <ol>
+                            <li>Создайте задание с помощью генератора</li>
+                            <li>Выберите тему и уровень сложности</li>
+                            <li>Получите готовое задание с тестовыми случаями</li>
+                        </ol>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Для студентов:</h6>
+                        <ol>
+                            <li>Выберите задание из списка</li>
+                            <li>Напишите решение в редакторе</li>
+                            <li>Получите оценку и рекомендации</li>
+                        </ol>
+                    </div>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <a href="{{ url_for('main.generate_task') }}" class="btn btn-primary me-2">
+                        Создать задание
+                    </a>
+                    <a href="{{ url_for('main.list_tasks') }}" class="btn btn-outline-primary">
+                        Посмотреть задания
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Font Awesome для иконок -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+{% endblock %}
