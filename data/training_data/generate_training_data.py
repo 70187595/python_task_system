@@ -6,6 +6,202 @@ import json
 import os
 from typing import List, Dict, Any
 
+def generate_string_excellent():
+    """Генерация отличных примеров работы со строками"""
+    return [
+        {
+            "code": """def reverse_string(text):
+    \"\"\"Переворачивает строку.\"\"\"
+    return text[::-1]""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def capitalize_words(text):
+    \"\"\"Делает заглавной первую букву каждого слова.\"\"\"
+    return text.title()""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def remove_whitespace(text):
+    \"\"\"Удаляет все пробелы из строки.\"\"\"
+    return text.replace(' ', '')""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.9, 0.95]
+        },
+        {
+            "code": """def count_vowels(text):
+    \"\"\"Подсчитывает количество гласных в строке.\"\"\"
+    vowels = 'aeiouAEIOUаеёиоуыэюяАЕЁИОУЫЭЮЯ'
+    return sum(1 for char in text if char in vowels)""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        {
+            "code": """def is_palindrome(text):
+    \"\"\"Проверяет, является ли строка палиндромом.\"\"\"
+    cleaned = text.lower().replace(' ', '')
+    return cleaned == cleaned[::-1]""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def get_first_word(text):
+    \"\"\"Извлекает первое слово из строки.\"\"\"
+    words = text.split()
+    return words[0] if words else ''""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.85, 0.9]
+        },
+        {
+            "code": """def join_with_separator(words, separator=', '):
+    \"\"\"Объединяет список слов с разделителем.\"\"\"
+    return separator.join(words)""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def extract_digits(text):
+    \"\"\"Извлекает все цифры из строки.\"\"\"
+    return ''.join(char for char in text if char.isdigit())""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        {
+            "code": """def truncate_string(text, max_length):
+    \"\"\"Обрезает строку до заданной длины с многоточием.\"\"\"
+    if len(text) <= max_length:
+        return text
+    return text[:max_length - 3] + '...'""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.2,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.85, 0.9]
+        },
+        {
+            "code": """def remove_duplicates(text):
+    \"\"\"Удаляет повторяющиеся символы подряд.\"\"\"
+    if not text:
+        return text
+    result = [text[0]]
+    for char in text[1:]:
+        if char != result[-1]:
+            result.append(char)
+    return ''.join(result)""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.11,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.85, 0.85]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -476,6 +672,9 @@ def generate_training_data():
     training_data.extend(good_solutions)
     training_data.extend(poor_solutions)
     training_data.extend(terrible_solutions)
+    
+    # Добавляем новые примеры работы со строками (отличное качество)
+    training_data.extend(generate_string_excellent())
     
     return training_data
 
