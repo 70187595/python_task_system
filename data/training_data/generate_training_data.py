@@ -695,6 +695,342 @@ def generate_string_poor():
         }
     ]
 
+def generate_lists_examples():
+    """Генерация примеров работы со списками (все уровни качества)"""
+    return [
+        # Отличные примеры (5)
+        {
+            "code": """def sum_list(numbers):
+    \"\"\"Возвращает сумму элементов списка.\"\"\"
+    return sum(numbers)""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def get_unique(items):
+    \"\"\"Возвращает список уникальных элементов.\"\"\"
+    return list(set(items))""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def flatten_list(nested_list):
+    \"\"\"Разворачивает вложенный список.\"\"\"
+    return [item for sublist in nested_list for item in sublist]""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        {
+            "code": """def chunk_list(items, size):
+    \"\"\"Разбивает список на части заданного размера.\"\"\"
+    return [items[i:i+size] for i in range(0, len(items), size)]""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        {
+            "code": """def remove_none(items):
+    \"\"\"Удаляет None из списка.\"\"\"
+    return [item for item in items if item is not None]""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.9, 0.95]
+        },
+        
+        # Средние примеры (5)
+        {
+            "code": """def sum_list(numbers):
+    total = 0
+    for num in numbers:
+        total = total + num
+    return total""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 7.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.65, 0.7]
+        },
+        {
+            "code": """def get_unique(items):
+    unique = []
+    for item in items:
+        if item not in unique:
+            unique.append(item)
+    return unique""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.6, 0.7]
+        },
+        {
+            "code": """def flatten_list(nested_list):
+    result = []
+    for sublist in nested_list:
+        for item in sublist:
+            result.append(item)
+    return result""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.65, 0.7]
+        },
+        {
+            "code": """def chunk_list(items, size):
+    chunks = []
+    for i in range(0, len(items), size):
+        chunk = items[i:i+size]
+        chunks.append(chunk)
+    return chunks""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        {
+            "code": """def remove_none(items):
+    result = []
+    for item in items:
+        if item != None:
+            result.append(item)
+    return result""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        
+        # Плохие примеры (5)
+        {
+            "code": """def sum_list(numbers):
+    a = 0
+    b = 0
+    c = 0
+    for x in numbers:
+        a = a + x
+        b = b + 1
+        c = c + 2
+    return a""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        },
+        {
+            "code": """def get_unique(items):
+    a = []
+    for i in range(len(items)):
+        b = items[i]
+        c = False
+        for j in range(len(a)):
+            if a[j] == b:
+                c = True
+        if c == False:
+            a.append(b)
+    return a""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 3.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        },
+        {
+            "code": """def flatten_list(nested_list):
+    a = []
+    b = 0
+    while b < len(nested_list):
+        c = nested_list[b]
+        d = 0
+        while d < len(c):
+            a.append(c[d])
+            d = d + 1
+        b = b + 1
+    return a""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """def chunk_list(items, size):
+    a = []
+    b = []
+    c = 0
+    for x in items:
+        b.append(x)
+        c = c + 1
+        if c == size:
+            a.append(b)
+            b = []
+            c = 0
+    if len(b) > 0:
+        a.append(b)
+    return a""",
+            "features": {
+                "lines_of_code": 14.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        },
+        {
+            "code": """def remove_none(items):
+    a = []
+    b = 0
+    c = 0
+    d = 0
+    for x in items:
+        if x != None:
+            a.append(x)
+        b = b + 1
+        c = c + 1
+        d = d + 1
+    return a""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -1174,6 +1510,9 @@ def generate_training_data():
     
     # Добавляем новые примеры работы со строками (плохое качество)
     training_data.extend(generate_string_poor())
+    
+    # Добавляем примеры работы со списками (все уровни)
+    training_data.extend(generate_lists_examples())
     
     return training_data
 
