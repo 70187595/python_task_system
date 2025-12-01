@@ -5181,15 +5181,16 @@ def save_training_data():
     """Сохранение обучающих данных в файл"""
     data = generate_training_data()
     
-    # Создаем папку если не существует
-    os.makedirs('data/training_data', exist_ok=True)
+    # Определяем путь к файлу относительно скрипта
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    output_file = os.path.join(script_dir, 'training_data.json')
     
     # Сохраняем данные
-    with open('data/training_data/training_data.json', 'w', encoding='utf-8') as f:
+    with open(output_file, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     
     print(f"✅ Создано {len(data)} примеров обучающих данных")
-    print("📁 Сохранено в: data/training_data/training_data.json")
+    print(f"📁 Сохранено в: {output_file}")
     
     # Получаем и выводим детальную статистику
     stats = get_dataset_statistics(data)

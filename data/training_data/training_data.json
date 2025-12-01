@@ -1,0 +1,4202 @@
+[
+  {
+    "code": "def sort_list(numbers):\n    \"\"\"Сортирует список чисел по возрастанию.\"\"\"\n    return sorted(numbers)",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def fibonacci(n):\n    \"\"\"Вычисляет n-е число Фибоначчи.\"\"\"\n    if n <= 1:\n        return n\n    return fibonacci(n-1) + fibonacci(n-2)",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.9,
+      0.7,
+      0.85
+    ]
+  },
+  {
+    "code": "def find_max(numbers):\n    \"\"\"Находит максимальный элемент в списке.\"\"\"\n    if not numbers:\n        return None\n    return max(numbers)",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.8,
+      0.9
+    ]
+  },
+  {
+    "code": "def count_words(text):\n    \"\"\"Подсчитывает количество слов в строке.\"\"\"\n    if not text:\n        return 0\n    return len(text.split())",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.9
+    ]
+  },
+  {
+    "code": "def filter_even(numbers):\n    \"\"\"Фильтрует четные числа из списка.\"\"\"\n    return [x for x in numbers if x % 2 == 0]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.9,
+      0.9,
+      0.85
+    ]
+  },
+  {
+    "code": "def sort_list(numbers):\n    result = []\n    for i in range(len(numbers)):\n        min_idx = i\n        for j in range(i+1, len(numbers)):\n            if numbers[j] < numbers[min_idx]:\n                min_idx = j\n        numbers[i], numbers[min_idx] = numbers[min_idx], numbers[i]\n    return numbers",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.6,
+      "nested_levels": 2.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.6,
+      0.6
+    ]
+  },
+  {
+    "code": "def fibonacci(n):\n    a = 0\n    b = 1\n    for i in range(n):\n        a, b = b, a + b\n    return a",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.85,
+      0.8,
+      0.7
+    ]
+  },
+  {
+    "code": "def find_max(numbers):\n    max_val = numbers[0]\n    for num in numbers:\n        if num > max_val:\n            max_val = num\n    return max_val",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def count_words(text):\n    words = text.split()\n    count = 0\n    for word in words:\n        count += 1\n    return count",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def filter_even(numbers):\n    even_numbers = []\n    for number in numbers:\n        if number % 2 == 0:\n            even_numbers.append(number)\n    return even_numbers",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def sort_list(numbers):\n    for i in range(len(numbers)):\n        for j in range(len(numbers)):\n            if numbers[i] > numbers[j]:\n                temp = numbers[i]\n                numbers[i] = numbers[j]\n                numbers[j] = temp\n    return numbers",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.8,
+      "nested_levels": 2.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.4,
+      0.3,
+      0.5
+    ]
+  },
+  {
+    "code": "def fibonacci(n):\n    if n == 0:\n        return 0\n    elif n == 1:\n        return 1\n    else:\n        return fibonacci(n-1) + fibonacci(n-2)",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.6
+    ]
+  },
+  {
+    "code": "def find_max(numbers):\n    max = 0\n    for i in numbers:\n        if i > max:\n            max = i\n    return max",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.6,
+      0.5
+    ]
+  },
+  {
+    "code": "def count_words(text):\n    count = 0\n    for char in text:\n        if char == ' ':\n            count = count + 1\n    return count + 1",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.4,
+      0.5,
+      0.5
+    ]
+  },
+  {
+    "code": "def filter_even(numbers):\n    result = []\n    i = 0\n    while i < len(numbers):\n        if numbers[i] % 2 == 0:\n            result.append(numbers[i])\n        i = i + 1\n    return result",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.6,
+      0.6
+    ]
+  },
+  {
+    "code": "def sort_list(numbers):\n    for i in range(1000):\n        for j in range(1000):\n            for k in range(1000):\n                if numbers[i % len(numbers)] > numbers[j % len(numbers)]:\n                    temp = numbers[i % len(numbers)]\n                    numbers[i % len(numbers)] = numbers[j % len(numbers)]\n                    numbers[j % len(numbers)] = temp",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 1.0,
+      "nested_levels": 3.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.1,
+      0.1,
+      0.3
+    ]
+  },
+  {
+    "code": "def fibonacci(n):\n    if n <= 1:\n        return n\n    else:\n        a = 0\n        b = 1\n        for i in range(2, n + 1):\n            c = a + b\n            a = b\n            b = c\n            for j in range(100):\n                pass\n        return b",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.7,
+      "nested_levels": 2.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.2,
+      0.4
+    ]
+  },
+  {
+    "code": "def find_max(numbers):\n    x = 0\n    y = 0\n    z = 0\n    for i in range(len(numbers)):\n        if numbers[i] > x:\n            x = numbers[i]\n        y = y + 1\n        z = z * 2\n    return x",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def count_words(text):\n    a = 0\n    b = 0\n    c = 0\n    d = 0\n    e = 0\n    for i in text:\n        if i == ' ':\n            a = a + 1\n        b = b + 1\n        c = c + 1\n        d = d + 1\n        e = e + 1\n    return a + 1",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.4,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def filter_even(numbers):\n    result = []\n    for i in range(len(numbers)):\n        if numbers[i] % 2 == 0:\n            result.append(numbers[i])\n        else:\n            pass\n        for j in range(10):\n            pass\n    return result",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.5
+    ]
+  },
+  {
+    "code": "def reverse_string(text):\n    \"\"\"Переворачивает строку.\"\"\"\n    return text[::-1]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def capitalize_words(text):\n    \"\"\"Делает заглавной первую букву каждого слова.\"\"\"\n    return text.title()",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def remove_whitespace(text):\n    \"\"\"Удаляет все пробелы из строки.\"\"\"\n    return text.replace(' ', '')",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def count_vowels(text):\n    \"\"\"Подсчитывает количество гласных в строке.\"\"\"\n    vowels = 'aeiouAEIOUаеёиоуыэюяАЕЁИОУЫЭЮЯ'\n    return sum(1 for char in text if char in vowels)",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def is_palindrome(text):\n    \"\"\"Проверяет, является ли строка палиндромом.\"\"\"\n    cleaned = text.lower().replace(' ', '')\n    return cleaned == cleaned[::-1]",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def get_first_word(text):\n    \"\"\"Извлекает первое слово из строки.\"\"\"\n    words = text.split()\n    return words[0] if words else ''",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.9
+    ]
+  },
+  {
+    "code": "def join_with_separator(words, separator=', '):\n    \"\"\"Объединяет список слов с разделителем.\"\"\"\n    return separator.join(words)",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def extract_digits(text):\n    \"\"\"Извлекает все цифры из строки.\"\"\"\n    return ''.join(char for char in text if char.isdigit())",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def truncate_string(text, max_length):\n    \"\"\"Обрезает строку до заданной длины с многоточием.\"\"\"\n    if len(text) <= max_length:\n        return text\n    return text[:max_length - 3] + '...'",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.9
+    ]
+  },
+  {
+    "code": "def remove_duplicates(text):\n    \"\"\"Удаляет повторяющиеся символы подряд.\"\"\"\n    if not text:\n        return text\n    result = [text[0]]\n    for char in text[1:]:\n        if char != result[-1]:\n            result.append(char)\n    return ''.join(result)",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.11,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.85
+    ]
+  },
+  {
+    "code": "def reverse_string(text):\n    result = ''\n    for char in text:\n        result = char + result\n    return result",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.6,
+      0.65
+    ]
+  },
+  {
+    "code": "def capitalize_words(text):\n    words = text.split()\n    capitalized = []\n    for word in words:\n        capitalized.append(word.capitalize())\n    return ' '.join(capitalized)",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def remove_whitespace(text):\n    result = ''\n    for char in text:\n        if char != ' ':\n            result = result + char\n    return result",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.6,
+      0.65
+    ]
+  },
+  {
+    "code": "def count_vowels(text):\n    count = 0\n    vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']\n    for char in text:\n        if char in vowels:\n            count = count + 1\n    return count",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def is_palindrome(text):\n    text_lower = text.lower()\n    reversed_text = ''\n    for char in text_lower:\n        reversed_text = char + reversed_text\n    return text_lower == reversed_text",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def get_first_word(text):\n    word = ''\n    for char in text:\n        if char == ' ':\n            break\n        word = word + char\n    return word",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.6,
+      0.65
+    ]
+  },
+  {
+    "code": "def join_with_separator(words, separator):\n    result = ''\n    for i in range(len(words)):\n        result = result + words[i]\n        if i < len(words) - 1:\n            result = result + separator\n    return result",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.6,
+      0.7
+    ]
+  },
+  {
+    "code": "def extract_digits(text):\n    digits = ''\n    for char in text:\n        if char >= '0' and char <= '9':\n            digits = digits + char\n    return digits",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def truncate_string(text, max_length):\n    if len(text) > max_length:\n        truncated = ''\n        for i in range(max_length - 3):\n            truncated = truncated + text[i]\n        return truncated + '...'\n    return text",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.6,
+      0.7
+    ]
+  },
+  {
+    "code": "def remove_duplicates(text):\n    result = ''\n    prev_char = ''\n    for char in text:\n        if char != prev_char:\n            result = result + char\n            prev_char = char\n    return result",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.65,
+      0.65
+    ]
+  },
+  {
+    "code": "def reverse_string(text):\n    a = []\n    for i in range(len(text)):\n        a.append(text[i])\n    b = []\n    for i in range(len(a)-1, -1, -1):\n        b.append(a[i])\n    c = ''\n    for x in b:\n        c = c + x\n    return c",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.4
+    ]
+  },
+  {
+    "code": "def capitalize_words(text):\n    x = text\n    y = []\n    z = ''\n    for i in range(len(x)):\n        if x[i] == ' ':\n            y.append(z)\n            z = ''\n        else:\n            z = z + x[i]\n    y.append(z)\n    result = []\n    for w in y:\n        result.append(w[0].upper() + w[1:])\n    return ' '.join(result)",
+    "features": {
+      "lines_of_code": 15.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.4,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def remove_whitespace(text):\n    a = ''\n    b = 0\n    while b < len(text):\n        c = text[b]\n        if c != ' ':\n            a = a + c\n        b = b + 1\n    return a",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def count_vowels(text):\n    a = 0\n    b = 0\n    c = 0\n    for x in text:\n        if x == 'a' or x == 'A':\n            a = a + 1\n        if x == 'e' or x == 'E':\n            a = a + 1\n        if x == 'i' or x == 'I':\n            a = a + 1\n        if x == 'o' or x == 'O':\n            a = a + 1\n        if x == 'u' or x == 'U':\n            a = a + 1\n        b = b + 1\n        c = c + 2\n    return a",
+    "features": {
+      "lines_of_code": 18.0,
+      "functions_count": 1.0,
+      "complexity": 0.6,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def is_palindrome(text):\n    a = text.lower()\n    b = len(a)\n    c = True\n    for i in range(b):\n        if a[i] != a[b-1-i]:\n            c = False\n    return c",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.4
+    ]
+  },
+  {
+    "code": "def get_first_word(text):\n    a = ''\n    b = 0\n    c = 0\n    d = 0\n    for x in text:\n        if x == ' ':\n            break\n        a = a + x\n        b = b + 1\n        c = c + 1\n        d = d + 1\n    return a",
+    "features": {
+      "lines_of_code": 13.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def join_with_separator(words, separator):\n    a = ''\n    b = 0\n    for w in words:\n        a = a + w\n        b = b + 1\n        if b < len(words):\n            a = a + separator\n        else:\n            pass\n    return a",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 5.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def extract_digits(text):\n    a = ''\n    b = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']\n    for x in text:\n        for y in b:\n            if x == y:\n                a = a + x\n    return a",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.4
+    ]
+  },
+  {
+    "code": "def truncate_string(text, max_length):\n    a = len(text)\n    b = max_length\n    c = ''\n    if a > b:\n        for i in range(b - 3):\n            c = c + text[i]\n        c = c + '.'\n        c = c + '.'\n        c = c + '.'\n    else:\n        c = text\n    return c",
+    "features": {
+      "lines_of_code": 13.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def remove_duplicates(text):\n    a = ''\n    b = ''\n    c = 0\n    d = 0\n    for x in text:\n        if x != b:\n            a = a + x\n        b = x\n        c = c + 1\n        d = d + 1\n    return a",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def sum_list(numbers):\n    \"\"\"Возвращает сумму элементов списка.\"\"\"\n    return sum(numbers)",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def get_unique(items):\n    \"\"\"Возвращает список уникальных элементов.\"\"\"\n    return list(set(items))",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def flatten_list(nested_list):\n    \"\"\"Разворачивает вложенный список.\"\"\"\n    return [item for sublist in nested_list for item in sublist]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def chunk_list(items, size):\n    \"\"\"Разбивает список на части заданного размера.\"\"\"\n    return [items[i:i+size] for i in range(0, len(items), size)]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def remove_none(items):\n    \"\"\"Удаляет None из списка.\"\"\"\n    return [item for item in items if item is not None]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def sum_list(numbers):\n    total = 0\n    for num in numbers:\n        total = total + num\n    return total",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def get_unique(items):\n    unique = []\n    for item in items:\n        if item not in unique:\n            unique.append(item)\n    return unique",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.6,
+      0.7
+    ]
+  },
+  {
+    "code": "def flatten_list(nested_list):\n    result = []\n    for sublist in nested_list:\n        for item in sublist:\n            result.append(item)\n    return result",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def chunk_list(items, size):\n    chunks = []\n    for i in range(0, len(items), size):\n        chunk = items[i:i+size]\n        chunks.append(chunk)\n    return chunks",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def remove_none(items):\n    result = []\n    for item in items:\n        if item != None:\n            result.append(item)\n    return result",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def sum_list(numbers):\n    a = 0\n    b = 0\n    c = 0\n    for x in numbers:\n        a = a + x\n        b = b + 1\n        c = c + 2\n    return a",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def get_unique(items):\n    a = []\n    for i in range(len(items)):\n        b = items[i]\n        c = False\n        for j in range(len(a)):\n            if a[j] == b:\n                c = True\n        if c == False:\n            a.append(b)\n    return a",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 3.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def flatten_list(nested_list):\n    a = []\n    b = 0\n    while b < len(nested_list):\n        c = nested_list[b]\n        d = 0\n        while d < len(c):\n            a.append(c[d])\n            d = d + 1\n        b = b + 1\n    return a",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def chunk_list(items, size):\n    a = []\n    b = []\n    c = 0\n    for x in items:\n        b.append(x)\n        c = c + 1\n        if c == size:\n            a.append(b)\n            b = []\n            c = 0\n    if len(b) > 0:\n        a.append(b)\n    return a",
+    "features": {
+      "lines_of_code": 14.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def remove_none(items):\n    a = []\n    b = 0\n    c = 0\n    d = 0\n    for x in items:\n        if x != None:\n            a.append(x)\n        b = b + 1\n        c = c + 1\n        d = d + 1\n    return a",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def merge_dicts(dict1, dict2):\n    \"\"\"Объединяет два словаря.\"\"\"\n    return {**dict1, **dict2}",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def get_keys_by_value(dictionary, value):\n    \"\"\"Возвращает ключи по значению.\"\"\"\n    return [k for k, v in dictionary.items() if v == value]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def invert_dict(dictionary):\n    \"\"\"Меняет местами ключи и значения.\"\"\"\n    return {v: k for k, v in dictionary.items()}",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def filter_dict(dictionary, keys):\n    \"\"\"Оставляет только указанные ключи.\"\"\"\n    return {k: v for k, v in dictionary.items() if k in keys}",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def count_values(dictionary):\n    \"\"\"Подсчитывает количество каждого значения.\"\"\"\n    from collections import Counter\n    return dict(Counter(dictionary.values()))",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.25,
+      "imports_count": 1.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.95,
+      0.9
+    ]
+  },
+  {
+    "code": "def merge_dicts(dict1, dict2):\n    result = dict1.copy()\n    for key in dict2:\n        result[key] = dict2[key]\n    return result",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def get_keys_by_value(dictionary, value):\n    keys = []\n    for key in dictionary:\n        if dictionary[key] == value:\n            keys.append(key)\n    return keys",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def invert_dict(dictionary):\n    inverted = {}\n    for key in dictionary:\n        inverted[dictionary[key]] = key\n    return inverted",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def filter_dict(dictionary, keys):\n    filtered = {}\n    for key in dictionary:\n        if key in keys:\n            filtered[key] = dictionary[key]\n    return filtered",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def count_values(dictionary):\n    counts = {}\n    for value in dictionary.values():\n        if value in counts:\n            counts[value] = counts[value] + 1\n        else:\n            counts[value] = 1\n    return counts",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def merge_dicts(dict1, dict2):\n    a = {}\n    b = list(dict1.keys())\n    c = list(dict2.keys())\n    for i in range(len(b)):\n        a[b[i]] = dict1[b[i]]\n    for j in range(len(c)):\n        a[c[j]] = dict2[c[j]]\n    return a",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def get_keys_by_value(dictionary, value):\n    a = []\n    b = list(dictionary.keys())\n    c = 0\n    for i in range(len(b)):\n        if dictionary[b[i]] == value:\n            a.append(b[i])\n        c = c + 1\n    return a",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def invert_dict(dictionary):\n    a = {}\n    b = []\n    c = []\n    for x in dictionary:\n        b.append(x)\n        c.append(dictionary[x])\n    for i in range(len(b)):\n        a[c[i]] = b[i]\n    return a",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def filter_dict(dictionary, keys):\n    a = {}\n    b = 0\n    c = 0\n    for x in dictionary:\n        if x in keys:\n            a[x] = dictionary[x]\n        b = b + 1\n        c = c + 1\n    return a",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def count_values(dictionary):\n    a = {}\n    b = list(dictionary.values())\n    c = 0\n    for i in range(len(b)):\n        d = b[i]\n        if d in a:\n            a[d] = a[d] + 1\n        else:\n            a[d] = 1\n        c = c + 1\n    return a",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def factorial(n):\n    \"\"\"Вычисляет факториал числа.\"\"\"\n    if n <= 1:\n        return 1\n    return n * factorial(n - 1)",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.9
+    ]
+  },
+  {
+    "code": "def sum_recursive(numbers):\n    \"\"\"Рекурсивно суммирует элементы списка.\"\"\"\n    if not numbers:\n        return 0\n    return numbers[0] + sum_recursive(numbers[1:])",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.8,
+      0.9
+    ]
+  },
+  {
+    "code": "def power(base, exp):\n    \"\"\"Возводит число в степень рекурсивно.\"\"\"\n    if exp == 0:\n        return 1\n    return base * power(base, exp - 1)",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.8,
+      0.9
+    ]
+  },
+  {
+    "code": "def gcd(a, b):\n    \"\"\"Наибольший общий делитель (алгоритм Евклида).\"\"\"\n    if b == 0:\n        return a\n    return gcd(b, a % b)",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 5.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def binary_search(arr, target, left=0, right=None):\n    \"\"\"Бинарный поиск рекурсивно.\"\"\"\n    if right is None:\n        right = len(arr) - 1\n    if left > right:\n        return -1\n    mid = (left + right) // 2\n    if arr[mid] == target:\n        return mid\n    if arr[mid] > target:\n        return binary_search(arr, target, left, mid - 1)\n    return binary_search(arr, target, mid + 1, right)",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.08,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.85
+    ]
+  },
+  {
+    "code": "def factorial(n):\n    if n == 0:\n        return 1\n    if n == 1:\n        return 1\n    return n * factorial(n - 1)",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def sum_recursive(numbers):\n    if len(numbers) == 0:\n        return 0\n    if len(numbers) == 1:\n        return numbers[0]\n    return numbers[0] + sum_recursive(numbers[1:])",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def power(base, exp):\n    if exp == 0:\n        return 1\n    else:\n        return base * power(base, exp - 1)",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "def gcd(a, b):\n    if b == 0:\n        result = a\n    else:\n        result = gcd(b, a % b)\n    return result",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 6.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def binary_search(arr, target, left, right):\n    if left > right:\n        return -1\n    mid = (left + right) // 2\n    if arr[mid] == target:\n        return mid\n    elif arr[mid] > target:\n        return binary_search(arr, target, left, mid - 1)\n    else:\n        return binary_search(arr, target, mid + 1, right)",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "def factorial(n):\n    if n == 0:\n        a = 1\n        return a\n    if n == 1:\n        b = 1\n        return b\n    c = n\n    d = n - 1\n    e = factorial(d)\n    f = c * e\n    return f",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def sum_recursive(numbers):\n    a = len(numbers)\n    if a == 0:\n        return 0\n    b = numbers[0]\n    c = []\n    for i in range(1, a):\n        c.append(numbers[i])\n    d = sum_recursive(c)\n    return b + d",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def power(base, exp):\n    a = exp\n    if a == 0:\n        b = 1\n        return b\n    c = exp - 1\n    d = power(base, c)\n    e = base\n    f = e * d\n    return f",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def gcd(a, b):\n    x = a\n    y = b\n    if y == 0:\n        z = x\n        return z\n    w = x % y\n    v = gcd(y, w)\n    return v",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.4
+    ]
+  },
+  {
+    "code": "def binary_search(arr, target, left, right):\n    a = left\n    b = right\n    if a > b:\n        return -1\n    c = (a + b) // 2\n    d = arr[c]\n    if d == target:\n        return c\n    if d > target:\n        e = c - 1\n        return binary_search(arr, target, a, e)\n    f = c + 1\n    return binary_search(arr, target, f, b)",
+    "features": {
+      "lines_of_code": 14.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def find_all_indices(items, value):\n    \"\"\"Находит все индексы значения в списке.\"\"\"\n    return [i for i, item in enumerate(items) if item == value]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def multiply_elements(numbers, multiplier):\n    \"\"\"Умножает каждый элемент списка на число.\"\"\"\n    return [num * multiplier for num in numbers]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def create_matrix(rows, cols, default=0):\n    \"\"\"Создает матрицу заданного размера.\"\"\"\n    return [[default for _ in range(cols)] for _ in range(rows)]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def group_by_length(words):\n    \"\"\"Группирует слова по длине.\"\"\"\n    result = {}\n    for word in words:\n        length = len(word)\n        result.setdefault(length, []).append(word)\n    return result",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.14,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.9
+    ]
+  },
+  {
+    "code": "def running_average(numbers):\n    \"\"\"Вычисляет скользящее среднее.\"\"\"\n    result = []\n    for i in range(len(numbers)):\n        avg = sum(numbers[:i+1]) / (i+1)\n        result.append(avg)\n    return result",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.14,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.9,
+      0.8,
+      0.85
+    ]
+  },
+  {
+    "code": "def find_all_indices(items, value):\n    indices = []\n    for i in range(len(items)):\n        if items[i] == value:\n            indices.append(i)\n    return indices",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def multiply_elements(numbers, multiplier):\n    result = []\n    for num in numbers:\n        result.append(num * multiplier)\n    return result",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def create_matrix(rows, cols, default):\n    matrix = []\n    for i in range(rows):\n        row = []\n        for j in range(cols):\n            row.append(default)\n        matrix.append(row)\n    return matrix",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def group_by_length(words):\n    result = {}\n    for word in words:\n        length = len(word)\n        if length not in result:\n            result[length] = []\n        result[length].append(word)\n    return result",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def running_average(numbers):\n    result = []\n    for i in range(len(numbers)):\n        total = 0\n        for j in range(i + 1):\n            total = total + numbers[j]\n        avg = total / (i + 1)\n        result.append(avg)\n    return result",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.6,
+      0.7
+    ]
+  },
+  {
+    "code": "def find_all_indices(items, value):\n    a = []\n    b = 0\n    c = 0\n    while b < len(items):\n        if items[b] == value:\n            a.append(b)\n        b = b + 1\n        c = c + 1\n    return a",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def multiply_elements(numbers, multiplier):\n    a = []\n    b = 0\n    while b < len(numbers):\n        c = numbers[b]\n        d = c * multiplier\n        a.append(d)\n        b = b + 1\n    return a",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 4.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def create_matrix(rows, cols, default):\n    a = []\n    b = 0\n    while b < rows:\n        c = []\n        d = 0\n        while d < cols:\n            c.append(default)\n            d = d + 1\n        a.append(c)\n        b = b + 1\n    return a",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def group_by_length(words):\n    a = {}\n    b = 0\n    for x in words:\n        c = len(x)\n        d = 0\n        if c not in a:\n            a[c] = []\n        a[c].append(x)\n        b = b + 1\n        d = d + 1\n    return a",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def running_average(numbers):\n    a = []\n    b = 0\n    while b < len(numbers):\n        c = 0\n        d = 0\n        e = 0\n        while e <= b:\n            c = c + numbers[e]\n            d = d + 1\n            e = e + 1\n        f = c / (b + 1)\n        a.append(f)\n        b = b + 1\n    return a",
+    "features": {
+      "lines_of_code": 15.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def get_grade(score):\n    \"\"\"Возвращает буквенную оценку по баллу.\"\"\"\n    if score >= 90:\n        return 'A'\n    elif score >= 80:\n        return 'B'\n    elif score >= 70:\n        return 'C'\n    elif score >= 60:\n        return 'D'\n    return 'F'",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.09,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.9
+    ]
+  },
+  {
+    "code": "def classify_number(num):\n    \"\"\"Классифицирует число.\"\"\"\n    return 'positive' if num > 0 else 'negative' if num < 0 else 'zero'",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 0.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def is_valid_triangle(a, b, c):\n    \"\"\"Проверяет, можно ли построить треугольник.\"\"\"\n    return (a + b > c) and (a + c > b) and (b + c > a)",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 0.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def get_max_of_three(a, b, c):\n    \"\"\"Возвращает максимум из трех чисел.\"\"\"\n    return max(a, b, c)",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def safe_divide(a, b):\n    \"\"\"Безопасное деление с обработкой нуля.\"\"\"\n    return a / b if b != 0 else None",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def get_grade(score):\n    if score >= 90:\n        grade = 'A'\n    elif score >= 80:\n        grade = 'B'\n    elif score >= 70:\n        grade = 'C'\n    elif score >= 60:\n        grade = 'D'\n    else:\n        grade = 'F'\n    return grade",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def classify_number(num):\n    if num > 0:\n        return 'positive'\n    elif num < 0:\n        return 'negative'\n    else:\n        return 'zero'",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "def is_valid_triangle(a, b, c):\n    if a + b > c:\n        if a + c > b:\n            if b + c > a:\n                return True\n    return False",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.65
+    ]
+  },
+  {
+    "code": "def get_max_of_three(a, b, c):\n    if a >= b and a >= c:\n        return a\n    elif b >= a and b >= c:\n        return b\n    else:\n        return c",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def safe_divide(a, b):\n    if b != 0:\n        result = a / b\n    else:\n        result = None\n    return result",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "def get_grade(score):\n    a = score\n    b = ''\n    if a >= 90:\n        b = 'A'\n    if a < 90 and a >= 80:\n        b = 'B'\n    if a < 80 and a >= 70:\n        b = 'C'\n    if a < 70 and a >= 60:\n        b = 'D'\n    if a < 60:\n        b = 'F'\n    return b",
+    "features": {
+      "lines_of_code": 14.0,
+      "functions_count": 1.0,
+      "complexity": 0.6,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.4
+    ]
+  },
+  {
+    "code": "def classify_number(num):\n    a = num\n    b = ''\n    c = 0\n    if a > c:\n        b = 'positive'\n    if a < c:\n        b = 'negative'\n    if a == c:\n        b = 'zero'\n    return b",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def is_valid_triangle(a, b, c):\n    x = a\n    y = b\n    z = c\n    w = False\n    if x + y > z:\n        if x + z > y:\n            if y + z > x:\n                w = True\n            else:\n                w = False\n    return w",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def get_max_of_three(a, b, c):\n    x = a\n    y = b\n    z = c\n    m = x\n    if y > m:\n        m = y\n    if z > m:\n        m = z\n    return m",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.4
+    ]
+  },
+  {
+    "code": "def safe_divide(a, b):\n    x = a\n    y = b\n    z = 0\n    r = None\n    if y != z:\n        r = x / y\n    else:\n        r = None\n    return r",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def is_prime(n):\n    \"\"\"Проверяет, является ли число простым.\"\"\"\n    if n < 2:\n        return False\n    return all(n % i != 0 for i in range(2, int(n**0.5) + 1))",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def is_even(number):\n    \"\"\"Проверяет, является ли число четным.\"\"\"\n    return number % 2 == 0",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def calculate_distance(x1, y1, x2, y2):\n    \"\"\"Вычисляет евклидово расстояние между точками.\"\"\"\n    return ((x2 - x1)**2 + (y2 - y1)**2)**0.5",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 13.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def mean(numbers):\n    \"\"\"Вычисляет среднее арифметическое.\"\"\"\n    return sum(numbers) / len(numbers) if numbers else 0",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def lcm(a, b):\n    \"\"\"Наименьшее общее кратное.\"\"\"\n    from math import gcd\n    return abs(a * b) // gcd(a, b) if a and b else 0",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 0.0,
+      "variable_names_length": 5.0,
+      "comments_ratio": 0.25,
+      "imports_count": 1.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.95,
+      0.9
+    ]
+  },
+  {
+    "code": "def is_perfect_square(n):\n    \"\"\"Проверяет, является ли число точным квадратом.\"\"\"\n    return int(n**0.5)**2 == n",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 13.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      1.0,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def digits_sum(number):\n    \"\"\"Вычисляет сумму цифр числа.\"\"\"\n    return sum(int(digit) for digit in str(abs(number)))",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def is_prime(n):\n    if n < 2:\n        return False\n    for i in range(2, n):\n        if n % i == 0:\n            return False\n    return True",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.5,
+      0.7
+    ]
+  },
+  {
+    "code": "def is_even(number):\n    if number % 2 == 0:\n        return True\n    else:\n        return False",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.7
+    ]
+  },
+  {
+    "code": "def calculate_distance(x1, y1, x2, y2):\n    dx = x2 - x1\n    dy = y2 - y1\n    distance = (dx**2 + dy**2)**0.5\n    return distance",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "def mean(numbers):\n    total = 0\n    for num in numbers:\n        total = total + num\n    return total / len(numbers)",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 7.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def lcm(a, b):\n    def gcd(x, y):\n        while y:\n            x, y = y, x % y\n        return x\n    return (a * b) // gcd(a, b)",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 2.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 5.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "def is_perfect_square(n):\n    sqrt = int(n**0.5)\n    if sqrt * sqrt == n:\n        return True\n    return False",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def digits_sum(number):\n    total = 0\n    for digit in str(number):\n        if digit.isdigit():\n            total = total + int(digit)\n    return total",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def is_prime(n):\n    a = n\n    b = 2\n    c = True\n    if a < b:\n        c = False\n    d = b\n    while d < a:\n        if a % d == 0:\n            c = False\n        d = d + 1\n    return c",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def is_even(number):\n    a = number\n    b = 2\n    c = a % b\n    d = 0\n    if c == d:\n        e = True\n    else:\n        e = False\n    return e",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def calculate_distance(x1, y1, x2, y2):\n    a = x2\n    b = x1\n    c = a - b\n    d = y2\n    e = y1\n    f = d - e\n    g = c * c\n    h = f * f\n    i = g + h\n    j = i ** 0.5\n    return j",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def mean(numbers):\n    a = 0\n    b = 0\n    c = 0\n    for x in numbers:\n        a = a + x\n        b = b + 1\n        c = c + 1\n    d = len(numbers)\n    e = a / d\n    return e",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def is_perfect_square(n):\n    a = n\n    b = 0\n    c = 0.5\n    d = a ** c\n    e = int(d)\n    f = e * e\n    if f == a:\n        return True\n    else:\n        return False",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def digits_sum(number):\n    a = str(number)\n    b = 0\n    c = 0\n    for x in a:\n        if x.isdigit():\n            d = int(x)\n            b = b + d\n        c = c + 1\n    return b",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "def read_file_lines(filename):\n    \"\"\"Читает все строки из файла.\"\"\"\n    with open(filename, 'r', encoding='utf-8') as f:\n        return f.readlines()",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def write_to_file(filename, content):\n    \"\"\"Записывает содержимое в файл.\"\"\"\n    with open(filename, 'w', encoding='utf-8') as f:\n        f.write(content)",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def count_lines(filename):\n    \"\"\"Подсчитывает количество строк в файле.\"\"\"\n    with open(filename, 'r', encoding='utf-8') as f:\n        return sum(1 for _ in f)",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.95,
+      0.95
+    ]
+  },
+  {
+    "code": "def append_to_file(filename, text):\n    \"\"\"Добавляет текст в конец файла.\"\"\"\n    with open(filename, 'a', encoding='utf-8') as f:\n        f.write(text + '\\n')",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def find_in_file(filename, search_text):\n    \"\"\"Находит строки, содержащие текст.\"\"\"\n    with open(filename, 'r', encoding='utf-8') as f:\n        return [line for line in f if search_text in line]",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.25,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def read_file_lines(filename):\n    f = open(filename, 'r')\n    lines = f.readlines()\n    f.close()\n    return lines",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.6,
+      0.65
+    ]
+  },
+  {
+    "code": "def write_to_file(filename, content):\n    file = open(filename, 'w')\n    file.write(content)\n    file.close()",
+    "features": {
+      "lines_of_code": 4.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def count_lines(filename):\n    f = open(filename, 'r')\n    count = 0\n    for line in f:\n        count = count + 1\n    f.close()\n    return count",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.6,
+      0.7
+    ]
+  },
+  {
+    "code": "def append_to_file(filename, text):\n    file = open(filename, 'a')\n    file.write(text)\n    file.write('\\n')\n    file.close()",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def find_in_file(filename, search_text):\n    f = open(filename, 'r')\n    result = []\n    for line in f:\n        if search_text in line:\n            result.append(line)\n    f.close()\n    return result",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def read_file_lines(filename):\n    a = filename\n    b = open(a, 'r')\n    c = []\n    d = 0\n    for x in b:\n        c.append(x)\n        d = d + 1\n    b.close()\n    return c",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def write_to_file(filename, content):\n    a = filename\n    b = content\n    c = open(a, 'w')\n    d = b\n    c.write(d)\n    e = 0\n    c.close()",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def count_lines(filename):\n    a = filename\n    b = open(a, 'r')\n    c = 0\n    d = 0\n    e = 0\n    for x in b:\n        c = c + 1\n        d = d + 1\n        e = e + 1\n    b.close()\n    return c",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def append_to_file(filename, text):\n    a = filename\n    b = text\n    c = open(a, 'a')\n    d = b + '\\n'\n    e = d\n    c.write(e)\n    f = 0\n    c.close()",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.1,
+      "nested_levels": 0.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def find_in_file(filename, search_text):\n    a = filename\n    b = search_text\n    c = open(a, 'r')\n    d = []\n    e = 0\n    for x in c:\n        if b in x:\n            d.append(x)\n        e = e + 1\n    c.close()\n    return d",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "class Rectangle:\n    \"\"\"Прямоугольник с шириной и высотой.\"\"\"\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def area(self):\n        \"\"\"Вычисляет площадь.\"\"\"\n        return self.width * self.height",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.22,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "class Counter:\n    \"\"\"Счётчик с методами увеличения и сброса.\"\"\"\n    def __init__(self):\n        self.count = 0\n    \n    def increment(self):\n        self.count += 1\n    \n    def reset(self):\n        self.count = 0",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 3.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.1,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "class Point:\n    \"\"\"Точка в 2D пространстве.\"\"\"\n    def __init__(self, x=0, y=0):\n        self.x = x\n        self.y = y\n    \n    def distance_to(self, other):\n        \"\"\"Расстояние до другой точки.\"\"\"\n        return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.22,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "class BankAccount:\n    \"\"\"Банковский счёт.\"\"\"\n    def __init__(self, balance=0):\n        self.balance = balance\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.balance += amount\n    \n    def withdraw(self, amount):\n        if 0 < amount <= self.balance:\n            self.balance -= amount\n            return True\n        return False",
+    "features": {
+      "lines_of_code": 14.0,
+      "functions_count": 3.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.07,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.9
+    ]
+  },
+  {
+    "code": "class Person:\n    \"\"\"Человек с именем и возрастом.\"\"\"\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    \n    def __str__(self):\n        return f\"{self.name}, {self.age} лет\"",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.125,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "class Stack:\n    \"\"\"Стек (LIFO).\"\"\"\n    def __init__(self):\n        self._items = []\n    \n    def push(self, item):\n        self._items.append(item)\n    \n    def pop(self):\n        return self._items.pop() if self._items else None",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 3.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.1,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "class Car:\n    \"\"\"Автомобиль с маркой и годом.\"\"\"\n    def __init__(self, brand, year):\n        self.brand = brand\n        self.year = year\n    \n    @property\n    def age(self):\n        from datetime import datetime\n        return datetime.now().year - self.year",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.1,
+      "imports_count": 1.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "class Rectangle:\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n    \n    def area(self):\n        result = self.width * self.height\n        return result",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "class Counter:\n    def __init__(self):\n        self.count = 0\n    \n    def increment(self):\n        self.count = self.count + 1\n    \n    def reset(self):\n        self.count = 0",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 3.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n    \n    def distance_to(self, other):\n        dx = self.x - other.x\n        dy = self.y - other.y\n        return (dx**2 + dy**2)**0.5",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "class BankAccount:\n    def __init__(self):\n        self.balance = 0\n    \n    def deposit(self, amount):\n        if amount > 0:\n            self.balance = self.balance + amount\n    \n    def withdraw(self, amount):\n        if amount > 0:\n            if amount <= self.balance:\n                self.balance = self.balance - amount",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 3.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n    \n    def get_info(self):\n        return self.name + ', ' + str(self.age) + ' лет'",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "class Stack:\n    def __init__(self):\n        self.items = []\n    \n    def push(self, item):\n        self.items.append(item)\n    \n    def pop(self):\n        if len(self.items) > 0:\n            return self.items.pop()\n        return None",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 3.0,
+      "complexity": 0.2,
+      "nested_levels": 2.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "class Car:\n    def __init__(self, brand, year):\n        self.brand = brand\n        self.year = year\n    \n    def get_age(self):\n        current_year = 2024\n        age = current_year - self.year\n        return age",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 8.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "class Rectangle:\n    def __init__(self, width, height):\n        self.a = width\n        self.b = height\n    \n    def area(self):\n        c = self.a\n        d = self.b\n        e = c * d\n        f = e\n        return f",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.3
+    ]
+  },
+  {
+    "code": "class Counter:\n    def __init__(self):\n        self.a = 0\n        self.b = 0\n    \n    def increment(self):\n        self.a = self.a + 1\n        self.b = self.b + 1\n    \n    def reset(self):\n        self.a = 0\n        self.b = 0",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 3.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "class Point:\n    def __init__(self, x, y):\n        self.a = x\n        self.b = y\n    \n    def distance_to(self, other):\n        c = self.a\n        d = other.a\n        e = c - d\n        f = self.b\n        g = other.b\n        h = f - g\n        i = e * e\n        j = h * h\n        k = i + j\n        m = k ** 0.5\n        return m",
+    "features": {
+      "lines_of_code": 17.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "class BankAccount:\n    def __init__(self):\n        self.a = 0\n        self.b = 0\n    \n    def deposit(self, amount):\n        c = amount\n        if c > 0:\n            self.a = self.a + c\n        self.b = self.b + 1\n    \n    def withdraw(self, amount):\n        d = amount\n        if d > 0:\n            if d <= self.a:\n                self.a = self.a - d",
+    "features": {
+      "lines_of_code": 16.0,
+      "functions_count": 3.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "class Stack:\n    def __init__(self):\n        self.a = []\n        self.b = 0\n    \n    def push(self, item):\n        self.a.append(item)\n        self.b = self.b + 1\n    \n    def pop(self):\n        c = len(self.a)\n        if c > 0:\n            d = self.a.pop()\n            self.b = self.b - 1\n            return d\n        return None",
+    "features": {
+      "lines_of_code": 16.0,
+      "functions_count": 3.0,
+      "complexity": 0.2,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.4
+    ]
+  },
+  {
+    "code": "class Car:\n    def __init__(self, brand, year):\n        self.a = brand\n        self.b = year\n        self.c = 0\n    \n    def get_age(self):\n        d = 2024\n        e = self.b\n        f = d - e\n        g = f\n        return g",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 2.0,
+      "complexity": 0.1,
+      "nested_levels": 1.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 1.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.3
+    ]
+  },
+  {
+    "code": "def quick_sort(arr):\n    \"\"\"Быстрая сортировка.\"\"\"\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[len(arr) // 2]\n    left = [x for x in arr if x < pivot]\n    middle = [x for x in arr if x == pivot]\n    right = [x for x in arr if x > pivot]\n    return quick_sort(left) + middle + quick_sort(right)",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 1.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.11,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def merge_sort(arr):\n    \"\"\"Сортировка слиянием.\"\"\"\n    if len(arr) <= 1:\n        return arr\n    mid = len(arr) // 2\n    left = merge_sort(arr[:mid])\n    right = merge_sort(arr[mid:])\n    return merge(left, right)\n\ndef merge(left, right):\n    result = []\n    i = j = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            result.append(left[i])\n            i += 1\n        else:\n            result.append(right[j])\n            j += 1\n    result.extend(left[i:])\n    result.extend(right[j:])\n    return result",
+    "features": {
+      "lines_of_code": 22.0,
+      "functions_count": 2.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.045,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.95,
+      0.85
+    ]
+  },
+  {
+    "code": "def insertion_sort(arr):\n    \"\"\"Сортировка вставками.\"\"\"\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        while j >= 0 and arr[j] > key:\n            arr[j + 1] = arr[j]\n            j -= 1\n        arr[j + 1] = key\n    return arr",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.1,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.9,
+      0.8,
+      0.85
+    ]
+  },
+  {
+    "code": "def selection_sort(arr):\n    \"\"\"Сортировка выбором.\"\"\"\n    for i in range(len(arr)):\n        min_idx = i\n        for j in range(i + 1, len(arr)):\n            if arr[j] < arr[min_idx]:\n                min_idx = j\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.11,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.9,
+      0.7,
+      0.85
+    ]
+  },
+  {
+    "code": "def counting_sort(arr):\n    \"\"\"Сортировка подсчетом (для неотрицательных чисел).\"\"\"\n    if not arr:\n        return arr\n    max_val = max(arr)\n    count = [0] * (max_val + 1)\n    for num in arr:\n        count[num] += 1\n    return [i for i, cnt in enumerate(count) for _ in range(cnt)]",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.11,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.85,
+      0.85
+    ]
+  },
+  {
+    "code": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        for j in range(0, n - i - 1):\n            if arr[j] > arr[j + 1]:\n                temp = arr[j]\n                arr[j] = arr[j + 1]\n                arr[j + 1] = temp\n    return arr",
+    "features": {
+      "lines_of_code": 9.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.6,
+      0.7
+    ]
+  },
+  {
+    "code": "def insertion_sort(arr):\n    for i in range(1, len(arr)):\n        key = arr[i]\n        j = i - 1\n        while j >= 0:\n            if arr[j] > key:\n                arr[j + 1] = arr[j]\n                j = j - 1\n            else:\n                break\n        arr[j + 1] = key\n    return arr",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def selection_sort(arr):\n    for i in range(len(arr)):\n        min_index = i\n        for j in range(i + 1, len(arr)):\n            if arr[j] < arr[min_index]:\n                min_index = j\n        if min_index != i:\n            temp = arr[i]\n            arr[i] = arr[min_index]\n            arr[min_index] = temp\n    return arr",
+    "features": {
+      "lines_of_code": 11.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.65,
+      0.7
+    ]
+  },
+  {
+    "code": "def quick_sort(arr):\n    if len(arr) <= 1:\n        return arr\n    pivot = arr[0]\n    less = []\n    equal = []\n    greater = []\n    for num in arr:\n        if num < pivot:\n            less.append(num)\n        elif num == pivot:\n            equal.append(num)\n        else:\n            greater.append(num)\n    return quick_sort(less) + equal + quick_sort(greater)",
+    "features": {
+      "lines_of_code": 16.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 9.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.75,
+      0.75
+    ]
+  },
+  {
+    "code": "def counting_sort(arr):\n    if len(arr) == 0:\n        return arr\n    max_value = max(arr)\n    counts = []\n    for i in range(max_value + 1):\n        counts.append(0)\n    for number in arr:\n        counts[number] = counts[number] + 1\n    result = []\n    for i in range(len(counts)):\n        for j in range(counts[i]):\n            result.append(i)\n    return result",
+    "features": {
+      "lines_of_code": 14.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.7
+    ]
+  },
+  {
+    "code": "def bubble_sort(arr):\n    a = len(arr)\n    b = 0\n    for i in range(a):\n        c = 0\n        for j in range(0, a - i - 1):\n            if arr[j] > arr[j + 1]:\n                d = arr[j]\n                arr[j] = arr[j + 1]\n                arr[j + 1] = d\n            c = c + 1\n        b = b + 1\n    return arr",
+    "features": {
+      "lines_of_code": 13.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def insertion_sort(arr):\n    a = 1\n    while a < len(arr):\n        b = arr[a]\n        c = a - 1\n        d = 0\n        while c >= 0 and arr[c] > b:\n            arr[c + 1] = arr[c]\n            c = c - 1\n            d = d + 1\n        arr[c + 1] = b\n        a = a + 1\n    return arr",
+    "features": {
+      "lines_of_code": 13.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.3
+    ]
+  },
+  {
+    "code": "def selection_sort(arr):\n    a = 0\n    b = len(arr)\n    while a < b:\n        c = a\n        d = a + 1\n        while d < b:\n            if arr[d] < arr[c]:\n                c = d\n            d = d + 1\n        e = arr[a]\n        arr[a] = arr[c]\n        arr[c] = e\n        a = a + 1\n    return arr",
+    "features": {
+      "lines_of_code": 15.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def quick_sort(arr):\n    a = len(arr)\n    if a <= 1:\n        return arr\n    b = arr[0]\n    c = []\n    d = []\n    e = []\n    f = 0\n    for x in arr:\n        if x < b:\n            c.append(x)\n        if x == b:\n            d.append(x)\n        if x > b:\n            e.append(x)\n        f = f + 1\n    g = quick_sort(c)\n    h = quick_sort(e)\n    return g + d + h",
+    "features": {
+      "lines_of_code": 21.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def counting_sort(arr):\n    a = arr\n    if len(a) == 0:\n        return a\n    b = max(a)\n    c = []\n    d = 0\n    while d <= b:\n        c.append(0)\n        d = d + 1\n    e = 0\n    for x in a:\n        c[x] = c[x] + 1\n        e = e + 1\n    f = []\n    g = 0\n    while g < len(c):\n        h = 0\n        while h < c[g]:\n            f.append(g)\n            h = h + 1\n        g = g + 1\n    return f",
+    "features": {
+      "lines_of_code": 23.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  },
+  {
+    "code": "def binary_search(arr, target):\n    \"\"\"Бинарный поиск в отсортированном массиве.\"\"\"\n    left, right = 0, len(arr) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.083,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.95,
+      0.9
+    ]
+  },
+  {
+    "code": "def linear_search(arr, target):\n    \"\"\"Линейный поиск элемента в массиве.\"\"\"\n    for i, value in enumerate(arr):\n        if value == target:\n            return i\n    return -1",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.17,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.8,
+      0.95
+    ]
+  },
+  {
+    "code": "def find_min_index(arr):\n    \"\"\"Находит индекс минимального элемента.\"\"\"\n    if not arr:\n        return -1\n    return min(range(len(arr)), key=lambda i: arr[i])",
+    "features": {
+      "lines_of_code": 5.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.2,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def find_all_occurrences(arr, target):\n    \"\"\"Находит все индексы вхождений элемента.\"\"\"\n    return [i for i, x in enumerate(arr) if x == target]",
+    "features": {
+      "lines_of_code": 3.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 1.0,
+      "variable_names_length": 15.0,
+      "comments_ratio": 0.33,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.95
+    ]
+  },
+  {
+    "code": "def search_in_matrix(matrix, target):\n    \"\"\"Поиск в отсортированной построчно матрице.\"\"\"\n    if not matrix or not matrix[0]:\n        return False\n    rows, cols = len(matrix), len(matrix[0])\n    row, col = 0, cols - 1\n    while row < rows and col >= 0:\n        if matrix[row][col] == target:\n            return True\n        elif matrix[row][col] > target:\n            col -= 1\n        else:\n            row += 1\n    return False",
+    "features": {
+      "lines_of_code": 14.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.071,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.95,
+      0.9,
+      0.9
+    ]
+  },
+  {
+    "code": "def binary_search(arr, target):\n    left = 0\n    right = len(arr) - 1\n    while left <= right:\n        mid = left + (right - left) // 2\n        if arr[mid] == target:\n            return mid\n        if arr[mid] < target:\n            left = mid + 1\n        if arr[mid] > target:\n            right = mid - 1\n    return -1",
+    "features": {
+      "lines_of_code": 12.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 10.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.8,
+      0.8,
+      0.75
+    ]
+  },
+  {
+    "code": "def linear_search(arr, target):\n    index = -1\n    for i in range(len(arr)):\n        if arr[i] == target:\n            index = i\n            break\n    return index",
+    "features": {
+      "lines_of_code": 7.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 2.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def find_min_index(arr):\n    if len(arr) == 0:\n        return -1\n    min_idx = 0\n    for i in range(1, len(arr)):\n        if arr[i] < arr[min_idx]:\n            min_idx = i\n    return min_idx",
+    "features": {
+      "lines_of_code": 8.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 12.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def find_all_occurrences(arr, target):\n    indices = []\n    for i in range(len(arr)):\n        if arr[i] == target:\n            indices.append(i)\n    return indices",
+    "features": {
+      "lines_of_code": 6.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 2.0,
+      "variable_names_length": 15.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.75,
+      0.7,
+      0.75
+    ]
+  },
+  {
+    "code": "def search_in_matrix(matrix, target):\n    if len(matrix) == 0:\n        return False\n    rows = len(matrix)\n    cols = len(matrix[0])\n    for i in range(rows):\n        for j in range(cols):\n            if matrix[i][j] == target:\n                return True\n    return False",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 3.0,
+      "variable_names_length": 11.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.7,
+      0.6,
+      0.7
+    ]
+  },
+  {
+    "code": "def binary_search(arr, target):\n    a = 0\n    b = len(arr) - 1\n    c = 0\n    while a <= b:\n        d = (a + b) // 2\n        e = arr[d]\n        if e == target:\n            return d\n        if e < target:\n            a = d + 1\n        if e > target:\n            b = d - 1\n        c = c + 1\n    return -1",
+    "features": {
+      "lines_of_code": 15.0,
+      "functions_count": 1.0,
+      "complexity": 0.5,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.3
+    ]
+  },
+  {
+    "code": "def linear_search(arr, target):\n    a = -1\n    b = 0\n    c = len(arr)\n    d = 0\n    while d < c:\n        e = arr[d]\n        if e == target:\n            a = d\n            break\n        d = d + 1\n        b = b + 1\n    return a",
+    "features": {
+      "lines_of_code": 13.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def find_min_index(arr):\n    a = len(arr)\n    if a == 0:\n        return -1\n    b = 0\n    c = 1\n    while c < a:\n        d = arr[c]\n        e = arr[b]\n        if d < e:\n            b = c\n        c = c + 1\n    return b",
+    "features": {
+      "lines_of_code": 13.0,
+      "functions_count": 1.0,
+      "complexity": 0.3,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.5,
+      0.3
+    ]
+  },
+  {
+    "code": "def find_all_occurrences(arr, target):\n    a = []\n    b = 0\n    c = len(arr)\n    while b < c:\n        d = arr[b]\n        if d == target:\n            a.append(b)\n        b = b + 1\n    return a",
+    "features": {
+      "lines_of_code": 10.0,
+      "functions_count": 1.0,
+      "complexity": 0.2,
+      "nested_levels": 2.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 0.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.6,
+      0.4,
+      0.3
+    ]
+  },
+  {
+    "code": "def search_in_matrix(matrix, target):\n    a = len(matrix)\n    if a == 0:\n        return False\n    b = len(matrix[0])\n    c = 0\n    while c < a:\n        d = 0\n        while d < b:\n            e = matrix[c][d]\n            f = e\n            if f == target:\n                return True\n            d = d + 1\n        c = c + 1\n    return False",
+    "features": {
+      "lines_of_code": 16.0,
+      "functions_count": 1.0,
+      "complexity": 0.4,
+      "nested_levels": 3.0,
+      "variable_names_length": 3.0,
+      "comments_ratio": 0.0,
+      "imports_count": 0.0,
+      "class_count": 0.0,
+      "error_handling": 1.0,
+      "test_coverage": 0.0
+    },
+    "target": [
+      0.5,
+      0.3,
+      0.3
+    ]
+  }
+]
