@@ -245,5 +245,5 @@ pytest tests/test_neural_network.py
 ---
 
 **Версия**: 1.0.0  
-**Дата**: 2024  
+**Дата**: 2025 
 **Python**: 3.8+
