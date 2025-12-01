@@ -4164,6 +4164,391 @@ def merge(left, right):
         }
     ]
 
+def generate_search_examples():
+    """Генерация примеров алгоритмов поиска (все уровни качества)"""
+    return [
+        # Отличные примеры (5)
+        {
+            "code": """def binary_search(arr, target):
+    \"\"\"Бинарный поиск в отсортированном массиве.\"\"\"
+    left, right = 0, len(arr) - 1
+    while left <= right:
+        mid = (left + right) // 2
+        if arr[mid] == target:
+            return mid
+        elif arr[mid] < target:
+            left = mid + 1
+        else:
+            right = mid - 1
+    return -1""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.083,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.95, 0.9]
+        },
+        {
+            "code": """def linear_search(arr, target):
+    \"\"\"Линейный поиск элемента в массиве.\"\"\"
+    for i, value in enumerate(arr):
+        if value == target:
+            return i
+    return -1""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.17,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.8, 0.95]
+        },
+        {
+            "code": """def find_min_index(arr):
+    \"\"\"Находит индекс минимального элемента.\"\"\"
+    if not arr:
+        return -1
+    return min(range(len(arr)), key=lambda i: arr[i])""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.2,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def find_all_occurrences(arr, target):
+    \"\"\"Находит все индексы вхождений элемента.\"\"\"
+    return [i for i, x in enumerate(arr) if x == target]""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 15.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def search_in_matrix(matrix, target):
+    \"\"\"Поиск в отсортированной построчно матрице.\"\"\"
+    if not matrix or not matrix[0]:
+        return False
+    rows, cols = len(matrix), len(matrix[0])
+    row, col = 0, cols - 1
+    while row < rows and col >= 0:
+        if matrix[row][col] == target:
+            return True
+        elif matrix[row][col] > target:
+            col -= 1
+        else:
+            row += 1
+    return False""",
+            "features": {
+                "lines_of_code": 14.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 2.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.071,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        
+        # Средние примеры (5)
+        {
+            "code": """def binary_search(arr, target):
+    left = 0
+    right = len(arr) - 1
+    while left <= right:
+        mid = left + (right - left) // 2
+        if arr[mid] == target:
+            return mid
+        if arr[mid] < target:
+            left = mid + 1
+        if arr[mid] > target:
+            right = mid - 1
+    return -1""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.8, 0.75]
+        },
+        {
+            "code": """def linear_search(arr, target):
+    index = -1
+    for i in range(len(arr)):
+        if arr[i] == target:
+            index = i
+            break
+    return index""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 2.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.75]
+        },
+        {
+            "code": """def find_min_index(arr):
+    if len(arr) == 0:
+        return -1
+    min_idx = 0
+    for i in range(1, len(arr)):
+        if arr[i] < arr[min_idx]:
+            min_idx = i
+    return min_idx""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.75]
+        },
+        {
+            "code": """def find_all_occurrences(arr, target):
+    indices = []
+    for i in range(len(arr)):
+        if arr[i] == target:
+            indices.append(i)
+    return indices""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 2.0,
+                "variable_names_length": 15.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.75]
+        },
+        {
+            "code": """def search_in_matrix(matrix, target):
+    if len(matrix) == 0:
+        return False
+    rows = len(matrix)
+    cols = len(matrix[0])
+    for i in range(rows):
+        for j in range(cols):
+            if matrix[i][j] == target:
+                return True
+    return False""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 3.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.7, 0.6, 0.7]
+        },
+        
+        # Плохие примеры (5)
+        {
+            "code": """def binary_search(arr, target):
+    a = 0
+    b = len(arr) - 1
+    c = 0
+    while a <= b:
+        d = (a + b) // 2
+        e = arr[d]
+        if e == target:
+            return d
+        if e < target:
+            a = d + 1
+        if e > target:
+            b = d - 1
+        c = c + 1
+    return -1""",
+            "features": {
+                "lines_of_code": 15.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.5, 0.3]
+        },
+        {
+            "code": """def linear_search(arr, target):
+    a = -1
+    b = 0
+    c = len(arr)
+    d = 0
+    while d < c:
+        e = arr[d]
+        if e == target:
+            a = d
+            break
+        d = d + 1
+        b = b + 1
+    return a""",
+            "features": {
+                "lines_of_code": 13.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def find_min_index(arr):
+    a = len(arr)
+    if a == 0:
+        return -1
+    b = 0
+    c = 1
+    while c < a:
+        d = arr[c]
+        e = arr[b]
+        if d < e:
+            b = c
+        c = c + 1
+    return b""",
+            "features": {
+                "lines_of_code": 13.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.5, 0.3]
+        },
+        {
+            "code": """def find_all_occurrences(arr, target):
+    a = []
+    b = 0
+    c = len(arr)
+    while b < c:
+        d = arr[b]
+        if d == target:
+            a.append(b)
+        b = b + 1
+    return a""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def search_in_matrix(matrix, target):
+    a = len(matrix)
+    if a == 0:
+        return False
+    b = len(matrix[0])
+    c = 0
+    while c < a:
+        d = 0
+        while d < b:
+            e = matrix[c][d]
+            f = e
+            if f == target:
+                return True
+            d = d + 1
+        c = c + 1
+    return False""",
+            "features": {
+                "lines_of_code": 16.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -4670,6 +5055,9 @@ def generate_training_data():
     
     # Добавляем примеры алгоритмов сортировки (все уровни)
     training_data.extend(generate_sorting_examples())
+    
+    # Добавляем примеры алгоритмов поиска (все уровни)
+    training_data.extend(generate_search_examples())
     
     return training_data
 
