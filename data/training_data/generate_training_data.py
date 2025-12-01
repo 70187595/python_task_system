@@ -2069,6 +2069,798 @@ def generate_loops_examples():
         }
     ]
 
+def generate_conditionals_examples():
+    """Генерация примеров с условными операторами (все уровни качества)"""
+    return [
+        # Отличные примеры (5)
+        {
+            "code": """def get_grade(score):
+    \"\"\"Возвращает буквенную оценку по баллу.\"\"\"
+    if score >= 90:
+        return 'A'
+    elif score >= 80:
+        return 'B'
+    elif score >= 70:
+        return 'C'
+    elif score >= 60:
+        return 'D'
+    return 'F'""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.09,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.85, 0.9]
+        },
+        {
+            "code": """def classify_number(num):
+    \"\"\"Классифицирует число.\"\"\"
+    return 'positive' if num > 0 else 'negative' if num < 0 else 'zero'""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 0.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.9, 0.9]
+        },
+        {
+            "code": """def is_valid_triangle(a, b, c):
+    \"\"\"Проверяет, можно ли построить треугольник.\"\"\"
+    return (a + b > c) and (a + c > b) and (b + c > a)""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 0.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def get_max_of_three(a, b, c):
+    \"\"\"Возвращает максимум из трех чисел.\"\"\"
+    return max(a, b, c)""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def safe_divide(a, b):
+    \"\"\"Безопасное деление с обработкой нуля.\"\"\"
+    return a / b if b != 0 else None""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        
+        # Средние примеры (5)
+        {
+            "code": """def get_grade(score):
+    if score >= 90:
+        grade = 'A'
+    elif score >= 80:
+        grade = 'B'
+    elif score >= 70:
+        grade = 'C'
+    elif score >= 60:
+        grade = 'D'
+    else:
+        grade = 'F'
+    return grade""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        {
+            "code": """def classify_number(num):
+    if num > 0:
+        return 'positive'
+    elif num < 0:
+        return 'negative'
+    else:
+        return 'zero'""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        {
+            "code": """def is_valid_triangle(a, b, c):
+    if a + b > c:
+        if a + c > b:
+            if b + c > a:
+                return True
+    return False""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.65]
+        },
+        {
+            "code": """def get_max_of_three(a, b, c):
+    if a >= b and a >= c:
+        return a
+    elif b >= a and b >= c:
+        return b
+    else:
+        return c""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.75]
+        },
+        {
+            "code": """def safe_divide(a, b):
+    if b != 0:
+        result = a / b
+    else:
+        result = None
+    return result""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        
+        # Плохие примеры (5)
+        {
+            "code": """def get_grade(score):
+    a = score
+    b = ''
+    if a >= 90:
+        b = 'A'
+    if a < 90 and a >= 80:
+        b = 'B'
+    if a < 80 and a >= 70:
+        b = 'C'
+    if a < 70 and a >= 60:
+        b = 'D'
+    if a < 60:
+        b = 'F'
+    return b""",
+            "features": {
+                "lines_of_code": 14.0,
+                "functions_count": 1.0,
+                "complexity": 0.6,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.4]
+        },
+        {
+            "code": """def classify_number(num):
+    a = num
+    b = ''
+    c = 0
+    if a > c:
+        b = 'positive'
+    if a < c:
+        b = 'negative'
+    if a == c:
+        b = 'zero'
+    return b""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        },
+        {
+            "code": """def is_valid_triangle(a, b, c):
+    x = a
+    y = b
+    z = c
+    w = False
+    if x + y > z:
+        if x + z > y:
+            if y + z > x:
+                w = True
+            else:
+                w = False
+    return w""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """def get_max_of_three(a, b, c):
+    x = a
+    y = b
+    z = c
+    m = x
+    if y > m:
+        m = y
+    if z > m:
+        m = z
+    return m""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.5, 0.4]
+        },
+        {
+            "code": """def safe_divide(a, b):
+    x = a
+    y = b
+    z = 0
+    r = None
+    if y != z:
+        r = x / y
+    else:
+        r = None
+    return r""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        }
+    ]
+
+def generate_math_examples():
+    """Генерация примеров математических функций (все уровни качества)"""
+    return [
+        # Отличные примеры (7)
+        {
+            "code": """def is_prime(n):
+    \"\"\"Проверяет, является ли число простым.\"\"\"
+    if n < 2:
+        return False
+    return all(n % i != 0 for i in range(2, int(n**0.5) + 1))""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.2,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def is_even(number):
+    \"\"\"Проверяет, является ли число четным.\"\"\"
+    return number % 2 == 0""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def calculate_distance(x1, y1, x2, y2):
+    \"\"\"Вычисляет евклидово расстояние между точками.\"\"\"
+    return ((x2 - x1)**2 + (y2 - y1)**2)**0.5""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 13.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def mean(numbers):
+    \"\"\"Вычисляет среднее арифметическое.\"\"\"
+    return sum(numbers) / len(numbers) if numbers else 0""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 7.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def lcm(a, b):
+    \"\"\"Наименьшее общее кратное.\"\"\"
+    from math import gcd
+    return abs(a * b) // gcd(a, b) if a and b else 0""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 5.0,
+                "comments_ratio": 0.25,
+                "imports_count": 1.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.95, 0.9]
+        },
+        {
+            "code": """def is_perfect_square(n):
+    \"\"\"Проверяет, является ли число точным квадратом.\"\"\"
+    return int(n**0.5)**2 == n""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 13.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def digits_sum(number):
+    \"\"\"Вычисляет сумму цифр числа.\"\"\"
+    return sum(int(digit) for digit in str(abs(number)))""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        
+        # Средние примеры (7)
+        {
+            "code": """def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, n):
+        if n % i == 0:
+            return False
+    return True""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.5, 0.7]
+        },
+        {
+            "code": """def is_even(number):
+    if number % 2 == 0:
+        return True
+    else:
+        return False""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.7]
+        },
+        {
+            "code": """def calculate_distance(x1, y1, x2, y2):
+    dx = x2 - x1
+    dy = y2 - y1
+    distance = (dx**2 + dy**2)**0.5
+    return distance""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        {
+            "code": """def mean(numbers):
+    total = 0
+    for num in numbers:
+        total = total + num
+    return total / len(numbers)""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 7.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.7, 0.65, 0.7]
+        },
+        {
+            "code": """def lcm(a, b):
+    def gcd(x, y):
+        while y:
+            x, y = y, x % y
+        return x
+    return (a * b) // gcd(a, b)""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 2.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 5.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        {
+            "code": """def is_perfect_square(n):
+    sqrt = int(n**0.5)
+    if sqrt * sqrt == n:
+        return True
+    return False""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        {
+            "code": """def digits_sum(number):
+    total = 0
+    for digit in str(number):
+        if digit.isdigit():
+            total = total + int(digit)
+    return total""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        
+        # Плохие примеры (6)
+        {
+            "code": """def is_prime(n):
+    a = n
+    b = 2
+    c = True
+    if a < b:
+        c = False
+    d = b
+    while d < a:
+        if a % d == 0:
+            c = False
+        d = d + 1
+    return c""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        },
+        {
+            "code": """def is_even(number):
+    a = number
+    b = 2
+    c = a % b
+    d = 0
+    if c == d:
+        e = True
+    else:
+        e = False
+    return e""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def calculate_distance(x1, y1, x2, y2):
+    a = x2
+    b = x1
+    c = a - b
+    d = y2
+    e = y1
+    f = d - e
+    g = c * c
+    h = f * f
+    i = g + h
+    j = i ** 0.5
+    return j""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def mean(numbers):
+    a = 0
+    b = 0
+    c = 0
+    for x in numbers:
+        a = a + x
+        b = b + 1
+        c = c + 1
+    d = len(numbers)
+    e = a / d
+    return e""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """def is_perfect_square(n):
+    a = n
+    b = 0
+    c = 0.5
+    d = a ** c
+    e = int(d)
+    f = e * e
+    if f == a:
+        return True
+    else:
+        return False""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def digits_sum(number):
+    a = str(number)
+    b = 0
+    c = 0
+    for x in a:
+        if x.isdigit():
+            d = int(x)
+            b = b + d
+        c = c + 1
+    return b""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -2560,6 +3352,12 @@ def generate_training_data():
     
     # Добавляем примеры с циклами (все уровни)
     training_data.extend(generate_loops_examples())
+    
+    # Добавляем примеры с условными операторами (все уровни)
+    training_data.extend(generate_conditionals_examples())
+    
+    # Добавляем примеры математических функций (все уровни)
+    training_data.extend(generate_math_examples())
     
     return training_data
 
