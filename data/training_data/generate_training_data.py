@@ -2861,6 +2861,341 @@ def generate_math_examples():
         }
     ]
 
+def generate_file_examples():
+    """Генерация примеров работы с файлами (все уровни качества)"""
+    return [
+        # Отличные примеры (5)
+        {
+            "code": """def read_file_lines(filename):
+    \"\"\"Читает все строки из файла.\"\"\"
+    with open(filename, 'r', encoding='utf-8') as f:
+        return f.readlines()""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def write_to_file(filename, content):
+    \"\"\"Записывает содержимое в файл.\"\"\"
+    with open(filename, 'w', encoding='utf-8') as f:
+        f.write(content)""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def count_lines(filename):
+    \"\"\"Подсчитывает количество строк в файле.\"\"\"
+    with open(filename, 'r', encoding='utf-8') as f:
+        return sum(1 for _ in f)""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.95, 0.95]
+        },
+        {
+            "code": """def append_to_file(filename, text):
+    \"\"\"Добавляет текст в конец файла.\"\"\"
+    with open(filename, 'a', encoding='utf-8') as f:
+        f.write(text + '\\n')""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def find_in_file(filename, search_text):
+    \"\"\"Находит строки, содержащие текст.\"\"\"
+    with open(filename, 'r', encoding='utf-8') as f:
+        return [line for line in f if search_text in line]""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.25,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        
+        # Средние примеры (5)
+        {
+            "code": """def read_file_lines(filename):
+    f = open(filename, 'r')
+    lines = f.readlines()
+    f.close()
+    return lines""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.7, 0.6, 0.65]
+        },
+        {
+            "code": """def write_to_file(filename, content):
+    file = open(filename, 'w')
+    file.write(content)
+    file.close()""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.7, 0.65, 0.7]
+        },
+        {
+            "code": """def count_lines(filename):
+    f = open(filename, 'r')
+    count = 0
+    for line in f:
+        count = count + 1
+    f.close()
+    return count""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.6, 0.7]
+        },
+        {
+            "code": """def append_to_file(filename, text):
+    file = open(filename, 'a')
+    file.write(text)
+    file.write('\\n')
+    file.close()""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        {
+            "code": """def find_in_file(filename, search_text):
+    f = open(filename, 'r')
+    result = []
+    for line in f:
+        if search_text in line:
+            result.append(line)
+    f.close()
+    return result""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        
+        # Плохие примеры (5)
+        {
+            "code": """def read_file_lines(filename):
+    a = filename
+    b = open(a, 'r')
+    c = []
+    d = 0
+    for x in b:
+        c.append(x)
+        d = d + 1
+    b.close()
+    return c""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """def write_to_file(filename, content):
+    a = filename
+    b = content
+    c = open(a, 'w')
+    d = b
+    c.write(d)
+    e = 0
+    c.close()""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def count_lines(filename):
+    a = filename
+    b = open(a, 'r')
+    c = 0
+    d = 0
+    e = 0
+    for x in b:
+        c = c + 1
+        d = d + 1
+        e = e + 1
+    b.close()
+    return c""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        },
+        {
+            "code": """def append_to_file(filename, text):
+    a = filename
+    b = text
+    c = open(a, 'a')
+    d = b + '\\n'
+    e = d
+    c.write(e)
+    f = 0
+    c.close()""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def find_in_file(filename, search_text):
+    a = filename
+    b = search_text
+    c = open(a, 'r')
+    d = []
+    e = 0
+    for x in c:
+        if b in x:
+            d.append(x)
+        e = e + 1
+    c.close()
+    return d""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -3358,6 +3693,9 @@ def generate_training_data():
     
     # Добавляем примеры математических функций (все уровни)
     training_data.extend(generate_math_examples())
+    
+    # Добавляем примеры работы с файлами (все уровни)
+    training_data.extend(generate_file_examples())
     
     return training_data
 
