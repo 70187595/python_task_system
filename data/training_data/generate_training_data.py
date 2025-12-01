@@ -1031,6 +1031,337 @@ def generate_lists_examples():
         }
     ]
 
+def generate_dict_examples():
+    """Генерация примеров работы со словарями (все уровни качества)"""
+    return [
+        # Отличные примеры (5)
+        {
+            "code": """def merge_dicts(dict1, dict2):
+    \"\"\"Объединяет два словаря.\"\"\"
+    return {**dict1, **dict2}""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def get_keys_by_value(dictionary, value):
+    \"\"\"Возвращает ключи по значению.\"\"\"
+    return [k for k, v in dictionary.items() if v == value]""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def invert_dict(dictionary):
+    \"\"\"Меняет местами ключи и значения.\"\"\"
+    return {v: k for k, v in dictionary.items()}""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [1.0, 0.95, 0.95]
+        },
+        {
+            "code": """def filter_dict(dictionary, keys):
+    \"\"\"Оставляет только указанные ключи.\"\"\"
+    return {k: v for k, v in dictionary.items() if k in keys}""",
+            "features": {
+                "lines_of_code": 3.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.33,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """def count_values(dictionary):
+    \"\"\"Подсчитывает количество каждого значения.\"\"\"
+    from collections import Counter
+    return dict(Counter(dictionary.values()))""",
+            "features": {
+                "lines_of_code": 4.0,
+                "functions_count": 1.0,
+                "complexity": 0.1,
+                "nested_levels": 0.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.25,
+                "imports_count": 1.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.95, 0.9]
+        },
+        
+        # Средние примеры (5)
+        {
+            "code": """def merge_dicts(dict1, dict2):
+    result = dict1.copy()
+    for key in dict2:
+        result[key] = dict2[key]
+    return result""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.7, 0.7]
+        },
+        {
+            "code": """def get_keys_by_value(dictionary, value):
+    keys = []
+    for key in dictionary:
+        if dictionary[key] == value:
+            keys.append(key)
+    return keys""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        {
+            "code": """def invert_dict(dictionary):
+    inverted = {}
+    for key in dictionary:
+        inverted[dictionary[key]] = key
+    return inverted""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.7, 0.7]
+        },
+        {
+            "code": """def filter_dict(dictionary, keys):
+    filtered = {}
+    for key in dictionary:
+        if key in keys:
+            filtered[key] = dictionary[key]
+    return filtered""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        {
+            "code": """def count_values(dictionary):
+    counts = {}
+    for value in dictionary.values():
+        if value in counts:
+            counts[value] = counts[value] + 1
+        else:
+            counts[value] = 1
+    return counts""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        
+        # Плохие примеры (5)
+        {
+            "code": """def merge_dicts(dict1, dict2):
+    a = {}
+    b = list(dict1.keys())
+    c = list(dict2.keys())
+    for i in range(len(b)):
+        a[b[i]] = dict1[b[i]]
+    for j in range(len(c)):
+        a[c[j]] = dict2[c[j]]
+    return a""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 1.0,
+                "variable_names_length": 4.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        },
+        {
+            "code": """def get_keys_by_value(dictionary, value):
+    a = []
+    b = list(dictionary.keys())
+    c = 0
+    for i in range(len(b)):
+        if dictionary[b[i]] == value:
+            a.append(b[i])
+        c = c + 1
+    return a""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 4.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.4]
+        },
+        {
+            "code": """def invert_dict(dictionary):
+    a = {}
+    b = []
+    c = []
+    for x in dictionary:
+        b.append(x)
+        c.append(dictionary[x])
+    for i in range(len(b)):
+        a[c[i]] = b[i]
+    return a""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        },
+        {
+            "code": """def filter_dict(dictionary, keys):
+    a = {}
+    b = 0
+    c = 0
+    for x in dictionary:
+        if x in keys:
+            a[x] = dictionary[x]
+        b = b + 1
+        c = c + 1
+    return a""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        },
+        {
+            "code": """def count_values(dictionary):
+    a = {}
+    b = list(dictionary.values())
+    c = 0
+    for i in range(len(b)):
+        d = b[i]
+        if d in a:
+            a[d] = a[d] + 1
+        else:
+            a[d] = 1
+        c = c + 1
+    return a""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -1513,6 +1844,9 @@ def generate_training_data():
     
     # Добавляем примеры работы со списками (все уровни)
     training_data.extend(generate_lists_examples())
+    
+    # Добавляем примеры работы со словарями (все уровни)
+    training_data.extend(generate_dict_examples())
     
     return training_data
 
