@@ -422,6 +422,279 @@ def generate_string_good():
         }
     ]
 
+def generate_string_poor():
+    """Генерация плохих примеров работы со строками"""
+    return [
+        {
+            "code": """def reverse_string(text):
+    a = []
+    for i in range(len(text)):
+        a.append(text[i])
+    b = []
+    for i in range(len(a)-1, -1, -1):
+        b.append(a[i])
+    c = ''
+    for x in b:
+        c = c + x
+    return c""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.4]
+        },
+        {
+            "code": """def capitalize_words(text):
+    x = text
+    y = []
+    z = ''
+    for i in range(len(x)):
+        if x[i] == ' ':
+            y.append(z)
+            z = ''
+        else:
+            z = z + x[i]
+    y.append(z)
+    result = []
+    for w in y:
+        result.append(w[0].upper() + w[1:])
+    return ' '.join(result)""",
+            "features": {
+                "lines_of_code": 15.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 2.0,
+                "variable_names_length": 4.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.4, 0.3, 0.3]
+        },
+        {
+            "code": """def remove_whitespace(text):
+    a = ''
+    b = 0
+    while b < len(text):
+        c = text[b]
+        if c != ' ':
+            a = a + c
+        b = b + 1
+    return a""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.4]
+        },
+        {
+            "code": """def count_vowels(text):
+    a = 0
+    b = 0
+    c = 0
+    for x in text:
+        if x == 'a' or x == 'A':
+            a = a + 1
+        if x == 'e' or x == 'E':
+            a = a + 1
+        if x == 'i' or x == 'I':
+            a = a + 1
+        if x == 'o' or x == 'O':
+            a = a + 1
+        if x == 'u' or x == 'U':
+            a = a + 1
+        b = b + 1
+        c = c + 2
+    return a""",
+            "features": {
+                "lines_of_code": 18.0,
+                "functions_count": 1.0,
+                "complexity": 0.6,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        },
+        {
+            "code": """def is_palindrome(text):
+    a = text.lower()
+    b = len(a)
+    c = True
+    for i in range(b):
+        if a[i] != a[b-1-i]:
+            c = False
+    return c""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.5, 0.4]
+        },
+        {
+            "code": """def get_first_word(text):
+    a = ''
+    b = 0
+    c = 0
+    d = 0
+    for x in text:
+        if x == ' ':
+            break
+        a = a + x
+        b = b + 1
+        c = c + 1
+        d = d + 1
+    return a""",
+            "features": {
+                "lines_of_code": 13.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """def join_with_separator(words, separator):
+    a = ''
+    b = 0
+    for w in words:
+        a = a + w
+        b = b + 1
+        if b < len(words):
+            a = a + separator
+        else:
+            pass
+    return a""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 5.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        },
+        {
+            "code": """def extract_digits(text):
+    a = ''
+    b = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    for x in text:
+        for y in b:
+            if x == y:
+                a = a + x
+    return a""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.4]
+        },
+        {
+            "code": """def truncate_string(text, max_length):
+    a = len(text)
+    b = max_length
+    c = ''
+    if a > b:
+        for i in range(b - 3):
+            c = c + text[i]
+        c = c + '.'
+        c = c + '.'
+        c = c + '.'
+    else:
+        c = text
+    return c""",
+            "features": {
+                "lines_of_code": 13.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 4.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.4]
+        },
+        {
+            "code": """def remove_duplicates(text):
+    a = ''
+    b = ''
+    c = 0
+    d = 0
+    for x in text:
+        if x != b:
+            a = a + x
+        b = x
+        c = c + 1
+        d = d + 1
+    return a""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -898,6 +1171,9 @@ def generate_training_data():
     
     # Добавляем новые примеры работы со строками (среднее качество)
     training_data.extend(generate_string_good())
+    
+    # Добавляем новые примеры работы со строками (плохое качество)
+    training_data.extend(generate_string_poor())
     
     return training_data
 
