@@ -202,6 +202,226 @@ def generate_string_excellent():
         }
     ]
 
+def generate_string_good():
+    """Генерация средних примеров работы со строками"""
+    return [
+        {
+            "code": """def reverse_string(text):
+    result = ''
+    for char in text:
+        result = char + result
+    return result""",
+            "features": {
+                "lines_of_code": 5.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.6, 0.65]
+        },
+        {
+            "code": """def capitalize_words(text):
+    words = text.split()
+    capitalized = []
+    for word in words:
+        capitalized.append(word.capitalize())
+    return ' '.join(capitalized)""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        {
+            "code": """def remove_whitespace(text):
+    result = ''
+    for char in text:
+        if char != ' ':
+            result = result + char
+    return result""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.6, 0.65]
+        },
+        {
+            "code": """def count_vowels(text):
+    count = 0
+    vowels = ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']
+    for char in text:
+        if char in vowels:
+            count = count + 1
+    return count""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 7.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        {
+            "code": """def is_palindrome(text):
+    text_lower = text.lower()
+    reversed_text = ''
+    for char in text_lower:
+        reversed_text = char + reversed_text
+    return text_lower == reversed_text""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.65, 0.7]
+        },
+        {
+            "code": """def get_first_word(text):
+    word = ''
+    for char in text:
+        if char == ' ':
+            break
+        word = word + char
+    return word""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 7.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.7, 0.6, 0.65]
+        },
+        {
+            "code": """def join_with_separator(words, separator):
+    result = ''
+    for i in range(len(words)):
+        result = result + words[i]
+        if i < len(words) - 1:
+            result = result + separator
+    return result""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.6, 0.7]
+        },
+        {
+            "code": """def extract_digits(text):
+    digits = ''
+    for char in text:
+        if char >= '0' and char <= '9':
+            digits = digits + char
+    return digits""",
+            "features": {
+                "lines_of_code": 6.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 7.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        {
+            "code": """def truncate_string(text, max_length):
+    if len(text) > max_length:
+        truncated = ''
+        for i in range(max_length - 3):
+            truncated = truncated + text[i]
+        return truncated + '...'
+    return text""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.6, 0.7]
+        },
+        {
+            "code": """def remove_duplicates(text):
+    result = ''
+    prev_char = ''
+    for char in text:
+        if char != prev_char:
+            result = result + char
+            prev_char = char
+    return result""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.7, 0.65, 0.65]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -675,6 +895,9 @@ def generate_training_data():
     
     # Добавляем новые примеры работы со строками (отличное качество)
     training_data.extend(generate_string_excellent())
+    
+    # Добавляем новые примеры работы со строками (среднее качество)
+    training_data.extend(generate_string_good())
     
     return training_data
 
