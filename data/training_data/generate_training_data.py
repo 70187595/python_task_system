@@ -3725,6 +3725,445 @@ def generate_oop_examples():
         }
     ]
 
+def generate_sorting_examples():
+    """Генерация примеров алгоритмов сортировки (все уровни качества)"""
+    return [
+        # Отличные примеры (5)
+        {
+            "code": """def quick_sort(arr):
+    \"\"\"Быстрая сортировка.\"\"\"
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[len(arr) // 2]
+    left = [x for x in arr if x < pivot]
+    middle = [x for x in arr if x == pivot]
+    right = [x for x in arr if x > pivot]
+    return quick_sort(left) + middle + quick_sort(right)""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.11,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        {
+            "code": """def merge_sort(arr):
+    \"\"\"Сортировка слиянием.\"\"\"
+    if len(arr) <= 1:
+        return arr
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+    return merge(left, right)
+
+def merge(left, right):
+    result = []
+    i = j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            result.append(left[i])
+            i += 1
+        else:
+            result.append(right[j])
+            j += 1
+    result.extend(left[i:])
+    result.extend(right[j:])
+    return result""",
+            "features": {
+                "lines_of_code": 22.0,
+                "functions_count": 2.0,
+                "complexity": 0.5,
+                "nested_levels": 2.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.045,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.95, 0.85]
+        },
+        {
+            "code": """def insertion_sort(arr):
+    \"\"\"Сортировка вставками.\"\"\"
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
+    return arr""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.1,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.9, 0.8, 0.85]
+        },
+        {
+            "code": """def selection_sort(arr):
+    \"\"\"Сортировка выбором.\"\"\"
+    for i in range(len(arr)):
+        min_idx = i
+        for j in range(i + 1, len(arr)):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.11,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.9, 0.7, 0.85]
+        },
+        {
+            "code": """def counting_sort(arr):
+    \"\"\"Сортировка подсчетом (для неотрицательных чисел).\"\"\"
+    if not arr:
+        return arr
+    max_val = max(arr)
+    count = [0] * (max_val + 1)
+    for num in arr:
+        count[num] += 1
+    return [i for i, cnt in enumerate(count) for _ in range(cnt)]""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 1.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.11,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.85, 0.85]
+        },
+        
+        # Средние примеры (5)
+        {
+            "code": """def bubble_sort(arr):
+    n = len(arr)
+    for i in range(n):
+        for j in range(0, n - i - 1):
+            if arr[j] > arr[j + 1]:
+                temp = arr[j]
+                arr[j] = arr[j + 1]
+                arr[j + 1] = temp
+    return arr""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.6, 0.7]
+        },
+        {
+            "code": """def insertion_sort(arr):
+    for i in range(1, len(arr)):
+        key = arr[i]
+        j = i - 1
+        while j >= 0:
+            if arr[j] > key:
+                arr[j + 1] = arr[j]
+                j = j - 1
+            else:
+                break
+        arr[j + 1] = key
+    return arr""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 11.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        {
+            "code": """def selection_sort(arr):
+    for i in range(len(arr)):
+        min_index = i
+        for j in range(i + 1, len(arr)):
+            if arr[j] < arr[min_index]:
+                min_index = j
+        if min_index != i:
+            temp = arr[i]
+            arr[i] = arr[min_index]
+            arr[min_index] = temp
+    return arr""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 12.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.65, 0.7]
+        },
+        {
+            "code": """def quick_sort(arr):
+    if len(arr) <= 1:
+        return arr
+    pivot = arr[0]
+    less = []
+    equal = []
+    greater = []
+    for num in arr:
+        if num < pivot:
+            less.append(num)
+        elif num == pivot:
+            equal.append(num)
+        else:
+            greater.append(num)
+    return quick_sort(less) + equal + quick_sort(greater)""",
+            "features": {
+                "lines_of_code": 16.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        {
+            "code": """def counting_sort(arr):
+    if len(arr) == 0:
+        return arr
+    max_value = max(arr)
+    counts = []
+    for i in range(max_value + 1):
+        counts.append(0)
+    for number in arr:
+        counts[number] = counts[number] + 1
+    result = []
+    for i in range(len(counts)):
+        for j in range(counts[i]):
+            result.append(i)
+    return result""",
+            "features": {
+                "lines_of_code": 14.0,
+                "functions_count": 1.0,
+                "complexity": 0.3,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        
+        # Плохие примеры (5)
+        {
+            "code": """def bubble_sort(arr):
+    a = len(arr)
+    b = 0
+    for i in range(a):
+        c = 0
+        for j in range(0, a - i - 1):
+            if arr[j] > arr[j + 1]:
+                d = arr[j]
+                arr[j] = arr[j + 1]
+                arr[j + 1] = d
+            c = c + 1
+        b = b + 1
+    return arr""",
+            "features": {
+                "lines_of_code": 13.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def insertion_sort(arr):
+    a = 1
+    while a < len(arr):
+        b = arr[a]
+        c = a - 1
+        d = 0
+        while c >= 0 and arr[c] > b:
+            arr[c + 1] = arr[c]
+            c = c - 1
+            d = d + 1
+        arr[c + 1] = b
+        a = a + 1
+    return arr""",
+            "features": {
+                "lines_of_code": 13.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.5, 0.3]
+        },
+        {
+            "code": """def selection_sort(arr):
+    a = 0
+    b = len(arr)
+    while a < b:
+        c = a
+        d = a + 1
+        while d < b:
+            if arr[d] < arr[c]:
+                c = d
+            d = d + 1
+        e = arr[a]
+        arr[a] = arr[c]
+        arr[c] = e
+        a = a + 1
+    return arr""",
+            "features": {
+                "lines_of_code": 15.0,
+                "functions_count": 1.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.3]
+        },
+        {
+            "code": """def quick_sort(arr):
+    a = len(arr)
+    if a <= 1:
+        return arr
+    b = arr[0]
+    c = []
+    d = []
+    e = []
+    f = 0
+    for x in arr:
+        if x < b:
+            c.append(x)
+        if x == b:
+            d.append(x)
+        if x > b:
+            e.append(x)
+        f = f + 1
+    g = quick_sort(c)
+    h = quick_sort(e)
+    return g + d + h""",
+            "features": {
+                "lines_of_code": 21.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """def counting_sort(arr):
+    a = arr
+    if len(a) == 0:
+        return a
+    b = max(a)
+    c = []
+    d = 0
+    while d <= b:
+        c.append(0)
+        d = d + 1
+    e = 0
+    for x in a:
+        c[x] = c[x] + 1
+        e = e + 1
+    f = []
+    g = 0
+    while g < len(c):
+        h = 0
+        while h < c[g]:
+            f.append(g)
+            h = h + 1
+        g = g + 1
+    return f""",
+            "features": {
+                "lines_of_code": 23.0,
+                "functions_count": 1.0,
+                "complexity": 0.5,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 0.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -4228,6 +4667,9 @@ def generate_training_data():
     
     # Добавляем примеры ООП с классами (все уровни)
     training_data.extend(generate_oop_examples())
+    
+    # Добавляем примеры алгоритмов сортировки (все уровни)
+    training_data.extend(generate_sorting_examples())
     
     return training_data
 
