@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+
+{% block title %}Генерация заданий - Система заданий Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="mb-0">🎯 Генерация учебных заданий</h3>
+            </div>
+            <div class="card-body">
+                <!-- Форма генерации -->
+                <form id="generateForm">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Категория задания</label>
+                                <select class="form-select" id="category" name="category" required>
+                                    <option value="">Выберите категорию</option>
+                                    {% for category in categories %}
+                                        <option value="{{ category }}">{{ category|title }}</option>
+                                    {% endfor %}
+                                    <option value="custom">Пользовательское задание</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="difficulty" class="form-label">Уровень сложности</label>
+                                <select class="form-select" id="difficulty" name="difficulty" required>
+                                    <option value="">Выберите сложность</option>
+                                    {% for difficulty in difficulties %}
+                                        <option value="{{ difficulty }}">{{ difficulty|title }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Поля для кастомного задания -->
+                    <div id="customFields" style="display: none;">
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Название задания</label>
+                            <input type="text" class="form-control" id="title" name="title" placeholder="Введите название задания">
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Описание задания</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" placeholder="Опишите задачу"></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="testCases" class="form-label">Тестовые случаи (JSON)</label>
+                            <textarea class="form-control" id="testCases" name="test_cases" rows="4" placeholder='[{"input": "входные данные", "expected": "ожидаемый результат"}]'></textarea>
+                            <div class="form-text">Введите тестовые случаи в формате JSON</div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-magic me-2"></i>Сгенерировать задание
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Результат генерации -->
+        <div id="generatedTask" style="display: none;" class="card mt-4">
+            <div class="card-header">
+                <h4 class="mb-0">📝 Сгенерированное задание</h4>
+            </div>
+            <div class="card-body">
+                <div id="taskContent">
+                    <!-- Содержимое задания будет загружено здесь -->
+                </div>
+                
+                <div class="mt-3">
+                    <button type="button" class="btn btn-success me-2" onclick="solveTask()">
+                        <i class="fas fa-code me-2"></i>Решить задание
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary" onclick="generateNew()">
+                        <i class="fas fa-refresh me-2"></i>Сгенерировать новое
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Загрузка -->
+        <div id="loading" style="display: none;" class="text-center mt-4">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Загрузка...</span>
+            </div>
+            <p class="mt-2">Генерируем задание...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let currentTask = null;
+
+    // Показать/скрыть поля для кастомного задания
+    document.getElementById('category').addEventListener('change', function() {
+        const customFields = document.getElementById('customFields');
+        if (this.value === 'custom') {
+            customFields.style.display = 'block';
+            // Сделать поля обязательными
+            document.getElementById('title').required = true;
+            document.getElementById('description').required = true;
+        } else {
+            customFields.style.display = 'none';
+            // Убрать обязательность
+            document.getElementById('title').required = false;
+            document.getElementById('description').required = false;
+        }
+    });
+
+    // Обработка отправки формы
+    document.getElementById('generateForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        generateTask();
+    });
+
+    function generateTask() {
+        const form = document.getElementById('generateForm');
+        const formData = new FormData(form);
+        
+        const data = {
+            category: formData.get('category'),
+            difficulty: formData.get('difficulty')
+        };
+
+        // Добавляем данные для кастомного задания
+        if (data.category === 'custom') {
+            data.title = formData.get('title');
+            data.description = formData.get('description');
+            
+            try {
+                data.test_cases = JSON.parse(formData.get('test_cases') || '[]');
+            } catch (e) {
+                alert('Ошибка в формате JSON тестовых случаев');
+                return;
+            }
+        }
+
+        // Показать загрузку
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('generatedTask').style.display = 'none';
+
+        // Отправить запрос
+        fetch('/api/generate-task', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('loading').style.display = 'none';
+            
+            if (data.success) {
+                currentTask = data.task;
+                displayTask(data.task);
+            } else {
+                alert('Ошибка генерации задания: ' + data.error);
+            }
+        })
+        .catch(error => {
+            document.getElementById('loading').style.display = 'none';
+            console.error('Ошибка:', error);
+            alert('Произошла ошибка при генерации задания');
+        });
+    }
+
+    function displayTask(task) {
+        const taskContent = document.getElementById('taskContent');
+        
+        taskContent.innerHTML = `
+            <div class="mb-3">
+                <h5>${task.title}</h5>
+                <span class="badge bg-${getDifficultyColor(task.difficulty)}">${task.difficulty}</span>
+                <span class="badge bg-secondary ms-2">${task.category}</span>
+            </div>
+            
+            <div class="mb-3">
+                <h6>Описание:</h6>
+                <p class="text-muted">${task.description}</p>
+            </div>
+            
+            <div class="mb-3">
+                <h6>Тестовые случаи:</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Входные данные</th>
+                                <th>Ожидаемый результат</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${task.test_cases.map(test => `
+                                <tr>
+                                    <td><code>${test.input}</code></td>
+                                    <td><code>${test.expected}</code></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <h6>Подсказки:</h6>
+                <ul class="list-unstyled">
+                    ${task.hints.map(hint => `<li><i class="fas fa-lightbulb text-warning me-2"></i>${hint}</li>`).join('')}
+                </ul>
+            </div>
+            
+            <div class="mb-3">
+                <h6>Шаблон решения:</h6>
+                <pre class="bg-light p-3 rounded"><code>${task.solution_template}</code></pre>
+            </div>
+        `;
+        
+        document.getElementById('generatedTask').style.display = 'block';
+    }
+
+    function getDifficultyColor(difficulty) {
+        switch(difficulty) {
+            case 'easy': return 'success';
+            case 'medium': return 'warning';
+            case 'hard': return 'danger';
+            default: return 'secondary';
+        }
+    }
+
+    function solveTask() {
+        if (currentTask) {
+            window.location.href = `/solve/${currentTask.id}`;
+        }
+    }
+
+    function generateNew() {
+        document.getElementById('generatedTask').style.display = 'none';
+        document.getElementById('generateForm').reset();
+        document.getElementById('customFields').style.display = 'none';
+        currentTask = null;
+    }
+</script>
+{% endblock %}

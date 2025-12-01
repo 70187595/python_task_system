@@ -1,0 +1,203 @@
+"""
+Скрипт для обучения нейронной сети на реальных данных
+"""
+
+import sys
+import os
+import json
+import numpy as np
+
+# Добавляем путь к приложению
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+from app.models.neural_network import SimpleNeuralNetwork
+from app.utils.code_analyzer import CodeAnalyzer
+
+def load_training_data():
+    """Загрузка обучающих данных"""
+    try:
+        with open('data/training_data/training_data.json', 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        print(f"✅ Загружено {len(data)} примеров обучающих данных")
+        return data
+    except FileNotFoundError:
+        print("❌ Файл с обучающими данными не найден!")
+        print("🔧 Запустите сначала: python data/training_data/generate_training_data.py")
+        return None
+
+def prepare_training_data(data):
+    """Подготовка данных для обучения"""
+    X = []  # Входные данные (признаки)
+    y = []  # Целевые значения
+    
+    for item in data:
+        features = item['features']
+        target = item['target']
+        
+        # Преобразуем признаки в вектор
+        feature_vector = [
+            features['lines_of_code'] / 100.0,
+            features['functions_count'] / 10.0,
+            features['complexity'],
+            features['nested_levels'] / 5.0,
+            features['variable_names_length'] / 20.0,
+            features['comments_ratio'],
+            features['imports_count'] / 10.0,
+            features['class_count'] / 5.0,
+            features['error_handling'],
+            features['test_coverage']
+        ]
+        
+        X.append(feature_vector)
+        y.append(target)
+    
+    return np.array(X), np.array(y)
+
+def train_network():
+    """Обучение нейронной сети"""
+    print("🧠 Обучение нейронной сети...")
+    print("=" * 50)
+    
+    # Загружаем данные
+    data = load_training_data()
+    if data is None:
+        return None
+    
+    # Подготавливаем данные
+    X, y = prepare_training_data(data)
+    
+    print(f"📊 Размер обучающей выборки: {X.shape[0]} примеров")
+    print(f"📊 Количество признаков: {X.shape[1]}")
+    print(f"📊 Размер выходного слоя: {y.shape[1]}")
+    
+    # Создаем нейронную сеть
+    network = SimpleNeuralNetwork(
+        input_size=X.shape[1],
+        hidden_size=8,  # Увеличиваем скрытый слой
+        output_size=y.shape[1]
+    )
+    
+    print(f"🔧 Архитектура сети:")
+    print(f"   Входной слой: {network.input_size} нейронов")
+    print(f"   Скрытый слой: {network.hidden_size} нейронов")
+    print(f"   Выходной слой: {network.output_size} нейронов")
+    
+    # Подготавливаем данные для обучения
+    training_data = [(X[i:i+1], y[i:i+1]) for i in range(len(X))]
+    
+    print("\n🚀 Начинаем обучение...")
+    
+    # Обучаем сеть
+    network.train(training_data, epochs=2000)
+    
+    # Тестируем на нескольких примерах
+    print("\n🧪 Тестирование обученной сети:")
+    print("-" * 50)
+    
+    test_indices = [0, len(data)//4, len(data)//2, 3*len(data)//4, -1]
+    
+    for i, idx in enumerate(test_indices):
+        test_features = X[idx:idx+1]
+        test_target = y[idx]
+        prediction = network.predict(test_features)
+        
+        print(f"Тест {i+1}:")
+        print(f"  Ожидаемое: [{test_target[0]:.2f}, {test_target[1]:.2f}, {test_target[2]:.2f}]")
+        print(f"  Предсказание: [{prediction[0][0]:.2f}, {prediction[0][1]:.2f}, {prediction[0][2]:.2f}]")
+        print(f"  Ошибка: {np.mean(np.abs(test_target - prediction[0])):.3f}")
+        print()
+    
+    # Сохраняем обученную модель
+    os.makedirs('data/models', exist_ok=True)
+    network.save_model('data/models/neural_network.json')
+    
+    print("✅ Обучение завершено!")
+    print("💾 Модель сохранена в: data/models/neural_network.json")
+    
+    return network
+
+def test_with_real_code():
+    """Тестирование с реальным кодом"""
+    print("\n🔍 Тестирование с реальным кодом...")
+    print("=" * 50)
+    
+    # Загружаем обученную модель
+    network = SimpleNeuralNetwork()
+    network.load_model('data/models/neural_network.json')
+    
+    analyzer = CodeAnalyzer()
+    
+    # Тестовые примеры кода
+    test_codes = [
+        {
+            "name": "Отличный код",
+            "code": """def sort_list(numbers):
+    \"\"\"Сортирует список чисел по возрастанию.\"\"\"
+    return sorted(numbers)"""
+        },
+        {
+            "name": "Хороший код",
+            "code": """def fibonacci(n):
+    if n <= 1:
+        return n
+    return fibonacci(n-1) + fibonacci(n-2)"""
+        },
+        {
+            "name": "Плохой код",
+            "code": """def find_max(numbers):
+    max = 0
+    for i in numbers:
+        if i > max:
+            max = i
+    return max"""
+        },
+        {
+            "name": "Ужасный код",
+            "code": """def count_words(text):
+    a = 0
+    b = 0
+    c = 0
+    for i in text:
+        if i == ' ':
+            a = a + 1
+        b = b + 1
+        c = c + 1
+    return a + 1"""
+        }
+    ]
+    
+    for test_case in test_codes:
+        print(f"📝 {test_case['name']}:")
+        
+        # Анализируем код
+        features = analyzer.extract_features(test_case['code'])
+        code_features = analyzer.get_code_features(test_case['code'])
+        
+        # Оцениваем качество
+        quality = network.evaluate_code_quality(code_features)
+        
+        print(f"  Правильность: {quality['correctness']:.2f}")
+        print(f"  Эффективность: {quality['efficiency']:.2f}")
+        print(f"  Читаемость: {quality['readability']:.2f}")
+        print(f"  Общая оценка: {np.mean(list(quality.values())):.2f}")
+        print()
+
+def main():
+    """Главная функция"""
+    print("🐍 ОБУЧЕНИЕ НЕЙРОННОЙ СЕТИ ДЛЯ АНАЛИЗА КАЧЕСТВА КОДА")
+    print("=" * 60)
+    
+    # Обучаем сеть
+    network = train_network()
+    
+    if network is not None:
+        # Тестируем на реальном коде
+        test_with_real_code()
+        
+        print("\n🎉 Обучение завершено успешно!")
+        print("🔧 Теперь нейронная сеть готова к использованию в приложении")
+    else:
+        print("\n❌ Обучение не удалось")
+
+if __name__ == '__main__':
+    main()

@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block title %}Список заданий - Система заданий Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-10 mx-auto">
+        <!-- Заголовок и фильтры -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h3 class="mb-0">📚 Список заданий</h3>
+                    </div>
+                    <div class="col-auto">
+                        <a href="{{ url_for('main.generate_task') }}" class="btn btn-primary">
+                            <i class="fas fa-plus me-2"></i>Создать задание
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form method="GET" class="row g-3">
+                    <div class="col-md-4">
+                        <label for="category" class="form-label">Категория</label>
+                        <select class="form-select" id="category" name="category">
+                            <option value="">Все категории</option>
+                            {% for category in categories %}
+                                <option value="{{ category }}" {{ 'selected' if selected_category == category }}>
+                                    {{ category|title }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="difficulty" class="form-label">Сложность</label>
+                        <select class="form-select" id="difficulty" name="difficulty">
+                            <option value="">Все уровни</option>
+                            {% for difficulty in difficulties %}
+                                <option value="{{ difficulty }}" {{ 'selected' if selected_difficulty == difficulty }}>
+                                    {{ difficulty|title }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label">&nbsp;</label>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-outline-primary">
+                                <i class="fas fa-filter me-2"></i>Фильтровать
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Список заданий -->
+        {% if tasks %}
+            <div class="row">
+                {% for task in tasks %}
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0">{{ task.title }}</h5>
+                            <div>
+                                <span class="badge bg-{{ 'success' if task.difficulty == 'easy' else 'warning' if task.difficulty == 'medium' else 'danger' }}">
+                                    {{ task.difficulty }}
+                                </span>
+                                <span class="badge bg-secondary">{{ task.category }}</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <p class="card-text">{{ task.description[:150] }}{% if task.description|length > 150 %}...{% endif %}</p>
+                            
+                            <div class="mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-calendar me-1"></i>
+                                    Создано: {{ task.created_at[:10] }}
+                                </small>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-vial me-1"></i>
+                                    Тестовых случаев: {{ task.test_cases|length }}
+                                </small>
+                            </div>
+                            
+                            {% if task.hints %}
+                            <div class="mb-3">
+                                <small class="text-muted">
+                                    <i class="fas fa-lightbulb me-1"></i>
+                                    Подсказок: {{ task.hints|length }}
+                                </small>
+                            </div>
+                            {% endif %}
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('main.solve_task', task_id=task.id) }}" class="btn btn-success">
+                                    <i class="fas fa-code me-2"></i>Решить задание
+                                </a>
+                                <button type="button" class="btn btn-outline-info btn-sm" onclick="showTaskDetails('{{ task.id }}')">
+                                    <i class="fas fa-info-circle me-1"></i>Подробнее
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="text-center py-5">
+                <div class="mb-4">
+                    <i class="fas fa-inbox fa-4x text-muted"></i>
+                </div>
+                <h4 class="text-muted">Задания не найдены</h4>
+                <p class="text-muted">Попробуйте изменить фильтры или создать новое задание</p>
+                <a href="{{ url_for('main.generate_task') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Создать задание
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Модальное окно с деталями задания -->
+<div class="modal fade" id="taskDetailsModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Детали задания</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body" id="taskDetailsContent">
+                <!-- Содержимое будет загружено здесь -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-success" id="solveFromModal">
+                    <i class="fas fa-code me-2"></i>Решить задание
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let currentTaskId = null;
+
+    function showTaskDetails(taskId) {
+        currentTaskId = taskId;
+        
+        // Загрузить детали задания
+        fetch(`/api/tasks?id=${taskId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.tasks.length > 0) {
+                    const task = data.tasks[0];
+                    displayTaskDetails(task);
+                    
+                    // Показать модальное окно
+                    const modal = new bootstrap.Modal(document.getElementById('taskDetailsModal'));
+                    modal.show();
+                } else {
+                    alert('Задание не найдено');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка загрузки задания:', error);
+                alert('Ошибка загрузки задания');
+            });
+    }
+
+    function displayTaskDetails(task) {
+        const container = document.getElementById('taskDetailsContent');
+        
+        container.innerHTML = `
+            <div class="mb-3">
+                <h5>${task.title}</h5>
+                <div class="mb-2">
+                    <span class="badge bg-${getDifficultyColor(task.difficulty)}">${task.difficulty}</span>
+                    <span class="badge bg-secondary ms-2">${task.category}</span>
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <h6>Описание:</h6>
+                <p>${task.description}</p>
+            </div>
+            
+            <div class="mb-3">
+                <h6>Тестовые случаи:</h6>
+                <div class="table-responsive">
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Входные данные</th>
+                                <th>Ожидаемый результат</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${task.test_cases.map(test => `
+                                <tr>
+                                    <td><code>${test.input}</code></td>
+                                    <td><code>${test.expected}</code></td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            ${task.hints && task.hints.length > 0 ? `
+            <div class="mb-3">
+                <h6>Подсказки:</h6>
+                <ul class="list-unstyled">
+                    ${task.hints.map(hint => `<li><i class="fas fa-lightbulb text-warning me-2"></i>${hint}</li>`).join('')}
+                </ul>
+            </div>
+            ` : ''}
+            
+            <div class="mb-3">
+                <h6>Шаблон решения:</h6>
+                <pre class="bg-light p-3 rounded"><code>${task.solution_template}</code></pre>
+            </div>
+            
+            <div class="text-muted">
+                <small>
+                    <i class="fas fa-calendar me-1"></i>
+                    Создано: ${new Date(task.created_at).toLocaleDateString('ru-RU')}
+                </small>
+            </div>
+        `;
+    }
+
+    function getDifficultyColor(difficulty) {
+        switch(difficulty) {
+            case 'easy': return 'success';
+            case 'medium': return 'warning';
+            case 'hard': return 'danger';
+            default: return 'secondary';
+        }
+    }
+
+    // Обработчик кнопки "Решить задание" в модальном окне
+    document.getElementById('solveFromModal').addEventListener('click', function() {
+        if (currentTaskId) {
+            window.location.href = `/solve/${currentTaskId}`;
+        }
+    });
+</script>
+{% endblock %}

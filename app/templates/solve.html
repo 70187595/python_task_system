@@ -1,0 +1,442 @@
+{% extends "base.html" %}
+
+{% block title %}Решение задания - Система заданий Python{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto">
+        <!-- Задание -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="mb-0">📝 Задание</h4>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <h5>{{ task.title }}</h5>
+                    <span class="badge bg-{{ 'success' if task.difficulty == 'easy' else 'warning' if task.difficulty == 'medium' else 'danger' }}">
+                        {{ task.difficulty }}
+                    </span>
+                    <span class="badge bg-secondary ms-2">{{ task.category }}</span>
+                </div>
+                
+                <div class="mb-3">
+                    <h6>Описание:</h6>
+                    <p>{{ task.description }}</p>
+                </div>
+                
+                <div class="mb-3">
+                    <h6>Тестовые случаи:</h6>
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Входные данные</th>
+                                    <th>Ожидаемый результат</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for test in task.test_cases %}
+                                <tr>
+                                    <td><code>{{ test.input }}</code></td>
+                                    <td><code>{{ test.expected }}</code></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <h6>Подсказки:</h6>
+                    <div class="accordion" id="hintsAccordion">
+                        {% for hint in task.hints %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="hint{{ loop.index }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ loop.index }}">
+                                    Подсказка {{ loop.index }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#hintsAccordion">
+                                <div class="accordion-body">
+                                    {{ hint }}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Редактор кода -->
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h4 class="mb-0">💻 Решение</h4>
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="clearCode()">
+                    <i class="fas fa-eraser me-1"></i>Очистить
+                </button>
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label for="codeEditor" class="form-label">
+                        <i class="fas fa-code me-2"></i>Ваш код:
+                    </label>
+                    <textarea id="codeEditor" name="code" class="form-control code-textarea" style="height: 300px;">{{ task.solution_template|e }}</textarea>
+                    <div id="editor" style="display: none;"></div>
+                </div>
+                
+                <div class="text-center">
+                    <button type="button" class="btn btn-success btn-lg" id="checkButton" onclick="checkSolution()">
+                        <i class="fas fa-play me-2"></i>Проверить решение
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Результаты -->
+        <div id="results" style="display: none;">
+            <!-- Результаты тестирования -->
+            <div id="testResults" class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0">🧪 Результаты тестирования</h4>
+                </div>
+                <div class="card-body">
+                    <div id="testResultsContent">
+                        <!-- Результаты тестов будут загружены здесь -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Анализ кода -->
+            <div id="codeAnalysis" class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0">📊 Анализ качества кода</h4>
+                </div>
+                <div class="card-body">
+                    <div id="analysisContent">
+                        <!-- Анализ кода будет загружен здесь -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Итоговая оценка -->
+            <div id="finalScore" class="card mb-4">
+                <div class="card-header">
+                    <h4 class="mb-0">🏆 Итоговая оценка</h4>
+                </div>
+                <div class="card-body text-center">
+                    <div id="scoreContent">
+                        <!-- Итоговая оценка будет загружена здесь -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Загрузка -->
+        <div id="loading" style="display: none;" class="text-center">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Проверяем решение...</span>
+            </div>
+            <p class="mt-2">Проверяем ваше решение...</p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    let codeEditor = null;
+    let currentTaskId = '{{ task.id }}';
+    let useCodeMirror = false;
+
+    // Инициализация редактора кода
+    document.addEventListener('DOMContentLoaded', function() {
+        // Пытаемся инициализировать CodeMirror
+        if (typeof CodeMirror !== 'undefined') {
+            try {
+                const initialValue = document.getElementById('codeEditor').value;
+                codeEditor = CodeMirror(document.getElementById('editor'), {
+                    value: initialValue,
+                    mode: 'python',
+                    theme: 'default',
+                    lineNumbers: true,
+                    indentUnit: 4,
+                    indentWithTabs: false,
+                    lineWrapping: true,
+                    autoCloseBrackets: true,
+                    matchBrackets: true,
+                    styleActiveLine: true,
+                    foldGutter: true,
+                    gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+                });
+                
+                // Скрываем textarea и показываем CodeMirror
+                document.getElementById('codeEditor').style.display = 'none';
+                document.getElementById('editor').style.display = 'block';
+                useCodeMirror = true;
+                
+                console.log('✅ CodeMirror инициализирован');
+            } catch (e) {
+                console.log('⚠️ CodeMirror не удалось инициализировать:', e);
+                useCodeMirror = false;
+            }
+        } else {
+            console.log('⚠️ CodeMirror не загружен, используем обычный textarea');
+            useCodeMirror = false;
+        }
+        
+        // Фокусируемся на редакторе
+        if (useCodeMirror) {
+            codeEditor.focus();
+        } else {
+            document.getElementById('codeEditor').focus();
+        }
+    });
+
+    // Обработчик для кнопки проверки
+    document.getElementById('checkButton').addEventListener('click', function(e) {
+        console.log('🔘 Кнопка нажата');
+        alert('Кнопка нажата!'); // Временная проверка
+        e.preventDefault();
+        e.stopPropagation();
+        checkSolution();
+        return false;
+    });
+    
+    // Обработчик Enter+Ctrl для отправки
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'Enter') {
+            e.preventDefault();
+            checkSolution();
+        }
+    });
+
+    function checkSolution() {
+        console.log('🚀 Функция checkSolution вызвана');
+        alert('checkSolution вызвана!'); // Временная проверка
+        
+        let code = document.getElementById('codeEditor').value;
+        console.log('📝 Код:', code.substring(0, 100) + '...');
+        
+        if (!code.trim()) {
+            alert('Введите код решения');
+            return;
+        }
+
+        console.log('Отправляем код на проверку:', code);
+        console.log('ID задания:', currentTaskId);
+        alert('Отправляем запрос на сервер...');
+
+        // Показать загрузку
+        document.getElementById('loading').style.display = 'block';
+        document.getElementById('results').style.display = 'none';
+
+        // Отправить запрос на проверку
+        const requestData = {
+            task_id: currentTaskId,
+            code: code
+        };
+        
+        console.log('Данные запроса:', requestData);
+        
+        fetch('/api/check-solution', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(requestData)
+        })
+        .then(response => {
+            console.log('Ответ сервера:', response.status);
+            return response.json();
+        })
+        .then(data => {
+            console.log('Данные ответа:', data);
+            document.getElementById('loading').style.display = 'none';
+            
+            if (data.success) {
+                displayResults(data);
+            } else {
+                alert('Ошибка проверки решения: ' + data.error);
+            }
+        })
+        .catch(error => {
+            document.getElementById('loading').style.display = 'none';
+            console.error('Ошибка запроса:', error);
+            alert('Произошла ошибка при проверке решения: ' + error.message);
+        });
+    }
+
+    function displayResults(data) {
+        // Показать результаты
+        document.getElementById('results').style.display = 'block';
+        
+        // Результаты тестирования
+        displayTestResults(data.test_results);
+        
+        // Анализ кода
+        displayCodeAnalysis(data.analysis);
+        
+        // Итоговая оценка
+        displayFinalScore(data.score);
+    }
+
+    function displayTestResults(testResults) {
+        const container = document.getElementById('testResultsContent');
+        
+        if (!testResults || testResults.length === 0) {
+            container.innerHTML = '<p class="text-muted">Нет результатов тестирования</p>';
+            return;
+        }
+
+        const passedTests = testResults.filter(test => test.passed).length;
+        const totalTests = testResults.length;
+        
+        let html = `
+            <div class="mb-3">
+                <h6>Результаты: ${passedTests}/${totalTests} тестов пройдено</h6>
+                <div class="progress mb-3">
+                    <div class="progress-bar ${passedTests === totalTests ? 'bg-success' : 'bg-warning'}" 
+                         style="width: ${(passedTests / totalTests) * 100}%">
+                    </div>
+                </div>
+            </div>
+        `;
+
+        testResults.forEach((test, index) => {
+            const testClass = test.passed ? 'test-passed' : 'test-failed';
+            const icon = test.passed ? 'fa-check-circle text-success' : 'fa-times-circle text-danger';
+            
+            html += `
+                <div class="test-result ${testClass} p-3 rounded mb-2">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div class="flex-grow-1">
+                            <h6 class="mb-2">
+                                <i class="fas ${icon} me-2"></i>
+                                Тест ${index + 1} ${test.passed ? 'пройден' : 'не пройден'}
+                            </h6>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <strong>Входные данные:</strong><br>
+                                    <code>${test.input}</code>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Ожидаемый результат:</strong><br>
+                                    <code>${test.expected}</code>
+                                </div>
+                                <div class="col-md-4">
+                                    <strong>Полученный результат:</strong><br>
+                                    <code>${test.actual || 'Ошибка выполнения'}</code>
+                                </div>
+                            </div>
+                            ${test.error ? `<div class="mt-2"><strong>Ошибка:</strong> <code>${test.error}</code></div>` : ''}
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted">${formatExecutionTime(test.execution_time)}</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+
+        container.innerHTML = html;
+    }
+
+    function displayCodeAnalysis(analysis) {
+        const container = document.getElementById('analysisContent');
+        
+        let html = `
+            <div class="row">
+                <div class="col-md-6">
+                    <h6>Основные характеристики:</h6>
+                    <ul class="list-unstyled">
+                        <li><strong>Строк кода:</strong> ${analysis.lines_of_code}</li>
+                        <li><strong>Функций:</strong> ${analysis.functions_count}</li>
+                        <li><strong>Сложность:</strong> ${analysis.complexity_score.toFixed(2)}</li>
+                        <li><strong>Синтаксис:</strong> 
+                            <span class="badge bg-${analysis.syntax_valid ? 'success' : 'danger'}">
+                                ${analysis.syntax_valid ? 'Корректный' : 'Ошибки'}
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h6>Оценки качества (нейронная сеть):</h6>
+                    <div class="mb-2">
+                        <strong>Правильность:</strong> 
+                        <span class="quality-score ${getScoreClass(analysis.quality_scores.correctness * 100)}">
+                            ${(analysis.quality_scores.correctness * 100).toFixed(1)}%
+                        </span>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Эффективность:</strong> 
+                        <span class="quality-score ${getScoreClass(analysis.quality_scores.efficiency * 100)}">
+                            ${(analysis.quality_scores.efficiency * 100).toFixed(1)}%
+                        </span>
+                    </div>
+                    <div class="mb-2">
+                        <strong>Читаемость:</strong> 
+                        <span class="quality-score ${getScoreClass(analysis.quality_scores.readability * 100)}">
+                            ${(analysis.quality_scores.readability * 100).toFixed(1)}%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        if (analysis.suggestions && analysis.suggestions.length > 0) {
+            html += `
+                <div class="mt-3">
+                    <h6>Рекомендации по улучшению:</h6>
+                    <ul class="list-unstyled">
+                        ${analysis.suggestions.map(suggestion => 
+                            `<li><i class="fas fa-lightbulb text-warning me-2"></i>${suggestion}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+            `;
+        }
+
+        container.innerHTML = html;
+    }
+
+    function displayFinalScore(score) {
+        const container = document.getElementById('scoreContent');
+        
+        const scoreClass = getScoreClass(score);
+        const scoreText = score >= 90 ? 'Отлично!' : 
+                         score >= 70 ? 'Хорошо!' : 
+                         score >= 50 ? 'Удовлетворительно' : 'Требует доработки';
+        
+        container.innerHTML = `
+            <div class="mb-3">
+                <div class="quality-score ${scoreClass} display-4">
+                    ${score.toFixed(1)}%
+                </div>
+                <h5 class="mt-2">${scoreText}</h5>
+            </div>
+            
+            <div class="mt-3">
+                <button type="button" class="btn btn-outline-primary me-2" onclick="checkSolution()">
+                    <i class="fas fa-redo me-2"></i>Проверить снова
+                </button>
+                <a href="{{ url_for('main.list_tasks') }}" class="btn btn-primary">
+                    <i class="fas fa-list me-2"></i>К списку заданий
+                </a>
+            </div>
+        `;
+    }
+
+    function clearCode() {
+        const template = `{{ task.solution_template|e|replace('\n', '\\n')|replace('\r', '\\r')|replace('"', '\\"') }}`;
+        
+        if (useCodeMirror && codeEditor) {
+            codeEditor.setValue(template);
+            codeEditor.focus();
+        } else {
+            document.getElementById('codeEditor').value = template;
+            document.getElementById('codeEditor').focus();
+        }
+    }
+</script>
+{% endblock %}
