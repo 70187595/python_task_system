@@ -5061,6 +5061,122 @@ def generate_training_data():
     
     return training_data
 
+def get_dataset_statistics(data):
+    """
+    Подсчёт детальной статистики датасета.
+    
+    Args:
+        data: список примеров обучающих данных
+        
+    Returns:
+        dict: словарь со статистикой датасета
+    """
+    if not data:
+        return {}
+    
+    stats = {
+        'total_examples': len(data),
+        'quality_distribution': {},
+        'features_stats': {},
+        'target_stats': {}
+    }
+    
+    # Распределение по качеству
+    excellent = [d for d in data if all(score >= 0.85 for score in d['target'])]
+    good = [d for d in data if all(0.7 <= score < 0.85 for score in d['target'])]
+    medium = [d for d in data if all(0.5 <= score < 0.7 for score in d['target'])]
+    poor = [d for d in data if any(score < 0.5 for score in d['target'])]
+    
+    stats['quality_distribution'] = {
+        'excellent': len(excellent),
+        'good': len(good),
+        'medium': len(medium),
+        'poor': len(poor)
+    }
+    
+    # Статистика по features
+    feature_names = list(data[0]['features'].keys())
+    for feature in feature_names:
+        values = [d['features'][feature] for d in data]
+        stats['features_stats'][feature] = {
+            'min': min(values),
+            'max': max(values),
+            'avg': sum(values) / len(values),
+            'median': sorted(values)[len(values) // 2]
+        }
+    
+    # Статистика по целевым значениям (correctness, efficiency, readability)
+    target_names = ['correctness', 'efficiency', 'readability']
+    for i, name in enumerate(target_names):
+        values = [d['target'][i] for d in data]
+        stats['target_stats'][name] = {
+            'min': min(values),
+            'max': max(values),
+            'avg': sum(values) / len(values),
+            'median': sorted(values)[len(values) // 2]
+        }
+    
+    # Распределение количества строк кода
+    lines_distribution = {}
+    for d in data:
+        lines = int(d['features']['lines_of_code'])
+        lines_range = f"{(lines // 5) * 5}-{(lines // 5) * 5 + 4}"
+        lines_distribution[lines_range] = lines_distribution.get(lines_range, 0) + 1
+    stats['lines_distribution'] = dict(sorted(lines_distribution.items()))
+    
+    # Распределение по наличию классов
+    with_classes = len([d for d in data if d['features']['class_count'] > 0])
+    stats['class_distribution'] = {
+        'with_classes': with_classes,
+        'without_classes': len(data) - with_classes
+    }
+    
+    return stats
+
+
+def print_dataset_statistics(stats):
+    """
+    Красиво выводит статистику датасета.
+    
+    Args:
+        stats: словарь со статистикой из get_dataset_statistics()
+    """
+    print("\n" + "=" * 70)
+    print("📊 ДЕТАЛЬНАЯ СТАТИСТИКА ДАТАСЕТА")
+    print("=" * 70)
+    
+    print(f"\n📦 Общее количество примеров: {stats['total_examples']}")
+    
+    print("\n🎯 Распределение по качеству:")
+    for quality, count in stats['quality_distribution'].items():
+        percentage = (count / stats['total_examples']) * 100
+        print(f"   {quality.capitalize():12s}: {count:3d} ({percentage:5.1f}%)")
+    
+    print("\n📏 Статистика по целевым метрикам:")
+    for name, values in stats['target_stats'].items():
+        print(f"   {name.capitalize():12s}: min={values['min']:.2f}, max={values['max']:.2f}, "
+              f"avg={values['avg']:.2f}, median={values['median']:.2f}")
+    
+    print("\n📈 Распределение по строкам кода:")
+    for lines_range, count in stats['lines_distribution'].items():
+        percentage = (count / stats['total_examples']) * 100
+        bar = "█" * int(percentage / 2)
+        print(f"   {lines_range:10s}: {bar} {count:3d} ({percentage:5.1f}%)")
+    
+    print("\n🏗️  Распределение по использованию классов:")
+    for cls_type, count in stats['class_distribution'].items():
+        percentage = (count / stats['total_examples']) * 100
+        print(f"   {cls_type.replace('_', ' ').capitalize():20s}: {count:3d} ({percentage:5.1f}%)")
+    
+    print("\n📊 Топ-5 признаков по средним значениям:")
+    sorted_features = sorted(stats['features_stats'].items(), 
+                            key=lambda x: x[1]['avg'], reverse=True)
+    for feature, values in sorted_features[:5]:
+        print(f"   {feature:25s}: avg={values['avg']:6.2f}")
+    
+    print("\n" + "=" * 70)
+
+
 def save_training_data():
     """Сохранение обучающих данных в файл"""
     data = generate_training_data()
@@ -5075,15 +5191,11 @@ def save_training_data():
     print(f"✅ Создано {len(data)} примеров обучающих данных")
     print("📁 Сохранено в: data/training_data/training_data.json")
     
-    # Статистика
-    excellent_count = len([d for d in data if all(score >= 0.8 for score in d['target'])])
-    good_count = len([d for d in data if any(0.6 <= score < 0.8 for score in d['target'])])
-    poor_count = len([d for d in data if all(score < 0.6 for score in d['target'])])
+    # Получаем и выводим детальную статистику
+    stats = get_dataset_statistics(data)
+    print_dataset_statistics(stats)
     
-    print(f"\n📊 Статистика:")
-    print(f"   Отличные решения: {excellent_count}")
-    print(f"   Хорошие решения: {good_count}")
-    print(f"   Плохие решения: {poor_count}")
+    return data, stats
 
 if __name__ == '__main__':
     save_training_data()
