@@ -3196,6 +3196,535 @@ def generate_file_examples():
         }
     ]
 
+def generate_oop_examples():
+    """Генерация примеров ООП с классами (все уровни качества)"""
+    return [
+        # Отличные примеры (7)
+        {
+            "code": """class Rectangle:
+    \"\"\"Прямоугольник с шириной и высотой.\"\"\"
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def area(self):
+        \"\"\"Вычисляет площадь.\"\"\"
+        return self.width * self.height""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.22,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """class Counter:
+    \"\"\"Счётчик с методами увеличения и сброса.\"\"\"
+    def __init__(self):
+        self.count = 0
+    
+    def increment(self):
+        self.count += 1
+    
+    def reset(self):
+        self.count = 0""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 3.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.1,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        {
+            "code": """class Point:
+    \"\"\"Точка в 2D пространстве.\"\"\"
+    def __init__(self, x=0, y=0):
+        self.x = x
+        self.y = y
+    
+    def distance_to(self, other):
+        \"\"\"Расстояние до другой точки.\"\"\"
+        return ((self.x - other.x)**2 + (self.y - other.y)**2)**0.5""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.22,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """class BankAccount:
+    \"\"\"Банковский счёт.\"\"\"
+    def __init__(self, balance=0):
+        self.balance = balance
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance += amount
+    
+    def withdraw(self, amount):
+        if 0 < amount <= self.balance:
+            self.balance -= amount
+            return True
+        return False""",
+            "features": {
+                "lines_of_code": 14.0,
+                "functions_count": 3.0,
+                "complexity": 0.4,
+                "nested_levels": 2.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.07,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.85, 0.9]
+        },
+        {
+            "code": """class Person:
+    \"\"\"Человек с именем и возрастом.\"\"\"
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def __str__(self):
+        return f\"{self.name}, {self.age} лет\"""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.125,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.95]
+        },
+        {
+            "code": """class Stack:
+    \"\"\"Стек (LIFO).\"\"\"
+    def __init__(self):
+        self._items = []
+    
+    def push(self, item):
+        self._items.append(item)
+    
+    def pop(self):
+        return self._items.pop() if self._items else None""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 3.0,
+                "complexity": 0.2,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.1,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        {
+            "code": """class Car:
+    \"\"\"Автомобиль с маркой и годом.\"\"\"
+    def __init__(self, brand, year):
+        self.brand = brand
+        self.year = year
+    
+    @property
+    def age(self):
+        from datetime import datetime
+        return datetime.now().year - self.year""",
+            "features": {
+                "lines_of_code": 10.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.1,
+                "imports_count": 1.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.95, 0.9, 0.9]
+        },
+        
+        # Средние примеры (7)
+        {
+            "code": """class Rectangle:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
+    
+    def area(self):
+        result = self.width * self.height
+        return result""",
+            "features": {
+                "lines_of_code": 8.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        {
+            "code": """class Counter:
+    def __init__(self):
+        self.count = 0
+    
+    def increment(self):
+        self.count = self.count + 1
+    
+    def reset(self):
+        self.count = 0""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 3.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 9.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        {
+            "code": """class Point:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+    
+    def distance_to(self, other):
+        dx = self.x - other.x
+        dy = self.y - other.y
+        return (dx**2 + dy**2)**0.5""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.8, 0.75, 0.75]
+        },
+        {
+            "code": """class BankAccount:
+    def __init__(self):
+        self.balance = 0
+    
+    def deposit(self, amount):
+        if amount > 0:
+            self.balance = self.balance + amount
+    
+    def withdraw(self, amount):
+        if amount > 0:
+            if amount <= self.balance:
+                self.balance = self.balance - amount""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 3.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 10.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        {
+            "code": """class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+    
+    def get_info(self):
+        return self.name + ', ' + str(self.age) + ' лет'""",
+            "features": {
+                "lines_of_code": 7.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        {
+            "code": """class Stack:
+    def __init__(self):
+        self.items = []
+    
+    def push(self, item):
+        self.items.append(item)
+    
+    def pop(self):
+        if len(self.items) > 0:
+            return self.items.pop()
+        return None""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 3.0,
+                "complexity": 0.2,
+                "nested_levels": 2.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.75, 0.7, 0.7]
+        },
+        {
+            "code": """class Car:
+    def __init__(self, brand, year):
+        self.brand = brand
+        self.year = year
+    
+    def get_age(self):
+        current_year = 2024
+        age = current_year - self.year
+        return age""",
+            "features": {
+                "lines_of_code": 9.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 8.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.7, 0.65, 0.7]
+        },
+        
+        # Плохие примеры (6)
+        {
+            "code": """class Rectangle:
+    def __init__(self, width, height):
+        self.a = width
+        self.b = height
+    
+    def area(self):
+        c = self.a
+        d = self.b
+        e = c * d
+        f = e
+        return f""",
+            "features": {
+                "lines_of_code": 11.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.5, 0.3]
+        },
+        {
+            "code": """class Counter:
+    def __init__(self):
+        self.a = 0
+        self.b = 0
+    
+    def increment(self):
+        self.a = self.a + 1
+        self.b = self.b + 1
+    
+    def reset(self):
+        self.a = 0
+        self.b = 0""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 3.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """class Point:
+    def __init__(self, x, y):
+        self.a = x
+        self.b = y
+    
+    def distance_to(self, other):
+        c = self.a
+        d = other.a
+        e = c - d
+        f = self.b
+        g = other.b
+        h = f - g
+        i = e * e
+        j = h * h
+        k = i + j
+        m = k ** 0.5
+        return m""",
+            "features": {
+                "lines_of_code": 17.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.3, 0.3]
+        },
+        {
+            "code": """class BankAccount:
+    def __init__(self):
+        self.a = 0
+        self.b = 0
+    
+    def deposit(self, amount):
+        c = amount
+        if c > 0:
+            self.a = self.a + c
+        self.b = self.b + 1
+    
+    def withdraw(self, amount):
+        d = amount
+        if d > 0:
+            if d <= self.a:
+                self.a = self.a - d""",
+            "features": {
+                "lines_of_code": 16.0,
+                "functions_count": 3.0,
+                "complexity": 0.4,
+                "nested_levels": 3.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.5, 0.4, 0.3]
+        },
+        {
+            "code": """class Stack:
+    def __init__(self):
+        self.a = []
+        self.b = 0
+    
+    def push(self, item):
+        self.a.append(item)
+        self.b = self.b + 1
+    
+    def pop(self):
+        c = len(self.a)
+        if c > 0:
+            d = self.a.pop()
+            self.b = self.b - 1
+            return d
+        return None""",
+            "features": {
+                "lines_of_code": 16.0,
+                "functions_count": 3.0,
+                "complexity": 0.2,
+                "nested_levels": 2.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 1.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.4, 0.4]
+        },
+        {
+            "code": """class Car:
+    def __init__(self, brand, year):
+        self.a = brand
+        self.b = year
+        self.c = 0
+    
+    def get_age(self):
+        d = 2024
+        e = self.b
+        f = d - e
+        g = f
+        return g""",
+            "features": {
+                "lines_of_code": 12.0,
+                "functions_count": 2.0,
+                "complexity": 0.1,
+                "nested_levels": 1.0,
+                "variable_names_length": 3.0,
+                "comments_ratio": 0.0,
+                "imports_count": 0.0,
+                "class_count": 1.0,
+                "error_handling": 0.0,
+                "test_coverage": 0.0
+            },
+            "target": [0.6, 0.5, 0.3]
+        }
+    ]
+
 def generate_training_data():
     """Генерация обучающих данных для нейронной сети"""
     
@@ -3696,6 +4225,9 @@ def generate_training_data():
     
     # Добавляем примеры работы с файлами (все уровни)
     training_data.extend(generate_file_examples())
+    
+    # Добавляем примеры ООП с классами (все уровни)
+    training_data.extend(generate_oop_examples())
     
     return training_data
 
