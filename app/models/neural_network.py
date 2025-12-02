@@ -14,7 +14,7 @@ class SimpleNeuralNetwork:
     """
     
     def __init__(self, input_size: int = 10, hidden_size: int = 8, output_size: int = 3, 
-                 activation: str = 'sigmoid', hidden_size2: int = None):
+                 activation: str = 'sigmoid', hidden_size2: int = None, dropout_rate: float = 0.0):
         """
         Инициализация нейронной сети
         
@@ -24,12 +24,14 @@ class SimpleNeuralNetwork:
             output_size: Размер выходного слоя (оценка качества)
             activation: Функция активации ('sigmoid' или 'relu')
             hidden_size2: Размер второго скрытого слоя (опционально, для глубокой сети)
+            dropout_rate: Вероятность dropout (0.0 = нет dropout, 0.3 = отключить 30% нейронов)
         """
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.hidden_size2 = hidden_size2  # Новый параметр для второго скрытого слоя
         self.output_size = output_size
         self.activation = activation
+        self.dropout_rate = dropout_rate  # Вероятность dropout
         
         # Определяем, используем ли два скрытых слоя
         self.use_two_hidden_layers = hidden_size2 is not None
@@ -100,12 +102,37 @@ class SimpleNeuralNetwork:
         else:
             return self.sigmoid_derivative(x)
     
-    def forward(self, inputs: np.ndarray):
+    def apply_dropout(self, x: np.ndarray, training: bool = True) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Применяет dropout к слою
+        
+        Dropout случайным образом "выключает" нейроны во время обучения,
+        что помогает предотвратить переобучение.
+        
+        Args:
+            x: Выходы слоя
+            training: Если True, применяет dropout; если False (inference), возвращает x как есть
+            
+        Returns:
+            Кортеж (выходы с dropout, маска dropout)
+        """
+        if not training or self.dropout_rate == 0.0:
+            return x, np.ones_like(x)
+        
+        # Создаем маску: каждый нейрон остается активным с вероятностью (1 - dropout_rate)
+        mask = np.random.binomial(1, 1 - self.dropout_rate, size=x.shape)
+        
+        # Применяем маску и масштабируем, чтобы сохранить ожидаемое значение
+        # Это называется "inverted dropout"
+        return (x * mask) / (1 - self.dropout_rate), mask
+    
+    def forward(self, inputs: np.ndarray, training: bool = False):
         """
         Прямое распространение
         
         Args:
             inputs: Входные данные
+            training: Если True, применяет dropout; если False, не применяет
             
         Returns:
             Кортеж выходов всех слоёв (зависит от архитектуры)
@@ -116,12 +143,14 @@ class SimpleNeuralNetwork:
             # Первый скрытый слой
             hidden1_input = np.dot(inputs, self.weights_input_hidden1) + self.bias_hidden1
             hidden1_output = self.activate(hidden1_input)
+            hidden1_output, _ = self.apply_dropout(hidden1_output, training)
             
             # Второй скрытый слой
             hidden2_input = np.dot(hidden1_output, self.weights_hidden1_hidden2) + self.bias_hidden2
             hidden2_output = self.activate(hidden2_input)
+            hidden2_output, _ = self.apply_dropout(hidden2_output, training)
             
-            # Выходной слой (всегда sigmoid для значений 0-1)
+            # Выходной слой (всегда sigmoid для значений 0-1, без dropout)
             output_input = np.dot(hidden2_output, self.weights_hidden2_output) + self.bias_output
             output = self.sigmoid(output_input)
             
@@ -130,8 +159,9 @@ class SimpleNeuralNetwork:
             # Скрытый слой (используем выбранную функцию активации)
             hidden_input = np.dot(inputs, self.weights_input_hidden) + self.bias_hidden
             hidden_output = self.activate(hidden_input)
+            hidden_output, _ = self.apply_dropout(hidden_output, training)
             
-            # Выходной слой (всегда sigmoid для значений 0-1)
+            # Выходной слой (всегда sigmoid для значений 0-1, без dropout)
             output_input = np.dot(hidden_output, self.weights_hidden_output) + self.bias_output
             output = self.sigmoid(output_input)
             
@@ -226,8 +256,8 @@ class SimpleNeuralNetwork:
             total_error = 0
             
             for inputs, target in training_data:
-                # Прямое распространение
-                forward_outputs = self.forward(inputs)
+                # Прямое распространение (с dropout если задан)
+                forward_outputs = self.forward(inputs, training=True)
                 output = forward_outputs[-1]  # Последний элемент всегда output
                 
                 # Обратное распространение
@@ -368,6 +398,7 @@ class SimpleNeuralNetwork:
             'output_size': self.output_size,
             'learning_rate': self.learning_rate,
             'activation': self.activation,
+            'dropout_rate': self.dropout_rate,
             'use_two_hidden_layers': self.use_two_hidden_layers
         }
         
@@ -406,6 +437,7 @@ class SimpleNeuralNetwork:
         self.output_size = model_data['output_size']
         self.learning_rate = model_data['learning_rate']
         self.activation = model_data.get('activation', 'sigmoid')
+        self.dropout_rate = model_data.get('dropout_rate', 0.0)
         self.use_two_hidden_layers = model_data.get('use_two_hidden_layers', False)
         
         if self.use_two_hidden_layers:
