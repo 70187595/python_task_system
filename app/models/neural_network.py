@@ -1,5 +1,34 @@
 """
 Простая нейронная сеть для анализа качества кода Python
+
+МАТЕМАТИЧЕСКОЕ ОБОСНОВАНИЕ
+==========================
+
+Полное математическое описание архитектуры см. в docs/MATHEMATICAL_FOUNDATION.md
+
+АРХИТЕКТУРА:
+    Входной слой (10) → Скрытый слой (8) → Выходной слой (3)
+    
+    x ∈ ℝ¹⁰  →  h = σ(W⁽¹⁾x + b⁽¹⁾) ∈ ℝ⁸  →  y = σ(W⁽²⁾h + b⁽²⁾) ∈ ℝ³
+
+ПАРАМЕТРЫ:
+    - W⁽¹⁾ ∈ ℝ⁸ˣ¹⁰ : веса входного слоя (80 параметров)
+    - b⁽¹⁾ ∈ ℝ⁸    : смещения скрытого слоя (8 параметров)
+    - W⁽²⁾ ∈ ℝ³ˣ⁸  : веса скрытого слоя (24 параметра)
+    - b⁽²⁾ ∈ ℝ³    : смещения выходного слоя (3 параметра)
+    ИТОГО: 115 параметров
+
+ФУНКЦИЯ АКТИВАЦИИ (Sigmoid):
+    σ(z) = 1 / (1 + e⁻ᶻ)
+    σ'(z) = σ(z) · (1 - σ(z))
+
+ФУНКЦИЯ ПОТЕРЬ (MSE):
+    L = 1/N Σᵢ ||yᵢ - ŷᵢ||² = 1/N Σᵢ Σⱼ (yᵢⱼ - ŷᵢⱼ)²
+
+ГРАДИЕНТНЫЙ СПУСК:
+    W := W + α · ∂L/∂W
+    b := b + α · ∂L/∂b
+    где α = learning_rate
 """
 
 import numpy as np
@@ -37,20 +66,70 @@ class SimpleNeuralNetwork:
         self.use_two_hidden_layers = hidden_size2 is not None
         
         if self.use_two_hidden_layers:
-            # Архитектура с двумя скрытыми слоями: Input → Hidden1 → Hidden2 → Output
+            # ============================================================
+            # ИНИЦИАЛИЗАЦИЯ ВЕСОВ: Два скрытых слоя (10→h1→h2→3)
+            # ============================================================
+            # 
+            # МАТЕМАТИКА:
+            #   W ~ N(0, σ²) где σ = 0.1
+            #   b = 0
+            # 
+            # ОБОСНОВАНИЕ:
+            #   1. Малые случайные веса (0.1) предотвращают насыщение sigmoid
+            #   2. Случайность разрушает симметрию (нейроны учатся разному)
+            #   3. Нулевые смещения - стандартная практика
+            # 
+            # См. также: docs/MATHEMATICAL_FOUNDATION.md, раздел 7
+            # ============================================================
+            
+            # W⁽¹⁾ ∈ ℝ^(input_size × hidden_size)
             self.weights_input_hidden1 = np.random.randn(input_size, hidden_size) * 0.1
+            
+            # W⁽²⁾ ∈ ℝ^(hidden_size × hidden_size2)
             self.weights_hidden1_hidden2 = np.random.randn(hidden_size, hidden_size2) * 0.1
+            
+            # W⁽³⁾ ∈ ℝ^(hidden_size2 × output_size)
             self.weights_hidden2_output = np.random.randn(hidden_size2, output_size) * 0.1
             
+            # b⁽¹⁾ ∈ ℝ^hidden_size
             self.bias_hidden1 = np.zeros((1, hidden_size))
+            
+            # b⁽²⁾ ∈ ℝ^hidden_size2
             self.bias_hidden2 = np.zeros((1, hidden_size2))
+            
+            # b⁽³⁾ ∈ ℝ^output_size
             self.bias_output = np.zeros((1, output_size))
         else:
-            # Архитектура с одним скрытым слоем: Input → Hidden → Output
+            # ============================================================
+            # ИНИЦИАЛИЗАЦИЯ ВЕСОВ: Один скрытый слой (10→8→3)
+            # ============================================================
+            # 
+            # МАТЕМАТИКА:
+            #   W⁽¹⁾ ~ N(0, 0.01) ∈ ℝ⁸ˣ¹⁰  (80 весов)
+            #   W⁽²⁾ ~ N(0, 0.01) ∈ ℝ³ˣ⁸   (24 веса)
+            #   b⁽¹⁾ = 0 ∈ ℝ⁸              (8 смещений)
+            #   b⁽²⁾ = 0 ∈ ℝ³              (3 смещения)
+            #   
+            #   Всего параметров: 80 + 24 + 8 + 3 = 115
+            # 
+            # ПОЧЕМУ 0.1?
+            #   - Слишком большие веса → насыщение sigmoid → затухание градиента
+            #   - Слишком малые веса → медленное обучение
+            #   - 0.1 - эмпирически оптимальное значение для нашей задачи
+            # 
+            # См. также: docs/MATHEMATICAL_FOUNDATION.md, раздел 7
+            # ============================================================
+            
+            # W⁽¹⁾: веса связей входной → скрытый слой
             self.weights_input_hidden = np.random.randn(input_size, hidden_size) * 0.1
+            
+            # W⁽²⁾: веса связей скрытый → выходной слой
             self.weights_hidden_output = np.random.randn(hidden_size, output_size) * 0.1
             
+            # b⁽¹⁾: смещения скрытого слоя
             self.bias_hidden = np.zeros((1, hidden_size))
+            
+            # b⁽²⁾: смещения выходного слоя
             self.bias_output = np.zeros((1, output_size))
         
         # Параметры обучения
@@ -60,11 +139,51 @@ class SimpleNeuralNetwork:
         self.load_trained_model()
         
     def sigmoid(self, x: np.ndarray) -> np.ndarray:
-        """Функция активации sigmoid"""
+        """
+        Функция активации sigmoid (сигмоида)
+        
+        МАТЕМАТИКА:
+            σ(z) = 1 / (1 + e⁻ᶻ)
+        
+        СВОЙСТВА:
+            - Область значений: (0, 1)
+            - Монотонно возрастающая
+            - Дифференцируема везде
+            - σ(-z) = 1 - σ(z)
+            - lim(z→∞) σ(z) = 1
+            - lim(z→-∞) σ(z) = 0
+        
+        ПРИМЕНЕНИЕ:
+            - Скрытый слой: нелинейное преобразование признаков
+            - Выходной слой: значения в диапазоне [0, 1] для оценок качества
+        
+        CLIPPING:
+            np.clip(x, -500, 500) предотвращает overflow в exp()
+        
+        См. также: docs/MATHEMATICAL_FOUNDATION.md, раздел 3
+        """
         return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
     
     def sigmoid_derivative(self, x: np.ndarray) -> np.ndarray:
-        """Производная функции sigmoid"""
+        """
+        Производная функции sigmoid
+        
+        МАТЕМАТИКА:
+            σ'(z) = σ(z) · (1 - σ(z))
+        
+        УПРОЩЕНИЕ:
+            Если a = σ(z) уже вычислено, то:
+            σ'(z) = a · (1 - a)
+        
+        ПРИМЕНЕНИЕ В BACKPROPAGATION:
+            δ = error ⊙ σ'(z)
+            где ⊙ - поэлементное умножение (Hadamard product)
+        
+        Args:
+            x: Уже активированные значения σ(z), не сырые z!
+        
+        См. также: docs/MATHEMATICAL_FOUNDATION.md, раздел 3.3
+        """
         return x * (1 - x)
     
     def relu(self, x: np.ndarray) -> np.ndarray:
@@ -128,16 +247,42 @@ class SimpleNeuralNetwork:
     
     def forward(self, inputs: np.ndarray, training: bool = False):
         """
-        Прямое распространение
+        Прямое распространение (Forward Pass)
+        
+        МАТЕМАТИКА (один скрытый слой):
+            1. Скрытый слой:
+               z⁽¹⁾ = W⁽¹⁾x + b⁽¹⁾           # Линейное преобразование
+               h = σ(z⁽¹⁾)                   # Нелинейная активация
+            
+            2. Выходной слой:
+               z⁽²⁾ = W⁽²⁾h + b⁽²⁾           # Линейное преобразование
+               y = σ(z⁽²⁾)                   # Активация (sigmoid для [0,1])
+        
+        МАТРИЧНАЯ ФОРМА (для батча из N примеров):
+            X ∈ ℝᴺˣ¹⁰ — входные данные
+            H = σ(XW⁽¹⁾ᵀ + B⁽¹⁾) ∈ ℝᴺˣ⁸  # Скрытый слой
+            Y = σ(HW⁽²⁾ᵀ + B⁽²⁾) ∈ ℝᴺˣ³  # Выходной слой
+        
+        ВЫХОД:
+            y = [y₁, y₂, y₃]ᵀ где:
+            y₁ ∈ [0,1] — correctness (правильность)
+            y₂ ∈ [0,1] — efficiency (эффективность)
+            y₃ ∈ [0,1] — readability (читаемость)
+        
+        DROPOUT (если training=True):
+            Случайно отключает нейроны с вероятностью dropout_rate
+            для предотвращения переобучения
         
         Args:
-            inputs: Входные данные
+            inputs: Входные данные x ∈ ℝᴺˣ¹⁰
             training: Если True, применяет dropout; если False, не применяет
             
         Returns:
             Кортеж выходов всех слоёв (зависит от архитектуры)
             - Для одного скрытого слоя: (hidden_output, output)
             - Для двух скрытых слоёв: (hidden1_output, hidden2_output, output)
+        
+        См. также: docs/MATHEMATICAL_FOUNDATION.md, раздел 2
         """
         if self.use_two_hidden_layers:
             # Первый скрытый слой
@@ -156,26 +301,77 @@ class SimpleNeuralNetwork:
             
             return hidden1_output, hidden2_output, output
         else:
-            # Скрытый слой (используем выбранную функцию активации)
+            # ============================================================
+            # ШАГ 1: СКРЫТЫЙ СЛОЙ
+            # ============================================================
+            # Математика: z⁽¹⁾ = W⁽¹⁾x + b⁽¹⁾
+            # где: W⁽¹⁾ ∈ ℝ⁸ˣ¹⁰, x ∈ ℝ¹⁰, b⁽¹⁾ ∈ ℝ⁸
             hidden_input = np.dot(inputs, self.weights_input_hidden) + self.bias_hidden
+            
+            # Математика: h = σ(z⁽¹⁾) или h = ReLU(z⁽¹⁾)
+            # Нелинейное преобразование признаков
             hidden_output = self.activate(hidden_input)
+            
+            # Dropout (только во время обучения)
             hidden_output, _ = self.apply_dropout(hidden_output, training)
             
-            # Выходной слой (всегда sigmoid для значений 0-1, без dropout)
+            # ============================================================
+            # ШАГ 2: ВЫХОДНОЙ СЛОЙ
+            # ============================================================
+            # Математика: z⁽²⁾ = W⁽²⁾h + b⁽²⁾
+            # где: W⁽²⁾ ∈ ℝ³ˣ⁸, h ∈ ℝ⁸, b⁽²⁾ ∈ ℝ³
             output_input = np.dot(hidden_output, self.weights_hidden_output) + self.bias_output
+            
+            # Математика: y = σ(z⁽²⁾)
+            # Всегда sigmoid для выхода в диапазоне [0, 1]
             output = self.sigmoid(output_input)
             
             return hidden_output, output
     
     def backward(self, inputs: np.ndarray, *args):
         """
-        Обратное распространение ошибки
+        Обратное распространение ошибки (Backpropagation)
+        
+        МАТЕМАТИКА (для одного скрытого слоя):
+        
+        ШАГ 1: Вычисление ошибки выходного слоя
+            E_out = y_true - y_pred           # Ошибка
+            δ⁽²⁾ = E_out ⊙ σ'(z⁽²⁾)            # Градиент
+                 = E_out ⊙ y ⊙ (1 - y)        # Используем σ'(z) = y(1-y)
+        
+        ШАГ 2: Вычисление ошибки скрытого слоя
+            E_hidden = δ⁽²⁾ · (W⁽²⁾)ᵀ          # Обратная передача ошибки
+            δ⁽¹⁾ = E_hidden ⊙ σ'(z⁽¹⁾)         # Градиент
+                 = E_hidden ⊙ h ⊙ (1 - h)
+        
+        ШАГ 3: Обновление весов (Градиентный спуск)
+            ∂L/∂W⁽²⁾ = hᵀ · δ⁽²⁾               # Градиент весов выходного слоя
+            ∂L/∂W⁽¹⁾ = xᵀ · δ⁽¹⁾               # Градиент весов скрытого слоя
+            
+            W⁽²⁾ := W⁽²⁾ + α · ∂L/∂W⁽²⁾        # Обновление
+            W⁽¹⁾ := W⁽¹⁾ + α · ∂L/∂W⁽¹⁾
+            
+            где α = learning_rate
+        
+        ШАГ 4: Обновление смещений
+            ∂L/∂b⁽²⁾ = δ⁽²⁾
+            ∂L/∂b⁽¹⁾ = δ⁽¹⁾
+            
+            b⁽²⁾ := b⁽²⁾ + α · ∂L/∂b⁽²⁾
+            b⁽¹⁾ := b⁽¹⁾ + α · ∂L/∂b⁽¹⁾
+        
+        ПРИМЕЧАНИЕ О ЗНАКЕ:
+            Используется "+", а не "-", потому что ошибка вычисляется как
+            (target - output), а не (output - target). Это эквивалентно
+            движению в направлении, уменьшающем ошибку.
         
         Args:
-            inputs: Входные данные
+            inputs: Входные данные x ∈ ℝᴺˣ¹⁰
             *args: Зависит от архитектуры:
                 - Для одного слоя: hidden_output, output, target
                 - Для двух слоёв: hidden1_output, hidden2_output, output, target
+        
+        См. также: docs/MATHEMATICAL_FOUNDATION.md, разделы 5 и 6
         """
         if self.use_two_hidden_layers:
             # Распаковываем аргументы для двух скрытых слоёв
@@ -206,32 +402,87 @@ class SimpleNeuralNetwork:
             # Распаковываем аргументы для одного скрытого слоя
             hidden_output, output, target = args
             
-            # Ошибка выходного слоя (всегда sigmoid)
+            # ============================================================
+            # ШАГ 1: ОШИБКА ВЫХОДНОГО СЛОЯ
+            # ============================================================
+            # Математика: E_out = y_true - y_pred
             output_error = target - output
+            
+            # Математика: δ⁽²⁾ = E_out ⊙ σ'(output)
+            #           = E_out ⊙ output ⊙ (1 - output)
+            # Это градиент по z⁽²⁾ (взвешенной сумме выходного слоя)
             output_delta = output_error * self.sigmoid_derivative(output)
             
-            # Ошибка скрытого слоя (используем выбранную функцию активации)
+            # ============================================================
+            # ШАГ 2: ОШИБКА СКРЫТОГО СЛОЯ
+            # ============================================================
+            # Математика: E_hidden = δ⁽²⁾ · (W⁽²⁾)ᵀ
+            # Передаём ошибку обратно через веса
             hidden_error = np.dot(output_delta, self.weights_hidden_output.T)
+            
+            # Математика: δ⁽¹⁾ = E_hidden ⊙ activate'(hidden_output)
+            # Градиент зависит от функции активации (sigmoid или ReLU)
             hidden_delta = hidden_error * self.activate_derivative(hidden_output)
             
-            # Обновление весов
+            # ============================================================
+            # ШАГ 3: ОБНОВЛЕНИЕ ВЕСОВ (Градиентный спуск)
+            # ============================================================
+            # Математика: W⁽²⁾ := W⁽²⁾ + α · (hᵀ · δ⁽²⁾)
+            # где α = learning_rate, h = hidden_output
             self.weights_hidden_output += np.dot(hidden_output.T, output_delta) * self.learning_rate
+            
+            # Математика: W⁽¹⁾ := W⁽¹⁾ + α · (xᵀ · δ⁽¹⁾)
+            # где x = inputs
             self.weights_input_hidden += np.dot(inputs.T, hidden_delta) * self.learning_rate
             
-            # Обновление смещений
+            # ============================================================
+            # ШАГ 4: ОБНОВЛЕНИЕ СМЕЩЕНИЙ
+            # ============================================================
+            # Математика: b⁽²⁾ := b⁽²⁾ + α · δ⁽²⁾
+            # Суммируем по батчу (axis=0), сохраняем размерность (keepdims=True)
             self.bias_output += np.sum(output_delta, axis=0, keepdims=True) * self.learning_rate
+            
+            # Математика: b⁽¹⁾ := b⁽¹⁾ + α · δ⁽¹⁾
             self.bias_hidden += np.sum(hidden_delta, axis=0, keepdims=True) * self.learning_rate
     
     def train(self, training_data: List[Tuple[np.ndarray, np.ndarray]], epochs: int = 1000):
         """
-        Обучение нейронной сети
+        Обучение нейронной сети методом градиентного спуска
+        
+        АЛГОРИТМ:
+            Для каждой эпохи t = 1..T:
+                Для каждого примера (x, y) в датасете:
+                    1. Forward pass: вычислить ŷ = f(x; W, b)
+                    2. Вычислить ошибку: L = ||y - ŷ||²
+                    3. Backward pass: вычислить градиенты ∂L/∂W, ∂L/∂b
+                    4. Обновить параметры:
+                       W := W + α · ∂L/∂W
+                       b := b + α · ∂L/∂b
+                Вычислить среднюю ошибку по всему датасету
+        
+        ФУНКЦИЯ ПОТЕРЬ (MSE):
+            L = 1/N Σᵢ ||yᵢ - ŷᵢ||²
+              = 1/N Σᵢ Σⱼ (yᵢⱼ - ŷᵢⱼ)²
+        
+        ПАРАМЕТРЫ ОБУЧЕНИЯ:
+            - Learning rate (α): по умолчанию 0.01
+            - Batch size: 1 (онлайн обучение, каждый пример отдельно)
+            - Dropout: применяется только если dropout_rate > 0
         
         Args:
-            training_data: Список кортежей (входные данные, ожидаемые выходы)
-            epochs: Количество эпох обучения
+            training_data: Список кортежей (x ∈ ℝ¹⁰, y ∈ ℝ³)
+            epochs: Количество эпох обучения (проходов по всему датасету)
             
         Returns:
             dict: История обучения с эпохами и ошибками
+                {
+                    'epochs': [0, 10, 20, ...],
+                    'loss': [0.059, 0.045, 0.038, ...],
+                    'learning_rate': 0.01,
+                    'architecture': {...}
+                }
+        
+        См. также: docs/MATHEMATICAL_FOUNDATION.md, раздел 6
         """
         architecture = {
             'input_size': self.input_size,
@@ -263,7 +514,9 @@ class SimpleNeuralNetwork:
                 # Обратное распространение
                 self.backward(inputs, *forward_outputs, target)
                 
-                # Расчет ошибки
+                # Расчет ошибки (MSE для одного примера)
+                # Математика: L = 1/3 Σⱼ (yⱼ - ŷⱼ)²
+                # где j = 1,2,3 соответствует correctness, efficiency, readability
                 error = np.mean(np.square(target - output))
                 total_error += error
             
@@ -388,28 +641,51 @@ class SimpleNeuralNetwork:
     
     def _extract_features(self, code_features: Dict[str, float]) -> np.ndarray:
         """
-        Извлечение признаков из анализа кода
+        Извлечение и нормализация признаков из анализа кода
+        
+        НОРМАЛИЗАЦИЯ:
+            Все признаки приводятся к диапазону [0, 1] для лучшей работы
+            функции активации sigmoid.
+            
+            Формула: x_normalized = x_raw / x_max
+            
+            где x_max - ожидаемое максимальное значение признака
+        
+        ПРИЗНАКИ (x ∈ ℝ¹⁰):
+            x₁ = lines_of_code / 100        # Ожидаем до 100 строк
+            x₂ = functions_count / 10       # Ожидаем до 10 функций
+            x₃ = complexity / 10            # Циклометрическая сложность до 10
+            x₄ = nested_levels / 5          # Максимальная вложенность до 5
+            x₅ = variable_names_length / 20 # Средняя длина имён до 20 символов
+            x₆ = comments_ratio             # Уже в [0, 1]
+            x₇ = imports_count / 10         # До 10 импортов
+            x₈ = class_count / 5            # До 5 классов
+            x₉ = error_handling             # Бинарный признак {0, 1}
+            x₁₀ = test_coverage             # Уже в [0, 1]
         
         Args:
-            code_features: Словарь с признаками
+            code_features: Словарь с признаками кода
             
         Returns:
-            Вектор признаков для нейронной сети
+            Вектор признаков x ∈ ℝ¹ˣ¹⁰ (форма для батча из 1 примера)
+        
+        См. также: docs/MATHEMATICAL_FOUNDATION.md, раздел 1.2
         """
-        # Нормализация признаков
+        # Нормализация признаков к диапазону [0, 1]
         features = np.array([
-            code_features.get('lines_of_code', 0) / 100.0,  # Количество строк
-            code_features.get('functions_count', 0) / 10.0,  # Количество функций
-            code_features.get('complexity', 0) / 10.0,      # Сложность
-            code_features.get('nested_levels', 0) / 5.0,    # Уровень вложенности
-            code_features.get('variable_names_length', 0) / 20.0,  # Длина имен переменных
-            code_features.get('comments_ratio', 0),         # Отношение комментариев
-            code_features.get('imports_count', 0) / 10.0,   # Количество импортов
-            code_features.get('class_count', 0) / 5.0,      # Количество классов
-            code_features.get('error_handling', 0),         # Обработка ошибок
-            code_features.get('test_coverage', 0)           # Покрытие тестами
+            code_features.get('lines_of_code', 0) / 100.0,  # x₁
+            code_features.get('functions_count', 0) / 10.0,  # x₂
+            code_features.get('complexity', 0) / 10.0,      # x₃
+            code_features.get('nested_levels', 0) / 5.0,    # x₄
+            code_features.get('variable_names_length', 0) / 20.0,  # x₅
+            code_features.get('comments_ratio', 0),         # x₆
+            code_features.get('imports_count', 0) / 10.0,   # x₇
+            code_features.get('class_count', 0) / 5.0,      # x₈
+            code_features.get('error_handling', 0),         # x₉
+            code_features.get('test_coverage', 0)           # x₁₀
         ])
         
+        # Преобразуем в матрицу 1×10 для совместимости с np.dot()
         return features.reshape(1, -1)
     
     def save_model(self, filepath: str):
