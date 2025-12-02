@@ -105,7 +105,7 @@ def train_network():
     print("\n🧪 Тестирование обученной сети:")
     print("-" * 50)
     
-    test_indices = [0, len(data)//4, len(data)//2, 3*len(data)//4, -1]
+    test_indices = [0, len(data)//4, len(data)//2, 3*len(data)//4, len(data)-1]
     
     for i, idx in enumerate(test_indices):
         test_features = X[idx:idx+1]
@@ -181,8 +181,7 @@ def test_with_real_code():
         print(f"📝 {test_case['name']}:")
         
         # Анализируем код
-        features = analyzer.extract_features(test_case['code'])
-        code_features = analyzer.get_code_features(test_case['code'])
+        code_features = analyzer.extract_features(test_case['code'])
         
         # Оцениваем качество
         quality = network.evaluate_code_quality(code_features)
