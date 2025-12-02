@@ -1,3 +1,25 @@
+# Планы и отчеты
 ПЛАН*.md
 правки.md
+ОТЧЕТ*.md
+отчет*.md
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+venv/
+env/
+
+# Database
+*.db
+instance/
+
+# IDE
+.vscode/
+.idea/
+
 python_task_system/
