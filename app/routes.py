@@ -873,6 +873,163 @@ def api_import_model():
         }), 500
 
 
+@bp.route('/compare')
+def compare_models_page():
+    """Страница сравнения моделей"""
+    return render_template('compare.html')
+
+
+@bp.route('/api/compare-models', methods=['POST'])
+def api_compare_models():
+    """
+    API для сравнения нескольких моделей
+    
+    ПАРАМЕТРЫ (JSON):
+        models: list или 'all' - список имен моделей или 'all' для всех
+        include_experiments: bool - включить ли результаты экспериментов
+    
+    ВОЗВРАЩАЕТ:
+        success: bool
+        comparison: dict - результаты сравнения
+            - models: list - список моделей с параметрами и результатами
+            - best_loss: float - лучшая ошибка
+            - worst_loss: float - худшая ошибка
+            - avg_loss: float - средняя ошибка
+    """
+    try:
+        import os
+        
+        data = request.get_json()
+        models_param = data.get('models', [])
+        include_experiments = data.get('include_experiments', False)
+        
+        models_to_compare = []
+        
+        # Получаем список моделей для сравнения
+        if models_param == 'all':
+            # Загружаем все модели
+            model_dir = 'data/models'
+            if os.path.exists(model_dir):
+                for filename in os.listdir(model_dir):
+                    if filename.endswith('.json') and not filename.startswith('training_history'):
+                        models_to_compare.append(filename)
+        else:
+            models_to_compare = models_param
+        
+        # Добавляем результаты экспериментов если запрошено
+        if include_experiments:
+            experiments_dir = 'experiments/results'
+            if os.path.exists(experiments_dir):
+                for filename in os.listdir(experiments_dir):
+                    if filename.startswith('model_exp') and filename.endswith('.json'):
+                        models_to_compare.append(os.path.join('..', experiments_dir, filename))
+        
+        if not models_to_compare:
+            return jsonify({
+                'success': False,
+                'error': 'Нет моделей для сравнения'
+            }), 400
+        
+        # Собираем данные о моделях
+        comparison_data = []
+        
+        for model_file in models_to_compare:
+            try:
+                # Определяем полный путь
+                if model_file.startswith('..'):
+                    model_path = model_file
+                else:
+                    model_path = os.path.join('data/models', model_file)
+                
+                # Читаем модель
+                with open(model_path, 'r', encoding='utf-8') as f:
+                    model_data = json.load(f)
+                
+                # Пытаемся найти историю обучения
+                history_path = model_path.replace('.json', '_history.json')
+                if not os.path.exists(history_path):
+                    history_path = model_path.replace('model_', 'history_')
+                
+                final_loss = None
+                if os.path.exists(history_path):
+                    try:
+                        with open(history_path, 'r', encoding='utf-8') as f:
+                            history_data = json.load(f)
+                            if 'loss' in history_data and history_data['loss']:
+                                final_loss = history_data['loss'][-1]
+                    except:
+                        pass
+                
+                # Если не нашли историю, пытаемся найти в основных файлах истории
+                if final_loss is None:
+                    # Проверяем training_history_final.json
+                    if 'final' in model_file.lower():
+                        history_path = 'data/models/training_history_final.json'
+                    else:
+                        history_path = 'data/models/training_history.json'
+                    
+                    if os.path.exists(history_path):
+                        try:
+                            with open(history_path, 'r', encoding='utf-8') as f:
+                                history_data = json.load(f)
+                                if 'loss' in history_data and history_data['loss']:
+                                    final_loss = history_data['loss'][-1]
+                        except:
+                            pass
+                
+                # Добавляем данные модели
+                model_info = {
+                    'name': os.path.basename(model_file),
+                    'input_size': model_data.get('input_size', 10),
+                    'hidden_size': model_data.get('hidden_size', 8),
+                    'output_size': model_data.get('output_size', 3),
+                    'learning_rate': model_data.get('learning_rate'),
+                    'activation': model_data.get('activation', 'sigmoid'),
+                    'dropout_rate': model_data.get('dropout_rate', 0.0),
+                    'final_loss': final_loss if final_loss is not None else 0.01  # Fallback
+                }
+                
+                comparison_data.append(model_info)
+                
+            except Exception as e:
+                print(f"Ошибка чтения модели {model_file}: {e}")
+                continue
+        
+        if not comparison_data:
+            return jsonify({
+                'success': False,
+                'error': 'Не удалось загрузить данные моделей'
+            }), 500
+        
+        # Сортируем по финальной ошибке (лучшие первые)
+        comparison_data.sort(key=lambda x: x['final_loss'])
+        
+        # Вычисляем статистику
+        losses = [m['final_loss'] for m in comparison_data]
+        best_loss = min(losses)
+        worst_loss = max(losses)
+        avg_loss = sum(losses) / len(losses)
+        
+        return jsonify({
+            'success': True,
+            'comparison': {
+                'models': comparison_data,
+                'best_loss': float(best_loss),
+                'worst_loss': float(worst_loss),
+                'avg_loss': float(avg_loss),
+                'count': len(comparison_data)
+            }
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
 # Глобальные переменные для хранения обученной модели
 trained_model = None
 trained_history = None

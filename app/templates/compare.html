@@ -1,0 +1,592 @@
+{% extends "base.html" %}
+
+{% block title %}Сравнение моделей - Python Task System{% endblock %}
+
+{% block extra_css %}
+<style>
+    .comparison-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    
+    .model-selector {
+        margin-bottom: 20px;
+    }
+    
+    .comparison-table {
+        font-size: 0.9em;
+    }
+    
+    .comparison-table th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+    }
+    
+    .best-value {
+        background-color: #d4edda;
+        font-weight: bold;
+        color: #155724;
+    }
+    
+    .worst-value {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+    
+    .chart-container {
+        position: relative;
+        height: 400px;
+        margin-bottom: 30px;
+    }
+    
+    .model-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 0.85em;
+        margin-right: 5px;
+    }
+    
+    .badge-baseline {
+        background-color: #007bff;
+        color: white;
+    }
+    
+    .badge-best {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .badge-experiment {
+        background-color: #6c757d;
+        color: white;
+    }
+    
+    .stats-card {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: #f8f9fa;
+    }
+    
+    .stats-value {
+        font-size: 2em;
+        font-weight: bold;
+        color: #007bff;
+    }
+    
+    .stats-label {
+        color: #666;
+        margin-top: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="bi bi-bar-chart-line"></i> Сравнение моделей</h1>
+            <p class="text-muted">Анализ и сравнение производительности различных конфигураций нейронных сетей</p>
+        </div>
+    </div>
+    
+    <!-- Выбор моделей -->
+    <div class="card comparison-card">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">🎯 Выбор моделей для сравнения</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">Выберите модели (можно выбрать несколько):</label>
+                    <select class="form-select" id="models-selector" multiple size="8">
+                        <option value="">Загрузка списка моделей...</option>
+                    </select>
+                    <small class="text-muted">Удерживайте Ctrl (Cmd на Mac) для выбора нескольких моделей</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Включить результаты экспериментов:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="include-experiments" checked>
+                        <label class="form-check-label" for="include-experiments">
+                            Включить данные из experiments/results/
+                        </label>
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn btn-primary" onclick="compareModels()">
+                            <i class="bi bi-play-fill"></i> Сравнить выбранные
+                        </button>
+                        <button class="btn btn-secondary" onclick="compareAll()">
+                            <i class="bi bi-list-ul"></i> Сравнить все
+                        </button>
+                        <button class="btn btn-info" onclick="showBestModels()">
+                            <i class="bi bi-trophy"></i> Показать топ-3
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Результаты сравнения -->
+    <div id="comparison-results" style="display: none;">
+        <!-- Статистика -->
+        <div class="card comparison-card">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0">📊 Общая статистика</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-value" id="models-count">0</div>
+                            <div class="stats-label">Моделей сравнено</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-value" id="best-loss">-</div>
+                            <div class="stats-label">Лучшая ошибка</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-value" id="avg-loss">-</div>
+                            <div class="stats-label">Средняя ошибка</div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="stats-card">
+                            <div class="stats-value" id="improvement">-</div>
+                            <div class="stats-label">Улучшение</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Таблица сравнения -->
+        <div class="card comparison-card">
+            <div class="card-header bg-success text-white">
+                <h5 class="mb-0">📋 Таблица сравнения параметров</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover comparison-table" id="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Модель</th>
+                                <th>Архитектура</th>
+                                <th>Learning Rate</th>
+                                <th>Активация</th>
+                                <th>Dropout</th>
+                                <th>Финальная ошибка</th>
+                                <th>Параметров</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Заполняется динамически -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Графики сравнения -->
+        <div class="card comparison-card">
+            <div class="card-header bg-warning text-dark">
+                <h5 class="mb-0">📈 Визуальное сравнение</h5>
+            </div>
+            <div class="card-body">
+                <!-- График финальных ошибок -->
+                <div class="chart-container">
+                    <h6 class="text-center">Финальные ошибки моделей</h6>
+                    <canvas id="final-errors-chart"></canvas>
+                </div>
+                
+                <!-- График по архитектуре -->
+                <div class="chart-container">
+                    <h6 class="text-center">Влияние размера скрытого слоя</h6>
+                    <canvas id="architecture-chart"></canvas>
+                </div>
+                
+                <!-- График по learning rate -->
+                <div class="chart-container">
+                    <h6 class="text-center">Влияние learning rate</h6>
+                    <canvas id="learning-rate-chart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Рекомендации -->
+        <div class="card comparison-card">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0">💡 Рекомендации</h5>
+            </div>
+            <div class="card-body" id="recommendations">
+                <!-- Заполняется динамически -->
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+<script>
+    let comparisonData = [];
+    let charts = {};
+    
+    // Загрузка списка моделей при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+        loadModelsForComparison();
+    });
+    
+    // Загрузка списка моделей
+    async function loadModelsForComparison() {
+        const selector = document.getElementById('models-selector');
+        selector.innerHTML = '<option value="">Загрузка...</option>';
+        
+        try {
+            const response = await fetch('/api/list-models');
+            const result = await response.json();
+            
+            if (result.success) {
+                selector.innerHTML = '';
+                
+                result.models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.name;
+                    option.textContent = `${model.name} (${(model.size/1024).toFixed(2)} KB)`;
+                    option.dataset.info = JSON.stringify(model);
+                    selector.appendChild(option);
+                });
+            }
+        } catch (error) {
+            selector.innerHTML = '<option value="">Ошибка загрузки</option>';
+            console.error('Ошибка загрузки списка моделей:', error);
+        }
+    }
+    
+    // Сравнение выбранных моделей
+    async function compareModels() {
+        const selector = document.getElementById('models-selector');
+        const selectedOptions = Array.from(selector.selectedOptions);
+        
+        if (selectedOptions.length === 0) {
+            alert('Выберите хотя бы одну модель для сравнения');
+            return;
+        }
+        
+        const modelNames = selectedOptions.map(opt => opt.value);
+        const includeExperiments = document.getElementById('include-experiments').checked;
+        
+        try {
+            const response = await fetch('/api/compare-models', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    models: modelNames,
+                    include_experiments: includeExperiments
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                displayComparisonResults(result.comparison);
+            } else {
+                alert('Ошибка: ' + result.error);
+            }
+        } catch (error) {
+            alert('Ошибка сравнения моделей: ' + error.message);
+        }
+    }
+    
+    // Сравнение всех моделей
+    async function compareAll() {
+        const includeExperiments = document.getElementById('include-experiments').checked;
+        
+        try {
+            const response = await fetch('/api/compare-models', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    models: 'all',
+                    include_experiments: includeExperiments
+                })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                displayComparisonResults(result.comparison);
+            } else {
+                alert('Ошибка: ' + result.error);
+            }
+        } catch (error) {
+            alert('Ошибка сравнения моделей: ' + error.message);
+        }
+    }
+    
+    // Показать топ-3 модели
+    async function showBestModels() {
+        await compareAll();
+        // Результаты уже отсортированы по ошибке
+    }
+    
+    // Отображение результатов сравнения
+    function displayComparisonResults(data) {
+        comparisonData = data.models;
+        
+        // Показываем блок результатов
+        document.getElementById('comparison-results').style.display = 'block';
+        
+        // Обновляем статистику
+        document.getElementById('models-count').textContent = comparisonData.length;
+        document.getElementById('best-loss').textContent = data.best_loss.toFixed(6);
+        document.getElementById('avg-loss').textContent = data.avg_loss.toFixed(6);
+        document.getElementById('improvement').textContent = 
+            ((1 - data.best_loss / data.avg_loss) * 100).toFixed(1) + '%';
+        
+        // Заполняем таблицу
+        fillComparisonTable();
+        
+        // Создаем графики
+        createCharts();
+        
+        // Генерируем рекомендации
+        generateRecommendations(data);
+        
+        // Прокручиваем к результатам
+        document.getElementById('comparison-results').scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    // Заполнение таблицы сравнения
+    function fillComparisonTable() {
+        const tbody = document.querySelector('#comparison-table tbody');
+        tbody.innerHTML = '';
+        
+        // Находим лучшие и худшие значения
+        const losses = comparisonData.map(m => m.final_loss);
+        const bestLoss = Math.min(...losses);
+        const worstLoss = Math.max(...losses);
+        
+        comparisonData.forEach((model, index) => {
+            const row = tbody.insertRow();
+            
+            // Модель
+            const cellModel = row.insertCell();
+            cellModel.innerHTML = `<strong>${model.name}</strong>`;
+            if (index === 0) cellModel.innerHTML += ' <span class="model-badge badge-best">🏆 ЛУЧШАЯ</span>';
+            
+            // Архитектура
+            row.insertCell().textContent = 
+                `${model.input_size}→${model.hidden_size}→${model.output_size}`;
+            
+            // Learning Rate
+            row.insertCell().textContent = model.learning_rate || 'N/A';
+            
+            // Активация
+            row.insertCell().textContent = model.activation || 'N/A';
+            
+            // Dropout
+            row.insertCell().textContent = model.dropout_rate || '0.0';
+            
+            // Финальная ошибка
+            const cellLoss = row.insertCell();
+            cellLoss.textContent = model.final_loss.toFixed(6);
+            if (model.final_loss === bestLoss) {
+                cellLoss.className = 'best-value';
+            } else if (model.final_loss === worstLoss) {
+                cellLoss.className = 'worst-value';
+            }
+            
+            // Параметров
+            const params = model.input_size * model.hidden_size + 
+                          model.hidden_size * model.output_size +
+                          model.hidden_size + model.output_size;
+            row.insertCell().textContent = params;
+        });
+    }
+    
+    // Создание графиков
+    function createCharts() {
+        // Очищаем старые графики
+        Object.values(charts).forEach(chart => chart.destroy());
+        charts = {};
+        
+        // График 1: Финальные ошибки
+        const ctx1 = document.getElementById('final-errors-chart').getContext('2d');
+        charts.finalErrors = new Chart(ctx1, {
+            type: 'bar',
+            data: {
+                labels: comparisonData.map(m => m.name),
+                datasets: [{
+                    label: 'Финальная ошибка',
+                    data: comparisonData.map(m => m.final_loss),
+                    backgroundColor: comparisonData.map((m, i) => 
+                        i === 0 ? 'rgba(40, 167, 69, 0.7)' : 'rgba(75, 192, 192, 0.7)'
+                    ),
+                    borderColor: comparisonData.map((m, i) => 
+                        i === 0 ? 'rgb(40, 167, 69)' : 'rgb(75, 192, 192)'
+                    ),
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Loss (MSE)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // График 2: Влияние размера скрытого слоя
+        const hiddenSizes = [...new Set(comparisonData.map(m => m.hidden_size))].sort((a, b) => a - b);
+        const avgLossByHidden = hiddenSizes.map(size => {
+            const models = comparisonData.filter(m => m.hidden_size === size);
+            return models.reduce((sum, m) => sum + m.final_loss, 0) / models.length;
+        });
+        
+        const ctx2 = document.getElementById('architecture-chart').getContext('2d');
+        charts.architecture = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: hiddenSizes,
+                datasets: [{
+                    label: 'Средняя ошибка',
+                    data: avgLossByHidden,
+                    borderColor: 'rgb(255, 99, 132)',
+                    backgroundColor: 'rgba(255, 99, 132, 0.1)',
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Размер скрытого слоя'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Средняя ошибка (MSE)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // График 3: Влияние learning rate
+        const learningRates = [...new Set(comparisonData.map(m => m.learning_rate).filter(lr => lr))].sort((a, b) => a - b);
+        const avgLossByLR = learningRates.map(lr => {
+            const models = comparisonData.filter(m => m.learning_rate === lr);
+            return models.reduce((sum, m) => sum + m.final_loss, 0) / models.length;
+        });
+        
+        const ctx3 = document.getElementById('learning-rate-chart').getContext('2d');
+        charts.learningRate = new Chart(ctx3, {
+            type: 'line',
+            data: {
+                labels: learningRates.map(lr => lr.toString()),
+                datasets: [{
+                    label: 'Средняя ошибка',
+                    data: avgLossByLR,
+                    borderColor: 'rgb(54, 162, 235)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.1)',
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Learning Rate'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Средняя ошибка (MSE)'
+                        }
+                    }
+                }
+            }
+        });
+    }
+    
+    // Генерация рекомендаций
+    function generateRecommendations(data) {
+        const container = document.getElementById('recommendations');
+        let html = '<h6>Основные выводы:</h6><ul>';
+        
+        // Лучшая модель
+        const best = comparisonData[0];
+        html += `<li><strong>Лучшая модель:</strong> ${best.name} с ошибкой ${best.final_loss.toFixed(6)}</li>`;
+        
+        // Оптимальный размер скрытого слоя
+        const hiddenSizes = {};
+        comparisonData.forEach(m => {
+            if (!hiddenSizes[m.hidden_size]) hiddenSizes[m.hidden_size] = [];
+            hiddenSizes[m.hidden_size].push(m.final_loss);
+        });
+        
+        let optimalHidden = null;
+        let minAvgLoss = Infinity;
+        for (const [size, losses] of Object.entries(hiddenSizes)) {
+            const avg = losses.reduce((a, b) => a + b, 0) / losses.length;
+            if (avg < minAvgLoss) {
+                minAvgLoss = avg;
+                optimalHidden = size;
+            }
+        }
+        html += `<li><strong>Оптимальный размер скрытого слоя:</strong> ${optimalHidden} нейронов (средняя ошибка: ${minAvgLoss.toFixed(6)})</li>`;
+        
+        // Рекомендации по параметрам
+        html += '<li><strong>Рекомендации:</strong><ul>';
+        html += `<li>Используйте learning rate ${best.learning_rate} для лучших результатов</li>`;
+        html += `<li>Функция активации ${best.activation} показала хорошую производительность</li>`;
+        if (best.dropout_rate > 0) {
+            html += `<li>Dropout ${best.dropout_rate} помогает предотвратить переобучение</li>`;
+        }
+        html += '</ul></li>';
+        
+        html += '</ul>';
+        container.innerHTML = html;
+    }
+</script>
+{% endblock %}
+
