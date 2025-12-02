@@ -13,7 +13,7 @@ class SimpleNeuralNetwork:
     Простая многослойная нейронная сеть для анализа кода
     """
     
-    def __init__(self, input_size: int = 10, hidden_size: int = 8, output_size: int = 3):
+    def __init__(self, input_size: int = 10, hidden_size: int = 8, output_size: int = 3, activation: str = 'sigmoid'):
         """
         Инициализация нейронной сети
         
@@ -21,10 +21,12 @@ class SimpleNeuralNetwork:
             input_size: Размер входного слоя (количество признаков)
             hidden_size: Размер скрытого слоя
             output_size: Размер выходного слоя (оценка качества)
+            activation: Функция активации ('sigmoid' или 'relu')
         """
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.output_size = output_size
+        self.activation = activation
         
         # Инициализация весов случайными значениями
         self.weights_input_hidden = np.random.randn(input_size, hidden_size) * 0.1
@@ -48,6 +50,41 @@ class SimpleNeuralNetwork:
         """Производная функции sigmoid"""
         return x * (1 - x)
     
+    def relu(self, x: np.ndarray) -> np.ndarray:
+        """
+        Функция активации ReLU (Rectified Linear Unit)
+        
+        ReLU(x) = max(0, x)
+        
+        Преимущества:
+        - Быстрее вычисляется, чем sigmoid
+        - Решает проблему затухающего градиента
+        - Хорошо работает для глубоких сетей
+        """
+        return np.maximum(0, x)
+    
+    def relu_derivative(self, x: np.ndarray) -> np.ndarray:
+        """
+        Производная функции ReLU
+        
+        ReLU'(x) = 1 если x > 0, иначе 0
+        """
+        return (x > 0).astype(float)
+    
+    def activate(self, x: np.ndarray) -> np.ndarray:
+        """Применяет выбранную функцию активации"""
+        if self.activation == 'relu':
+            return self.relu(x)
+        else:
+            return self.sigmoid(x)
+    
+    def activate_derivative(self, x: np.ndarray) -> np.ndarray:
+        """Применяет производную выбранной функции активации"""
+        if self.activation == 'relu':
+            return self.relu_derivative(x)
+        else:
+            return self.sigmoid_derivative(x)
+    
     def forward(self, inputs: np.ndarray) -> Tuple[np.ndarray, np.ndarray]:
         """
         Прямое распространение
@@ -58,11 +95,11 @@ class SimpleNeuralNetwork:
         Returns:
             Кортеж (выходы скрытого слоя, выходы выходного слоя)
         """
-        # Скрытый слой
+        # Скрытый слой (используем выбранную функцию активации)
         hidden_input = np.dot(inputs, self.weights_input_hidden) + self.bias_hidden
-        hidden_output = self.sigmoid(hidden_input)
+        hidden_output = self.activate(hidden_input)
         
-        # Выходной слой
+        # Выходной слой (всегда sigmoid для значений 0-1)
         output_input = np.dot(hidden_output, self.weights_hidden_output) + self.bias_output
         output = self.sigmoid(output_input)
         
@@ -79,13 +116,13 @@ class SimpleNeuralNetwork:
             output: Выходы выходного слоя
             target: Ожидаемые выходы
         """
-        # Ошибка выходного слоя
+        # Ошибка выходного слоя (всегда sigmoid)
         output_error = target - output
         output_delta = output_error * self.sigmoid_derivative(output)
         
-        # Ошибка скрытого слоя
+        # Ошибка скрытого слоя (используем выбранную функцию активации)
         hidden_error = np.dot(output_delta, self.weights_hidden_output.T)
-        hidden_delta = hidden_error * self.sigmoid_derivative(hidden_output)
+        hidden_delta = hidden_error * self.activate_derivative(hidden_output)
         
         # Обновление весов
         self.weights_hidden_output += np.dot(hidden_output.T, output_delta) * self.learning_rate
@@ -262,7 +299,8 @@ class SimpleNeuralNetwork:
             'input_size': self.input_size,
             'hidden_size': self.hidden_size,
             'output_size': self.output_size,
-            'learning_rate': self.learning_rate
+            'learning_rate': self.learning_rate,
+            'activation': self.activation
         }
         
         with open(filepath, 'w', encoding='utf-8') as f:
@@ -285,3 +323,4 @@ class SimpleNeuralNetwork:
         self.hidden_size = model_data['hidden_size']
         self.output_size = model_data['output_size']
         self.learning_rate = model_data['learning_rate']
+        self.activation = model_data.get('activation', 'sigmoid')
