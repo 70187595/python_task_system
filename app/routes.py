@@ -509,6 +509,370 @@ def api_save_model():
         }), 500
 
 
+@bp.route('/api/list-models', methods=['GET'])
+def api_list_models():
+    """
+    API для получения списка сохраненных моделей
+    
+    ВОЗВРАЩАЕТ:
+        success: bool
+        models: list - список моделей с информацией
+            - name: str - имя файла модели
+            - path: str - полный путь
+            - size: int - размер файла в байтах
+            - modified: str - дата последнего изменения
+            - parameters: dict - параметры модели (если доступны)
+    """
+    try:
+        import os
+        from datetime import datetime
+        
+        model_dir = 'data/models'
+        
+        if not os.path.exists(model_dir):
+            return jsonify({
+                'success': True,
+                'models': []
+            })
+        
+        models = []
+        
+        # Перебираем все JSON файлы в директории моделей
+        for filename in os.listdir(model_dir):
+            if filename.endswith('.json') and not filename.startswith('training_history'):
+                filepath = os.path.join(model_dir, filename)
+                
+                try:
+                    # Получаем информацию о файле
+                    file_stat = os.stat(filepath)
+                    file_size = file_stat.st_size
+                    modified_time = datetime.fromtimestamp(file_stat.st_mtime).strftime('%Y-%m-%d %H:%M:%S')
+                    
+                    # Пытаемся прочитать параметры модели
+                    model_info = {
+                        'name': filename,
+                        'path': filepath,
+                        'size': file_size,
+                        'modified': modified_time
+                    }
+                    
+                    try:
+                        with open(filepath, 'r', encoding='utf-8') as f:
+                            model_data = json.load(f)
+                            model_info['parameters'] = {
+                                'input_size': model_data.get('input_size', 10),
+                                'hidden_size': model_data.get('hidden_size', 8),
+                                'output_size': model_data.get('output_size', 3),
+                                'learning_rate': model_data.get('learning_rate', 0.01),
+                                'activation': model_data.get('activation', 'sigmoid'),
+                                'dropout_rate': model_data.get('dropout_rate', 0.0)
+                            }
+                    except:
+                        model_info['parameters'] = None
+                    
+                    models.append(model_info)
+                    
+                except Exception as e:
+                    print(f"Ошибка чтения модели {filename}: {e}")
+                    continue
+        
+        # Сортируем по дате изменения (новые первые)
+        models.sort(key=lambda x: x['modified'], reverse=True)
+        
+        return jsonify({
+            'success': True,
+            'models': models,
+            'count': len(models)
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@bp.route('/api/load-model', methods=['POST'])
+def api_load_model():
+    """
+    API для загрузки конкретной модели
+    
+    ПАРАМЕТРЫ (JSON):
+        model_name: str - имя файла модели для загрузки
+    
+    ВОЗВРАЩАЕТ:
+        success: bool
+        message: str
+        parameters: dict - параметры загруженной модели
+    """
+    try:
+        data = request.get_json()
+        model_name = data.get('model_name')
+        
+        if not model_name:
+            return jsonify({
+                'success': False,
+                'error': 'Не указано имя модели'
+            }), 400
+        
+        model_path = os.path.join('data/models', model_name)
+        
+        if not os.path.exists(model_path):
+            return jsonify({
+                'success': False,
+                'error': 'Модель не найдена'
+            }), 404
+        
+        # Загружаем модель
+        from app.models.neural_network import SimpleNeuralNetwork
+        
+        # Читаем параметры модели
+        with open(model_path, 'r', encoding='utf-8') as f:
+            model_data = json.load(f)
+        
+        # Создаем новую модель с теми же параметрами
+        global neural_network
+        neural_network = SimpleNeuralNetwork(
+            input_size=model_data.get('input_size', 10),
+            hidden_size=model_data.get('hidden_size', 8),
+            output_size=model_data.get('output_size', 3),
+            activation=model_data.get('activation', 'sigmoid'),
+            dropout_rate=model_data.get('dropout_rate', 0.0)
+        )
+        
+        # Загружаем веса
+        neural_network.load_model(model_path)
+        
+        print(f"✅ Модель загружена: {model_name}")
+        
+        return jsonify({
+            'success': True,
+            'message': f'Модель {model_name} успешно загружена',
+            'parameters': {
+                'input_size': neural_network.input_size,
+                'hidden_size': neural_network.hidden_size,
+                'output_size': neural_network.output_size,
+                'learning_rate': neural_network.learning_rate,
+                'activation': neural_network.activation,
+                'dropout_rate': neural_network.dropout_rate
+            }
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@bp.route('/api/delete-model', methods=['POST'])
+def api_delete_model():
+    """
+    API для удаления модели
+    
+    ПАРАМЕТРЫ (JSON):
+        model_name: str - имя файла модели для удаления
+    
+    ВОЗВРАЩАЕТ:
+        success: bool
+        message: str
+    """
+    try:
+        data = request.get_json()
+        model_name = data.get('model_name')
+        
+        if not model_name:
+            return jsonify({
+                'success': False,
+                'error': 'Не указано имя модели'
+            }), 400
+        
+        # Защита от удаления критических моделей
+        if model_name in ['neural_network.json', 'model_final.json']:
+            return jsonify({
+                'success': False,
+                'error': 'Нельзя удалить основную модель'
+            }), 403
+        
+        model_path = os.path.join('data/models', model_name)
+        
+        if not os.path.exists(model_path):
+            return jsonify({
+                'success': False,
+                'error': 'Модель не найдена'
+            }), 404
+        
+        # Удаляем файл модели
+        os.remove(model_path)
+        
+        # Удаляем соответствующий файл истории, если есть
+        history_name = model_name.replace('.json', '_history.json')
+        history_path = os.path.join('data/models', history_name)
+        if os.path.exists(history_path):
+            os.remove(history_path)
+        
+        print(f"🗑️  Модель удалена: {model_name}")
+        
+        return jsonify({
+            'success': True,
+            'message': f'Модель {model_name} успешно удалена'
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@bp.route('/api/export-model', methods=['POST'])
+def api_export_model():
+    """
+    API для экспорта модели (скачивание)
+    
+    ПАРАМЕТРЫ (JSON):
+        model_name: str - имя файла модели для экспорта
+    
+    ВОЗВРАЩАЕТ:
+        Файл модели для скачивания
+    """
+    try:
+        from flask import send_file
+        
+        data = request.get_json()
+        model_name = data.get('model_name')
+        
+        if not model_name:
+            return jsonify({
+                'success': False,
+                'error': 'Не указано имя модели'
+            }), 400
+        
+        model_path = os.path.join('data/models', model_name)
+        
+        if not os.path.exists(model_path):
+            return jsonify({
+                'success': False,
+                'error': 'Модель не найдена'
+            }), 404
+        
+        return send_file(
+            model_path,
+            as_attachment=True,
+            download_name=model_name,
+            mimetype='application/json'
+        )
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
+@bp.route('/api/import-model', methods=['POST'])
+def api_import_model():
+    """
+    API для импорта модели (загрузка файла)
+    
+    ПАРАМЕТРЫ (multipart/form-data):
+        model_file: file - JSON файл с моделью
+        model_name: str (optional) - имя для сохранения (по умолчанию - имя файла)
+    
+    ВОЗВРАЩАЕТ:
+        success: bool
+        message: str
+        model_name: str - имя сохраненной модели
+    """
+    try:
+        import os
+        from werkzeug.utils import secure_filename
+        
+        # Проверяем наличие файла
+        if 'model_file' not in request.files:
+            return jsonify({
+                'success': False,
+                'error': 'Файл не предоставлен'
+            }), 400
+        
+        file = request.files['model_file']
+        
+        if file.filename == '':
+            return jsonify({
+                'success': False,
+                'error': 'Файл не выбран'
+            }), 400
+        
+        # Проверяем расширение
+        if not file.filename.endswith('.json'):
+            return jsonify({
+                'success': False,
+                'error': 'Файл должен быть в формате JSON'
+            }), 400
+        
+        # Получаем имя для сохранения
+        custom_name = request.form.get('model_name')
+        if custom_name:
+            filename = secure_filename(custom_name)
+            if not filename.endswith('.json'):
+                filename += '.json'
+        else:
+            filename = secure_filename(file.filename)
+        
+        # Создаем директорию если не существует
+        model_dir = 'data/models'
+        os.makedirs(model_dir, exist_ok=True)
+        
+        # Сохраняем файл
+        model_path = os.path.join(model_dir, filename)
+        file.save(model_path)
+        
+        # Проверяем валидность JSON
+        try:
+            with open(model_path, 'r', encoding='utf-8') as f:
+                model_data = json.load(f)
+                
+            # Проверяем наличие необходимых полей
+            required_fields = ['input_size', 'hidden_size', 'output_size']
+            if not all(field in model_data for field in required_fields):
+                os.remove(model_path)
+                return jsonify({
+                    'success': False,
+                    'error': 'Неверный формат модели: отсутствуют обязательные поля'
+                }), 400
+                
+        except json.JSONDecodeError:
+            os.remove(model_path)
+            return jsonify({
+                'success': False,
+                'error': 'Неверный формат JSON'
+            }), 400
+        
+        print(f"📥 Модель импортирована: {filename}")
+        
+        return jsonify({
+            'success': True,
+            'message': f'Модель {filename} успешно импортирована',
+            'model_name': filename
+        })
+        
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'success': False,
+            'error': str(e)
+        }), 500
+
+
 # Глобальные переменные для хранения обученной модели
 trained_model = None
 trained_history = None

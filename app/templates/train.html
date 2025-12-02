@@ -203,6 +203,37 @@
                     </div>
                 </div>
             </div>
+            
+            <!-- Управление моделями -->
+            <div class="card training-card mt-4">
+                <div class="card-header bg-success text-white">
+                    <h5 class="mb-0">💾 Управление моделями</h5>
+                </div>
+                <div class="card-body">
+                    <!-- Кнопки действий -->
+                    <div class="d-grid gap-2 mb-3">
+                        <button type="button" class="btn btn-outline-primary" 
+                                data-bs-toggle="modal" data-bs-target="#loadModelModal">
+                            <i class="bi bi-folder-open"></i> Загрузить модель
+                        </button>
+                        <button type="button" class="btn btn-outline-success" 
+                                data-bs-toggle="modal" data-bs-target="#importModelModal">
+                            <i class="bi bi-upload"></i> Импортировать модель
+                        </button>
+                        <button type="button" class="btn btn-outline-info" 
+                                data-bs-toggle="modal" data-bs-target="#modelsListModal">
+                            <i class="bi bi-list-ul"></i> Список моделей
+                        </button>
+                    </div>
+                    
+                    <!-- Информация о текущей модели -->
+                    <div class="model-info">
+                        <h6><i class="bi bi-cpu"></i> Текущая модель</h6>
+                        <p class="mb-1" id="current-model-name"><strong>Имя:</strong> neural_network.json</p>
+                        <p class="mb-0" id="current-model-params"><strong>Параметры:</strong> 10→8→3</p>
+                    </div>
+                </div>
+            </div>
         </div>
         
         <!-- Процесс обучения и результаты -->
@@ -271,6 +302,92 @@
         </div>
     </div>
 </div>
+
+<!-- Модальное окно: Загрузка модели -->
+<div class="modal fade" id="loadModelModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Загрузить модель</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="model-select" class="form-label">Выберите модель:</label>
+                    <select class="form-select" id="model-select">
+                        <option value="">Загрузка списка моделей...</option>
+                    </select>
+                </div>
+                <div id="model-details" class="model-info" style="display: none;">
+                    <h6>Информация о модели</h6>
+                    <p class="mb-1"><strong>Размер:</strong> <span id="model-size"></span></p>
+                    <p class="mb-1"><strong>Изменено:</strong> <span id="model-modified"></span></p>
+                    <p class="mb-0"><strong>Архитектура:</strong> <span id="model-arch"></span></p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-primary" id="btn-load-model">Загрузить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно: Импорт модели -->
+<div class="modal fade" id="importModelModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Импортировать модель</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="model-file" class="form-label">Выберите JSON файл модели:</label>
+                    <input type="file" class="form-control" id="model-file" accept=".json">
+                </div>
+                <div class="mb-3">
+                    <label for="model-custom-name" class="form-label">Имя модели (опционально):</label>
+                    <input type="text" class="form-control" id="model-custom-name" 
+                           placeholder="model_custom.json">
+                    <small class="text-muted">Если не указано, будет использовано имя файла</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="button" class="btn btn-success" id="btn-import-model">Импортировать</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Модальное окно: Список моделей -->
+<div class="modal fade" id="modelsListModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Список сохраненных моделей</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="models-list-container">
+                    <div class="text-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Загрузка...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary" onclick="refreshModelsList()">
+                    <i class="bi bi-arrow-clockwise"></i> Обновить
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}
 
 {% block extra_js %}
@@ -499,7 +616,266 @@
         tooltipTriggerList.map(function (tooltipTriggerEl) {
             return new bootstrap.Tooltip(tooltipTriggerEl);
         });
+        
+        // Загрузка списка моделей при открытии модального окна
+        document.getElementById('loadModelModal').addEventListener('shown.bs.modal', loadModelsList);
+        document.getElementById('modelsListModal').addEventListener('shown.bs.modal', refreshModelsList);
     });
+    
+    // ============================================================
+    // ФУНКЦИИ ДЛЯ РАБОТЫ С МОДЕЛЯМИ
+    // ============================================================
+    
+    // Загрузка списка моделей для выбора
+    async function loadModelsList() {
+        const select = document.getElementById('model-select');
+        select.innerHTML = '<option value="">Загрузка...</option>';
+        
+        try {
+            const response = await fetch('/api/list-models');
+            const result = await response.json();
+            
+            if (result.success) {
+                select.innerHTML = '<option value="">Выберите модель...</option>';
+                
+                result.models.forEach(model => {
+                    const option = document.createElement('option');
+                    option.value = model.name;
+                    option.textContent = model.name;
+                    option.dataset.size = model.size;
+                    option.dataset.modified = model.modified;
+                    option.dataset.params = JSON.stringify(model.parameters);
+                    select.appendChild(option);
+                });
+                
+                // Обработчик изменения выбора
+                select.onchange = function() {
+                    if (this.value) {
+                        const option = this.selectedOptions[0];
+                        const params = JSON.parse(option.dataset.params || '{}');
+                        
+                        document.getElementById('model-size').textContent = 
+                            (option.dataset.size / 1024).toFixed(2) + ' KB';
+                        document.getElementById('model-modified').textContent = option.dataset.modified;
+                        document.getElementById('model-arch').textContent = 
+                            params ? `${params.input_size}→${params.hidden_size}→${params.output_size}` : 'N/A';
+                        document.getElementById('model-details').style.display = 'block';
+                    } else {
+                        document.getElementById('model-details').style.display = 'none';
+                    }
+                };
+            }
+        } catch (error) {
+            select.innerHTML = '<option value="">Ошибка загрузки</option>';
+            console.error('Ошибка загрузки списка моделей:', error);
+        }
+    }
+    
+    // Загрузка выбранной модели
+    document.getElementById('btn-load-model').addEventListener('click', async function() {
+        const modelName = document.getElementById('model-select').value;
+        
+        if (!modelName) {
+            alert('Выберите модель для загрузки');
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/load-model', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ model_name: modelName })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                const params = result.parameters;
+                document.getElementById('current-model-name').innerHTML = 
+                    `<strong>Имя:</strong> ${modelName}`;
+                document.getElementById('current-model-params').innerHTML = 
+                    `<strong>Параметры:</strong> ${params.input_size}→${params.hidden_size}→${params.output_size} (${params.activation})`;
+                
+                addLog(`Модель ${modelName} успешно загружена`, 'success');
+                alert(result.message);
+                
+                // Закрываем модальное окно
+                bootstrap.Modal.getInstance(document.getElementById('loadModelModal')).hide();
+            } else {
+                alert('Ошибка: ' + result.error);
+            }
+        } catch (error) {
+            alert('Ошибка загрузки модели: ' + error.message);
+        }
+    });
+    
+    // Импорт модели
+    document.getElementById('btn-import-model').addEventListener('click', async function() {
+        const fileInput = document.getElementById('model-file');
+        const customName = document.getElementById('model-custom-name').value;
+        
+        if (!fileInput.files || fileInput.files.length === 0) {
+            alert('Выберите файл для импорта');
+            return;
+        }
+        
+        const formData = new FormData();
+        formData.append('model_file', fileInput.files[0]);
+        if (customName) {
+            formData.append('model_name', customName);
+        }
+        
+        try {
+            const response = await fetch('/api/import-model', {
+                method: 'POST',
+                body: formData
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                addLog(`Модель ${result.model_name} импортирована`, 'success');
+                alert(result.message);
+                
+                // Очищаем форму
+                fileInput.value = '';
+                document.getElementById('model-custom-name').value = '';
+                
+                // Закрываем модальное окно
+                bootstrap.Modal.getInstance(document.getElementById('importModelModal')).hide();
+            } else {
+                alert('Ошибка: ' + result.error);
+            }
+        } catch (error) {
+            alert('Ошибка импорта модели: ' + error.message);
+        }
+    });
+    
+    // Отображение списка всех моделей
+    async function refreshModelsList() {
+        const container = document.getElementById('models-list-container');
+        container.innerHTML = '<div class="text-center"><div class="spinner-border text-primary" role="status"></div></div>';
+        
+        try {
+            const response = await fetch('/api/list-models');
+            const result = await response.json();
+            
+            if (result.success) {
+                if (result.models.length === 0) {
+                    container.innerHTML = '<p class="text-muted text-center">Нет сохраненных моделей</p>';
+                    return;
+                }
+                
+                let html = '<div class="list-group">';
+                
+                result.models.forEach(model => {
+                    const params = model.parameters;
+                    const arch = params ? `${params.input_size}→${params.hidden_size}→${params.output_size}` : 'N/A';
+                    const size = (model.size / 1024).toFixed(2);
+                    
+                    html += `
+                        <div class="list-group-item">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1">${model.name}</h6>
+                                <small>${model.modified}</small>
+                            </div>
+                            <p class="mb-1">
+                                <strong>Архитектура:</strong> ${arch} | 
+                                <strong>Размер:</strong> ${size} KB
+                            </p>
+                            <div class="btn-group btn-group-sm" role="group">
+                                <button type="button" class="btn btn-outline-primary" 
+                                        onclick="loadModelFromList('${model.name}')">
+                                    <i class="bi bi-download"></i> Загрузить
+                                </button>
+                                <button type="button" class="btn btn-outline-danger" 
+                                        onclick="deleteModel('${model.name}')"
+                                        ${['neural_network.json', 'model_final.json'].includes(model.name) ? 'disabled' : ''}>
+                                    <i class="bi bi-trash"></i> Удалить
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                container.innerHTML = html;
+            }
+        } catch (error) {
+            container.innerHTML = '<p class="text-danger">Ошибка загрузки списка моделей</p>';
+            console.error('Ошибка:', error);
+        }
+    }
+    
+    // Загрузка модели из списка
+    async function loadModelFromList(modelName) {
+        if (!confirm(`Загрузить модель ${modelName}?`)) {
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/load-model', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ model_name: modelName })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                const params = result.parameters;
+                document.getElementById('current-model-name').innerHTML = 
+                    `<strong>Имя:</strong> ${modelName}`;
+                document.getElementById('current-model-params').innerHTML = 
+                    `<strong>Параметры:</strong> ${params.input_size}→${params.hidden_size}→${params.output_size} (${params.activation})`;
+                
+                addLog(`Модель ${modelName} загружена из списка`, 'success');
+                alert(result.message);
+                
+                // Закрываем модальное окно
+                bootstrap.Modal.getInstance(document.getElementById('modelsListModal')).hide();
+            } else {
+                alert('Ошибка: ' + result.error);
+            }
+        } catch (error) {
+            alert('Ошибка загрузки модели: ' + error.message);
+        }
+    }
+    
+    // Удаление модели
+    async function deleteModel(modelName) {
+        if (!confirm(`Удалить модель ${modelName}? Это действие необратимо.`)) {
+            return;
+        }
+        
+        try {
+            const response = await fetch('/api/delete-model', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ model_name: modelName })
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                addLog(`Модель ${modelName} удалена`, 'warning');
+                alert(result.message);
+                
+                // Обновляем список
+                refreshModelsList();
+            } else {
+                alert('Ошибка: ' + result.error);
+            }
+        } catch (error) {
+            alert('Ошибка удаления модели: ' + error.message);
+        }
+    }
 </script>
 {% endblock %}
 
