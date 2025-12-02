@@ -119,9 +119,9 @@ def run_experiment(config, X, y):
     network = SimpleNeuralNetwork(
         input_size=X.shape[1],
         hidden_size=config['hidden_size'],
-        output_size=y.shape[1],
-        learning_rate=config['learning_rate']
+        output_size=y.shape[1]
     )
+    network.learning_rate = config['learning_rate']
     
     # Подготавливаем данные
     training_data = [(X[i:i+1], y[i:i+1]) for i in range(len(X))]
