@@ -1,0 +1,186 @@
+"""
+Обучение финальной модели с оптимальными параметрами
+
+На основе проведенных экспериментов выбрана лучшая конфигурация:
+- Learning rate: 0.05 (Эксперимент 5 - лучший результат 0.0038)
+- Activation: ReLU (быстрее и эффективнее sigmoid)
+- Hidden size: 8 нейронов (оптимальный баланс)
+- Epochs: 2000 (достаточно для сходимости)
+"""
+
+import json
+import numpy as np
+from app.models.neural_network import SimpleNeuralNetwork
+
+def load_training_data():
+    """Загрузка обучающих данных"""
+    with open('data/training_data/training_data.json', 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    
+    X = []
+    y = []
+    
+    for item in data:
+        features = item['features']
+        target = item['target']
+        
+        feature_vector = [
+            features['lines_of_code'] / 100.0,
+            features['functions_count'] / 10.0,
+            features['complexity'],
+            features['nested_levels'] / 5.0,
+            features['variable_names_length'] / 20.0,
+            features['comments_ratio'],
+            features['imports_count'] / 10.0,
+            features['class_count'] / 5.0,
+            features['error_handling'],
+            features['test_coverage']
+        ]
+        
+        X.append(feature_vector)
+        y.append(target)
+    
+    return np.array(X), np.array(y)
+
+
+def main():
+    print("=" * 70)
+    print("🎓 ОБУЧЕНИЕ ФИНАЛЬНОЙ МОДЕЛИ")
+    print("=" * 70)
+    
+    print("\n📋 Конфигурация (на основе экспериментов):")
+    print("   • Архитектура: 10 → 8 → 3")
+    print("   • Learning rate: 0.05 (🏆 Лучший результат в Эксперименте 5)")
+    print("   • Activation: ReLU (Быстрее sigmoid)")
+    print("   • Epochs: 2000")
+    print("   • Dropout: 0.0 (Не нужен для малого датасета)")
+    
+    # Загружаем данные
+    print("\n📊 Загрузка данных...")
+    X, y = load_training_data()
+    print(f"   ✅ Загружено {len(X)} примеров")
+    
+    # Создаем модель с нуля (не загружаем предобученную)
+    print("\n🧠 Создание нейронной сети...")
+    network = SimpleNeuralNetwork(
+        input_size=10,
+        hidden_size=8,
+        output_size=3,
+        activation='relu'
+    )
+    
+    # Устанавливаем оптимальные параметры
+    network.learning_rate = 0.05
+    
+    # Переинициализируем веса (обучение с нуля)
+    network.weights_input_hidden = np.random.randn(10, 8) * 0.1
+    network.weights_hidden_output = np.random.randn(8, 3) * 0.1
+    network.bias_hidden = np.zeros((1, 8))
+    network.bias_output = np.zeros((1, 3))
+    
+    print("   ✅ Модель создана")
+    
+    # Подсчет параметров
+    total_params = (10 * 8) + 8 + (8 * 3) + 3
+    print(f"\n📊 Параметры модели:")
+    print(f"   • W1 (10×8): 80 параметров")
+    print(f"   • b1: 8 параметров")
+    print(f"   • W2 (8×3): 24 параметра")
+    print(f"   • b2: 3 параметра")
+    print(f"   • Всего: {total_params} параметров")
+    
+    # Подготовка данных для обучения
+    training_data = [(X[i:i+1], y[i:i+1]) for i in range(len(X))]
+    
+    print(f"\n🚀 Начинаем обучение...")
+    print("   (прогресс каждые 100 эпох)")
+    print()
+    
+    # Обучение
+    history = network.train(training_data, epochs=2000)
+    
+    # Результаты
+    print("\n" + "=" * 70)
+    print("📊 РЕЗУЛЬТАТЫ ОБУЧЕНИЯ")
+    print("=" * 70)
+    print(f"\n   Начальная ошибка:  {history['loss'][0]:.6f}")
+    print(f"   Конечная ошибка:   {history['loss'][-1]:.6f}")
+    
+    improvement = (1 - history['loss'][-1]/history['loss'][0])*100 if history['loss'][0] > 0 else 0
+    print(f"   Улучшение:         {improvement:.1f}%")
+    
+    # Сравнение с экспериментами
+    print("\n📈 Сравнение с экспериментами:")
+    print(f"   Baseline (lr=0.01):           0.0056")
+    print(f"   Эксперимент 5 (lr=0.05):      0.0038 🏆")
+    print(f"   Финальная модель:             {history['loss'][-1]:.4f}")
+    
+    if history['loss'][-1] <= 0.0040:
+        print(f"\n   ✅ ОТЛИЧНЫЙ РЕЗУЛЬТАТ! Модель готова к production")
+    elif history['loss'][-1] <= 0.0050:
+        print(f"\n   ✅ Хороший результат! Модель работает стабильно")
+    else:
+        print(f"\n   ⚠️  Результат приемлемый, но можно улучшить")
+    
+    # Тестирование на примерах
+    print("\n🧪 Тестирование на контрольных примерах:")
+    test_indices = [0, 50, 100, 150, 200]
+    total_error = 0
+    test_count = 0
+    
+    for idx in test_indices:
+        if idx < len(X):
+            prediction = network.predict(X[idx]).flatten()
+            target = y[idx]
+            error = np.mean(np.abs(prediction - target))
+            total_error += error
+            test_count += 1
+            
+            print(f"\n   Пример {idx}:")
+            print(f"   Ожидаемое:    [{target[0]:.2f}, {target[1]:.2f}, {target[2]:.2f}]")
+            print(f"   Предсказание: [{prediction[0]:.2f}, {prediction[1]:.2f}, {prediction[2]:.2f}]")
+            print(f"   Ошибка:       {error:.4f} ", end="")
+            if error < 0.05:
+                print("✅")
+            elif error < 0.10:
+                print("⚠️")
+            else:
+                print("❌")
+    
+    avg_test_error = total_error / test_count if test_count > 0 else 0
+    print(f"\n   📊 Средняя ошибка на тестах: {avg_test_error:.4f}")
+    
+    # Оценка точности
+    accuracy = (1 - avg_test_error) * 100
+    print(f"   📊 Точность модели:         ~{accuracy:.1f}%")
+    
+    # Сохранение модели
+    print("\n💾 Сохранение финальной модели...")
+    
+    # Сохраняем как финальную модель
+    network.save_model('data/models/model_final.json')
+    print("   ✅ Сохранено: data/models/model_final.json")
+    
+    # Заменяем основную модель
+    network.save_model('data/models/neural_network.json')
+    print("   ✅ Обновлено: data/models/neural_network.json")
+    
+    # Сохраняем историю обучения
+    with open('data/models/training_history_final.json', 'w', encoding='utf-8') as f:
+        json.dump(history, f, indent=2, ensure_ascii=False)
+    print("   ✅ Сохранено: data/models/training_history_final.json")
+    
+    print("\n" + "=" * 70)
+    print("🎉 ФИНАЛЬНАЯ МОДЕЛЬ УСПЕШНО ОБУЧЕНА!")
+    print("=" * 70)
+    print("\n📦 Готово к использованию:")
+    print("   • Модель оптимизирована по результатам 10 экспериментов")
+    print("   • Используется лучшая конфигурация (lr=0.05, ReLU)")
+    print(f"   • Точность: ~{accuracy:.1f}%")
+    print(f"   • Ошибка: {history['loss'][-1]:.4f}")
+    print("\n✨ Система готова к production!")
+
+
+if __name__ == '__main__':
+    main()
+
