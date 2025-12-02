@@ -1,0 +1,505 @@
+{% extends "base.html" %}
+
+{% block title %}Обучение модели - Python Task System{% endblock %}
+
+{% block extra_css %}
+<style>
+    .training-card {
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    
+    .parameter-input {
+        margin-bottom: 15px;
+    }
+    
+    .training-log {
+        background-color: #1e1e1e;
+        color: #d4d4d4;
+        font-family: 'Consolas', 'Monaco', monospace;
+        padding: 15px;
+        border-radius: 4px;
+        height: 400px;
+        overflow-y: auto;
+        font-size: 13px;
+        line-height: 1.5;
+    }
+    
+    .training-log .log-info {
+        color: #4ec9b0;
+    }
+    
+    .training-log .log-success {
+        color: #4fc3f7;
+    }
+    
+    .training-log .log-warning {
+        color: #ff9800;
+    }
+    
+    .training-log .log-error {
+        color: #f44336;
+    }
+    
+    .training-log .log-epoch {
+        color: #dcdcaa;
+        font-weight: bold;
+    }
+    
+    .progress-container {
+        margin: 20px 0;
+    }
+    
+    .model-info {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 4px solid #007bff;
+    }
+    
+    .loss-chart {
+        width: 100%;
+        height: 300px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: white;
+    }
+    
+    .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .metric-card {
+        background-color: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        text-align: center;
+    }
+    
+    .metric-value {
+        font-size: 2em;
+        font-weight: bold;
+        color: #007bff;
+    }
+    
+    .metric-label {
+        color: #666;
+        font-size: 0.9em;
+        margin-top: 5px;
+    }
+    
+    .btn-train {
+        min-width: 150px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h1><i class="bi bi-cpu"></i> Обучение нейронной сети</h1>
+            <p class="text-muted">Настройте параметры и запустите обучение модели для оценки качества кода</p>
+        </div>
+    </div>
+    
+    <div class="row">
+        <!-- Параметры обучения -->
+        <div class="col-lg-4">
+            <div class="card training-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">⚙️ Параметры обучения</h5>
+                </div>
+                <div class="card-body">
+                    <form id="training-form">
+                        <!-- Архитектура -->
+                        <div class="parameter-input">
+                            <label for="hidden_size" class="form-label">
+                                Размер скрытого слоя
+                                <i class="bi bi-info-circle" data-bs-toggle="tooltip" 
+                                   title="Количество нейронов в скрытом слое (4-16)"></i>
+                            </label>
+                            <input type="number" class="form-control" id="hidden_size" 
+                                   value="8" min="4" max="16" required>
+                            <small class="text-muted">По умолчанию: 8 (оптимально)</small>
+                        </div>
+                        
+                        <!-- Learning Rate -->
+                        <div class="parameter-input">
+                            <label for="learning_rate" class="form-label">
+                                Learning Rate (α)
+                                <i class="bi bi-info-circle" data-bs-toggle="tooltip" 
+                                   title="Скорость обучения (0.001 - 0.1)"></i>
+                            </label>
+                            <input type="number" class="form-control" id="learning_rate" 
+                                   value="0.05" min="0.001" max="0.1" step="0.001" required>
+                            <small class="text-muted">Рекомендуется: 0.05</small>
+                        </div>
+                        
+                        <!-- Epochs -->
+                        <div class="parameter-input">
+                            <label for="epochs" class="form-label">
+                                Количество эпох
+                                <i class="bi bi-info-circle" data-bs-toggle="tooltip" 
+                                   title="Количество проходов по датасету"></i>
+                            </label>
+                            <input type="number" class="form-control" id="epochs" 
+                                   value="2000" min="100" max="5000" step="100" required>
+                            <small class="text-muted">По умолчанию: 2000</small>
+                        </div>
+                        
+                        <!-- Activation Function -->
+                        <div class="parameter-input">
+                            <label for="activation" class="form-label">
+                                Функция активации
+                            </label>
+                            <select class="form-select" id="activation">
+                                <option value="sigmoid">Sigmoid</option>
+                                <option value="relu">ReLU</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Dropout -->
+                        <div class="parameter-input">
+                            <label for="dropout_rate" class="form-label">
+                                Dropout Rate
+                                <i class="bi bi-info-circle" data-bs-toggle="tooltip" 
+                                   title="Вероятность отключения нейронов (0 - 0.5)"></i>
+                            </label>
+                            <input type="number" class="form-control" id="dropout_rate" 
+                                   value="0.0" min="0.0" max="0.5" step="0.1">
+                            <small class="text-muted">0.0 = без dropout (рекомендуется)</small>
+                        </div>
+                        
+                        <hr>
+                        
+                        <!-- Кнопки -->
+                        <button type="submit" class="btn btn-primary btn-train w-100 mb-2" id="btn-start-training">
+                            <i class="bi bi-play-fill"></i> Начать обучение
+                        </button>
+                        
+                        <button type="button" class="btn btn-danger btn-train w-100 mb-2" 
+                                id="btn-stop-training" style="display: none;">
+                            <i class="bi bi-stop-fill"></i> Остановить
+                        </button>
+                        
+                        <button type="button" class="btn btn-success btn-train w-100" 
+                                id="btn-save-model" disabled>
+                            <i class="bi bi-save"></i> Сохранить модель
+                        </button>
+                    </form>
+                    
+                    <!-- Информация о датасете -->
+                    <div class="model-info mt-4">
+                        <h6><i class="bi bi-database"></i> Информация о датасете</h6>
+                        <p class="mb-1"><strong>Примеров:</strong> <span id="dataset-size">210</span></p>
+                        <p class="mb-1"><strong>Признаков:</strong> 10</p>
+                        <p class="mb-0"><strong>Выходов:</strong> 3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Процесс обучения и результаты -->
+        <div class="col-lg-8">
+            <!-- Прогресс обучения -->
+            <div class="card training-card">
+                <div class="card-header bg-info text-white">
+                    <h5 class="mb-0">📊 Прогресс обучения</h5>
+                </div>
+                <div class="card-body">
+                    <div class="progress-container">
+                        <div class="progress" style="height: 25px;">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" 
+                                 id="training-progress" role="progressbar" 
+                                 style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">
+                                0%
+                            </div>
+                        </div>
+                        <p class="text-center mt-2 mb-0" id="progress-text">
+                            Ожидание начала обучения...
+                        </p>
+                    </div>
+                    
+                    <!-- Метрики -->
+                    <div class="metrics-grid">
+                        <div class="metric-card">
+                            <div class="metric-value" id="current-epoch">0</div>
+                            <div class="metric-label">Текущая эпоха</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="current-loss">-</div>
+                            <div class="metric-label">Текущая ошибка</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="best-loss">-</div>
+                            <div class="metric-label">Лучшая ошибка</div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-value" id="time-elapsed">00:00</div>
+                            <div class="metric-label">Время обучения</div>
+                        </div>
+                    </div>
+                    
+                    <!-- График loss -->
+                    <div class="mt-4">
+                        <h6>График ошибки по эпохам</h6>
+                        <canvas id="loss-chart" class="loss-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Лог обучения -->
+            <div class="card training-card mt-4">
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">📝 Лог обучения</h5>
+                </div>
+                <div class="card-body p-0">
+                    <div class="training-log" id="training-log">
+                        <div class="log-info">[СИСТЕМА] Ожидание начала обучения...</div>
+                        <div class="log-info">[ИНФО] Датасет загружен: 210 примеров</div>
+                        <div class="log-info">[ИНФО] Архитектура: 10 → ? → 3</div>
+                        <div class="log-info">[ИНФО] Готово к обучению</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js для графиков -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<!-- Bootstrap Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+
+<script>
+    let trainingChart = null;
+    let trainingStartTime = null;
+    let trainingInterval = null;
+    let isTraining = false;
+    
+    // Инициализация графика
+    function initChart() {
+        const ctx = document.getElementById('loss-chart').getContext('2d');
+        trainingChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Training Loss',
+                    data: [],
+                    borderColor: 'rgb(75, 192, 192)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.1)',
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: false,
+                        title: {
+                            display: true,
+                            text: 'Loss (MSE)'
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Эпоха'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+    
+    // Добавление сообщения в лог
+    function addLog(message, type = 'info') {
+        const log = document.getElementById('training-log');
+        const timestamp = new Date().toLocaleTimeString();
+        const logClass = `log-${type}`;
+        
+        const logEntry = document.createElement('div');
+        logEntry.className = logClass;
+        logEntry.textContent = `[${timestamp}] ${message}`;
+        
+        log.appendChild(logEntry);
+        log.scrollTop = log.scrollHeight;
+    }
+    
+    // Обновление прогресса
+    function updateProgress(current, total) {
+        const percentage = Math.round((current / total) * 100);
+        const progressBar = document.getElementById('training-progress');
+        progressBar.style.width = percentage + '%';
+        progressBar.setAttribute('aria-valuenow', percentage);
+        progressBar.textContent = percentage + '%';
+        
+        document.getElementById('progress-text').textContent = 
+            `Эпоха ${current} из ${total} (${percentage}%)`;
+    }
+    
+    // Обновление таймера
+    function updateTimer() {
+        if (!trainingStartTime) return;
+        
+        const elapsed = Math.floor((Date.now() - trainingStartTime) / 1000);
+        const minutes = Math.floor(elapsed / 60);
+        const seconds = elapsed % 60;
+        
+        document.getElementById('time-elapsed').textContent = 
+            `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+    
+    // Обработка формы обучения
+    document.getElementById('training-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        if (isTraining) return;
+        
+        // Получение параметров
+        const params = {
+            hidden_size: parseInt(document.getElementById('hidden_size').value),
+            learning_rate: parseFloat(document.getElementById('learning_rate').value),
+            epochs: parseInt(document.getElementById('epochs').value),
+            activation: document.getElementById('activation').value,
+            dropout_rate: parseFloat(document.getElementById('dropout_rate').value)
+        };
+        
+        // Валидация
+        if (params.hidden_size < 4 || params.hidden_size > 16) {
+            alert('Размер скрытого слоя должен быть от 4 до 16');
+            return;
+        }
+        
+        if (params.learning_rate < 0.001 || params.learning_rate > 0.1) {
+            alert('Learning rate должен быть от 0.001 до 0.1');
+            return;
+        }
+        
+        // Начало обучения
+        isTraining = true;
+        document.getElementById('btn-start-training').style.display = 'none';
+        document.getElementById('btn-stop-training').style.display = 'block';
+        document.getElementById('btn-save-model').disabled = true;
+        
+        // Очистка лога
+        document.getElementById('training-log').innerHTML = '';
+        addLog('Начало обучения...', 'success');
+        addLog(`Архитектура: 10 → ${params.hidden_size} → 3`, 'info');
+        addLog(`Learning Rate: ${params.learning_rate}`, 'info');
+        addLog(`Эпохи: ${params.epochs}`, 'info');
+        addLog(`Активация: ${params.activation}`, 'info');
+        
+        // Сброс графика
+        trainingChart.data.labels = [];
+        trainingChart.data.datasets[0].data = [];
+        trainingChart.update();
+        
+        // Запуск таймера
+        trainingStartTime = Date.now();
+        trainingInterval = setInterval(updateTimer, 1000);
+        
+        try {
+            // Отправка запроса на сервер
+            const response = await fetch('/api/train-model', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(params)
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                addLog('Обучение завершено успешно!', 'success');
+                addLog(`Финальная ошибка: ${result.final_loss.toFixed(6)}`, 'success');
+                addLog(`Улучшение: ${result.improvement.toFixed(2)}%`, 'success');
+                
+                // Обновление графика
+                result.history.epochs.forEach((epoch, index) => {
+                    trainingChart.data.labels.push(epoch);
+                    trainingChart.data.datasets[0].data.push(result.history.loss[index]);
+                });
+                trainingChart.update();
+                
+                // Обновление метрик
+                document.getElementById('current-epoch').textContent = params.epochs;
+                document.getElementById('current-loss').textContent = result.final_loss.toFixed(6);
+                document.getElementById('best-loss').textContent = result.final_loss.toFixed(6);
+                
+                updateProgress(params.epochs, params.epochs);
+                
+                document.getElementById('btn-save-model').disabled = false;
+                
+            } else {
+                addLog(`Ошибка: ${result.error}`, 'error');
+            }
+            
+        } catch (error) {
+            addLog(`Ошибка сети: ${error.message}`, 'error');
+        } finally {
+            isTraining = false;
+            clearInterval(trainingInterval);
+            document.getElementById('btn-start-training').style.display = 'block';
+            document.getElementById('btn-stop-training').style.display = 'none';
+        }
+    });
+    
+    // Остановка обучения
+    document.getElementById('btn-stop-training').addEventListener('click', function() {
+        if (isTraining) {
+            addLog('Остановка обучения...', 'warning');
+            // TODO: Реализовать остановку на сервере
+        }
+    });
+    
+    // Сохранение модели
+    document.getElementById('btn-save-model').addEventListener('click', async function() {
+        try {
+            const response = await fetch('/api/save-model', {
+                method: 'POST'
+            });
+            
+            const result = await response.json();
+            
+            if (result.success) {
+                addLog('Модель успешно сохранена!', 'success');
+                alert('Модель успешно сохранена!');
+            } else {
+                addLog(`Ошибка сохранения: ${result.error}`, 'error');
+            }
+        } catch (error) {
+            addLog(`Ошибка сети: ${error.message}`, 'error');
+        }
+    });
+    
+    // Инициализация при загрузке
+    document.addEventListener('DOMContentLoaded', function() {
+        initChart();
+        
+        // Активация tooltips
+        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+    });
+</script>
+{% endblock %}
+
