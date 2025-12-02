@@ -29,7 +29,15 @@ OUTPUT_DIR = SCRIPT_DIR
 
 
 def load_dataset():
-    """Загрузка датасета из JSON файла"""
+    """
+    Загрузка датасета из JSON файла
+    
+    Читает training_data.json, содержащий примеры кода Python
+    с извлеченными признаками и целевыми значениями качества.
+    
+    Returns:
+        list: Список словарей с полями 'code', 'features', 'target'
+    """
     with open(DATA_PATH, 'r', encoding='utf-8') as f:
         data = json.load(f)
     return data
@@ -38,6 +46,21 @@ def load_dataset():
 def classify_by_category(code):
     """
     Классификация примера кода по категории на основе содержимого
+    
+    Анализирует код и определяет его категорию по наличию
+    ключевых слов и конструкций:
+    - ООП (классы): наличие 'class' или магических методов
+    - Сортировка: ключевые слова sort, bubble, quick, merge
+    - Списки: работа с индексами, append, pop
+    - Циклы: for, while
+    - Условия: if, else
+    - Функции: def (базовые функции)
+    
+    Args:
+        code: Строка с исходным кодом Python
+        
+    Returns:
+        str: Название категории
     """
     code_lower = code.lower()
     

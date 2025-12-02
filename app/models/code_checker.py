@@ -305,8 +305,29 @@ except Exception as e:
         )
     
     def _calculate_nesting_level(self, tree: ast.AST) -> int:
-        """Расчет максимального уровня вложенности"""
+        """
+        Расчет максимального уровня вложенности конструкций кода
+        
+        Функция рекурсивно обходит AST-дерево и подсчитывает максимальную
+        глубину вложенности управляющих конструкций (if, for, while, try, with).
+        
+        Args:
+            tree: AST-дерево для анализа
+            
+        Returns:
+            Максимальный уровень вложенности
+        """
         def get_nesting_level(node, current_level=0):
+            """
+            Вспомогательная рекурсивная функция для обхода дерева
+            
+            Args:
+                node: Текущий узел AST
+                current_level: Текущий уровень вложенности
+                
+            Returns:
+                Максимальный уровень вложенности в поддереве
+            """
             max_level = current_level
             for child in ast.iter_child_nodes(node):
                 if isinstance(child, (ast.If, ast.For, ast.While, ast.Try, ast.With)):
@@ -318,7 +339,20 @@ except Exception as e:
         return get_nesting_level(tree)
     
     def _calculate_complexity(self, tree: ast.AST) -> float:
-        """Расчет сложности кода"""
+        """
+        Расчет циклометрической сложности кода
+        
+        Вычисляет циклометрическую сложность кода по формуле Маккейба.
+        Сложность увеличивается на 1 за каждую управляющую конструкцию
+        (if, for, while, except) и логический оператор (and, or).
+        Результат нормализуется на количество строк кода.
+        
+        Args:
+            tree: AST-дерево для анализа
+            
+        Returns:
+            Нормализованная циклометрическая сложность
+        """
         complexity = 0
         
         # Циклометрическая сложность
@@ -328,12 +362,27 @@ except Exception as e:
             elif isinstance(node, (ast.And, ast.Or)):
                 complexity += 1
         
-        # Нормализация
+        # Нормализация на количество строк
         lines = len([node for node in ast.walk(tree) if hasattr(node, 'lineno')])
         return complexity / max(lines, 1) if lines > 0 else 0
     
     def _generate_suggestions(self, code: str, tree: ast.AST) -> List[str]:
-        """Генерация предложений по улучшению кода"""
+        """
+        Генерация предложений по улучшению качества кода
+        
+        Анализирует код и генерирует список рекомендаций по улучшению:
+        - Разбиение длинных функций
+        - Улучшение именования переменных
+        - Добавление комментариев для сложного кода
+        - Добавление обработки ошибок
+        
+        Args:
+            code: Исходный код в виде строки
+            tree: AST-дерево кода
+            
+        Returns:
+            Список строк с рекомендациями
+        """
         suggestions = []
         
         # Проверка длины функций
