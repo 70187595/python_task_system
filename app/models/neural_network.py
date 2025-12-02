@@ -341,19 +341,42 @@ class SimpleNeuralNetwork:
             }
     
     def load_trained_model(self):
-        """Загрузка обученной модели при инициализации"""
+        """
+        Загрузка обученной модели при инициализации
+        
+        Приоритет загрузки:
+        1. model_final.json - финальная оптимизированная модель (lr=0.05, ReLU)
+        2. neural_network.json - основная модель
+        3. Поиск в альтернативных путях
+        
+        Финальная модель была обучена с параметрами:
+        - Learning rate: 0.05 (лучший результат в экспериментах)
+        - Activation: ReLU
+        - Epochs: 2000
+        - Точность: ~94%
+        """
         try:
-            # Ищем модель в разных местах
+            # Приоритетный порядок загрузки моделей
             model_paths = [
+                # Финальная оптимизированная модель (приоритет)
+                'data/models/model_final.json',
+                # Основная модель
                 'data/models/neural_network.json',
+                # Альтернативные пути
+                'app/data/models/model_final.json',
                 'app/data/models/neural_network.json',
+                '../data/models/model_final.json',
                 '../data/models/neural_network.json'
             ]
             
             for path in model_paths:
                 if os.path.exists(path):
                     self.load_model(path)
-                    print(f"✅ Загружена обученная модель: {path}")
+                    if 'final' in path:
+                        print(f"✅ Загружена финальная модель: {path}")
+                        print(f"   (оптимизирована: lr=0.05, ReLU, точность ~94%)")
+                    else:
+                        print(f"✅ Загружена обученная модель: {path}")
                     return True
             
             print("⚠️ Обученная модель не найдена, используется случайная инициализация")
