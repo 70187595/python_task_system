@@ -87,8 +87,19 @@ def train_network():
     
     print("\n🚀 Начинаем обучение...")
     
-    # Обучаем сеть
-    network.train(training_data, epochs=2000)
+    # Обучаем сеть и сохраняем историю
+    training_history = network.train(training_data, epochs=2000)
+    
+    # Сохраняем историю обучения
+    os.makedirs('data/models', exist_ok=True)
+    history_path = 'data/models/training_history.json'
+    with open(history_path, 'w', encoding='utf-8') as f:
+        json.dump(training_history, f, ensure_ascii=False, indent=2)
+    
+    print(f"\n📊 История обучения сохранена в: {history_path}")
+    print(f"   Начальная ошибка: {training_history['loss'][0]:.4f}")
+    print(f"   Конечная ошибка: {training_history['loss'][-1]:.4f}")
+    print(f"   Улучшение: {(1 - training_history['loss'][-1]/training_history['loss'][0])*100:.1f}%")
     
     # Тестируем на нескольких примерах
     print("\n🧪 Тестирование обученной сети:")

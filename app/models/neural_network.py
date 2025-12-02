@@ -102,7 +102,21 @@ class SimpleNeuralNetwork:
         Args:
             training_data: Список кортежей (входные данные, ожидаемые выходы)
             epochs: Количество эпох обучения
+            
+        Returns:
+            dict: История обучения с эпохами и ошибками
         """
+        history = {
+            'epochs': [],
+            'loss': [],
+            'learning_rate': self.learning_rate,
+            'architecture': {
+                'input_size': self.input_size,
+                'hidden_size': self.hidden_size,
+                'output_size': self.output_size
+            }
+        }
+        
         for epoch in range(epochs):
             total_error = 0
             
@@ -117,10 +131,23 @@ class SimpleNeuralNetwork:
                 error = np.mean(np.square(target - output))
                 total_error += error
             
+            avg_error = total_error / len(training_data)
+            
+            # Сохраняем историю каждые 10 эпох
+            if epoch % 10 == 0:
+                history['epochs'].append(epoch)
+                history['loss'].append(float(avg_error))
+            
             # Вывод прогресса каждые 100 эпох
             if epoch % 100 == 0:
-                avg_error = total_error / len(training_data)
                 print(f"Эпоха {epoch}, Средняя ошибка: {avg_error:.4f}")
+        
+        # Сохраняем финальную эпоху, если она не была сохранена
+        if (epochs - 1) % 10 != 0:
+            history['epochs'].append(epochs - 1)
+            history['loss'].append(float(avg_error))
+        
+        return history
     
     def predict(self, inputs: np.ndarray) -> np.ndarray:
         """
