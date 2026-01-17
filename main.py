@@ -9,6 +9,9 @@ from app import create_app
 # Добавляем текущую директорию в путь Python
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
+# Создаём приложение для production (gunicorn)
+app = create_app()
+
 def main():
     """
     Главная функция для запуска Flask веб-приложения
