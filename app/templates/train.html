@@ -423,11 +423,13 @@
                 maintainAspectRatio: false,
                 scales: {
                     y: {
-                        beginAtZero: false,
+                        beginAtZero: true,
                         title: {
                             display: true,
                             text: 'Loss (MSE)'
-                        }
+                        },
+                        suggestedMin: 0,
+                        suggestedMax: 0.1
                     },
                     x: {
                         title: {

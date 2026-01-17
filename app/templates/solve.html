@@ -81,13 +81,16 @@
                     <label for="codeEditor" class="form-label">
                         <i class="fas fa-code me-2"></i>Ваш код:
                     </label>
-                    <textarea id="codeEditor" name="code" class="form-control code-textarea" style="height: 300px;">{{ task.solution_template|e }}</textarea>
+                    <textarea id="codeEditor" name="code" class="form-control code-textarea" style="height: 300px;" placeholder="# Введите ваше решение здесь"></textarea>
                     <div id="editor" style="display: none;"></div>
                 </div>
                 
                 <div class="text-center">
                     <button type="button" class="btn btn-success btn-lg" id="checkButton" onclick="checkSolution()">
                         <i class="fas fa-play me-2"></i>Проверить решение
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-lg ms-2" onclick="showHint()" title="Показать структуру решения">
+                        <i class="fas fa-lightbulb me-2"></i>Подсказка
                     </button>
                 </div>
             </div>
@@ -195,8 +198,7 @@
 
     // Обработчик для кнопки проверки
     document.getElementById('checkButton').addEventListener('click', function(e) {
-        console.log('🔘 Кнопка нажата');
-        alert('Кнопка нажата!'); // Временная проверка
+        console.log('Кнопка нажата');
         e.preventDefault();
         e.stopPropagation();
         checkSolution();
@@ -212,20 +214,34 @@
     });
 
     function checkSolution() {
-        console.log('🚀 Функция checkSolution вызвана');
-        alert('checkSolution вызвана!'); // Временная проверка
+        console.log('=== НАЧАЛО ПРОВЕРКИ ===');
         
-        let code = document.getElementById('codeEditor').value;
-        console.log('📝 Код:', code.substring(0, 100) + '...');
+        // ПРАВИЛЬНОЕ получение кода: из CodeMirror или textarea
+        let code;
+        if (useCodeMirror && codeEditor) {
+            code = codeEditor.getValue();
+            console.log('Код из CodeMirror');
+        } else {
+            code = document.getElementById('codeEditor').value;
+            console.log('Код из textarea');
+        }
         
-        if (!code.trim()) {
-            alert('Введите код решения');
+        console.log('Длина кода:', code.length);
+        console.log('Код:', code);
+        
+        // УПРОЩЁННАЯ ПРОВЕРКА - только длина
+        if (code.trim().length === 0) {
+            alert('Пожалуйста, введите код решения.\n\nПоле для кода пустое!');
+            if (useCodeMirror && codeEditor) {
+                codeEditor.focus();
+            } else {
+                document.getElementById('codeEditor').focus();
+            }
             return;
         }
 
-        console.log('Отправляем код на проверку:', code);
+        console.log('Отправляем код на проверку');
         console.log('ID задания:', currentTaskId);
-        alert('Отправляем запрос на сервер...');
 
         // Показать загрузку
         document.getElementById('loading').style.display = 'block';
@@ -428,14 +444,31 @@
     }
 
     function clearCode() {
-        const template = `{{ task.solution_template|e|replace('\n', '\\n')|replace('\r', '\\r')|replace('"', '\\"') }}`;
-        
+        // Очищаем код полностью (не восстанавливаем шаблон)
         if (useCodeMirror && codeEditor) {
-            codeEditor.setValue(template);
+            codeEditor.setValue('');
             codeEditor.focus();
         } else {
-            document.getElementById('codeEditor').value = template;
+            document.getElementById('codeEditor').value = '';
             document.getElementById('codeEditor').focus();
+        }
+        
+        // Скрываем результаты предыдущей проверки
+        document.getElementById('results').style.display = 'none';
+    }
+    
+    function showHint() {
+        // Показываем структуру решения (шаблон)
+        const template = `{{ task.solution_template|e|replace('\n', '\\n')|replace('\r', '\\r')|replace('"', '\\"') }}`;
+        
+        if (confirm('Показать структуру решения?\n\nЭто заполнит поле редактора примером решения.')) {
+            if (useCodeMirror && codeEditor) {
+                codeEditor.setValue(template);
+                codeEditor.focus();
+            } else {
+                document.getElementById('codeEditor').value = template;
+                document.getElementById('codeEditor').focus();
+            }
         }
     }
 </script>

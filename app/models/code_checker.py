@@ -100,40 +100,63 @@ class CodeChecker:
         """
         violations = []
         
-        # Проверка на запрещенные импорты
-        for forbidden in self.forbidden_imports:
-            if f"import {forbidden}" in code or f"from {forbidden}" in code:
-                violations.append(f"Запрещенный импорт: {forbidden}")
+        try:
+            tree = ast.parse(code)
+        except:
+            # Если код не парсится, проверяем простым способом
+            if 'exec(' in code or 'eval(' in code:
+                violations.append("Использование exec() или eval() запрещено")
+            return len(violations) == 0, violations
         
-        # Проверка на запрещенные функции
-        for forbidden in self.forbidden_functions:
-            if forbidden in code:
-                violations.append(f"Запрещенная функция: {forbidden}")
+        # Проверка на запрещенные импорты через AST
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Import):
+                for alias in node.names:
+                    if alias.name in self.forbidden_imports:
+                        violations.append(f"Запрещенный импорт: {alias.name}")
+            elif isinstance(node, ast.ImportFrom):
+                if node.module in self.forbidden_imports:
+                    violations.append(f"Запрещенный импорт: {node.module}")
+                for alias in node.names:
+                    if alias.name in self.forbidden_imports:
+                        violations.append(f"Запрещенный импорт: {alias.name}")
         
-        # Проверка на exec и eval
-        if 'exec(' in code or 'eval(' in code:
-            violations.append("Использование exec() или eval() запрещено")
+        # Проверка на запрещенные функции через AST
+        for node in ast.walk(tree):
+            if isinstance(node, ast.Call):
+                if isinstance(node.func, ast.Name):
+                    if node.func.id in self.forbidden_functions:
+                        violations.append(f"Запрещенная функция: {node.func.id}")
+                elif isinstance(node.func, ast.Attribute):
+                    # Проверка для случаев типа os.system()
+                    if isinstance(node.func.value, ast.Name):
+                        if node.func.value.id in ['os', 'sys', 'subprocess']:
+                            violations.append(f"Запрещенное использование: {node.func.value.id}.{node.func.attr}")
         
         return len(violations) == 0, violations
     
-    def run_code(self, code: str, input_data: str = "") -> Tuple[bool, str, float, str]:
+    def run_code(self, code: str, input_data: str = "", skip_security_check: bool = False) -> Tuple[bool, str, float, str]:
         """
         Безопасное выполнение кода
         
         Args:
             code: Код для выполнения
             input_data: Входные данные
+            skip_security_check: Пропустить проверку безопасности (для внутреннего использования)
             
         Returns:
             Кортеж (успех, результат, время выполнения, ошибка)
         """
-        # Проверка безопасности
-        is_safe, violations = self.check_security(code)
-        if not is_safe:
-            return False, "", 0.0, f"Нарушения безопасности: {', '.join(violations)}"
+        # Проверка безопасности (если не пропущена)
+        if not skip_security_check:
+            is_safe, violations = self.check_security(code)
+            if not is_safe:
+                return False, "", 0.0, f"Нарушения безопасности: {', '.join(violations)}"
         
-        # Создание временного файла
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False) as f:
+        # Создание временного файла с UTF-8 кодировкой
+        with tempfile.NamedTemporaryFile(mode='w', suffix='.py', delete=False, encoding='utf-8') as f:
+            # Добавляем объявление кодировки в начало файла
+            f.write('# -*- coding: utf-8 -*-\n')
             f.write(code)
             temp_file = f.name
         
@@ -168,6 +191,42 @@ class CodeChecker:
             except:
                 pass
     
+    def _extract_function_name(self, code: str) -> Optional[str]:
+        """
+        Извлечение имени функции из кода
+        
+        Args:
+            code: Код для анализа
+            
+        Returns:
+            Имя функции или None
+        """
+        try:
+            tree = ast.parse(code)
+            for node in ast.walk(tree):
+                if isinstance(node, ast.FunctionDef):
+                    return node.name
+        except:
+            pass
+        return None
+    
+    def _safe_eval_input(self, input_str: str) -> Any:
+        """
+        Безопасная оценка входных данных
+        
+        Args:
+            input_str: Строка с входными данными
+            
+        Returns:
+            Распарсенное значение
+        """
+        try:
+            # Пробуем распарсить как Python литерал
+            return ast.literal_eval(input_str)
+        except:
+            # Если не получается, возвращаем как строку без кавычек
+            return input_str.strip('"\'')
+    
     def test_solution(self, code: str, test_cases: List[Dict[str, Any]]) -> List[TestResult]:
         """
         Тестирование решения
@@ -181,42 +240,115 @@ class CodeChecker:
         """
         results = []
         
+        # Проверка: код не должен быть пустым
+        if not code or not code.strip():
+            # Если код пустой, все тесты провалены
+            for test_case in test_cases:
+                result = TestResult(
+                    test_case=test_case,
+                    passed=False,
+                    actual_output="",
+                    expected_output=str(test_case.get('expected', '')),
+                    execution_time=0.0,
+                    error_message="Код решения отсутствует"
+                )
+                results.append(result)
+            return results
+        
+        # Извлекаем имя функции из кода студента
+        function_name = self._extract_function_name(code)
+        
         for test_case in test_cases:
-            input_data = str(test_case.get('input', ''))
+            input_data_str = str(test_case.get('input', ''))
             expected = str(test_case.get('expected', ''))
             
-            # Создаем тестовый код
-            test_code = f"""
+            # Безопасно распарсим входные данные
+            try:
+                input_data_value = self._safe_eval_input(input_data_str)
+            except:
+                input_data_value = input_data_str.strip('"\'')
+            
+            # Создаем тестовый код без exec()
+            if function_name:
+                # Если нашли функцию, вызываем её напрямую
+                if isinstance(input_data_value, str):
+                    # Для строковых аргументов
+                    test_code = f"""# -*- coding: utf-8 -*-
 {code}
 
-# Тестирование
+# Testing
 try:
-    result = None
-    if 'find_max' in globals():
-        result = find_max({input_data})
-    elif 'count_words' in globals():
-        result = count_words("{input_data}")
-    elif 'sort_list' in globals():
-        result = sort_list({input_data})
-    elif 'fibonacci' in globals():
-        result = fibonacci({input_data})
-    else:
-        # Попробуем выполнить код напрямую
-        exec('result = ' + repr({input_data}))
-    
+    result = {function_name}({repr(input_data_value)})
     print(result)
 except Exception as e:
-    print(f"Ошибка: {{e}}")
+    print(f"Error: {{e}}")
+"""
+                else:
+                    # Для числовых/списковых аргументов
+                    test_code = f"""# -*- coding: utf-8 -*-
+{code}
+
+# Testing
+try:
+    result = {function_name}({repr(input_data_value)})
+    print(result)
+except Exception as e:
+    print(f"Error: {{e}}")
+"""
+            else:
+                # Если функция не найдена, используем fallback логику
+                # Пробуем найти функцию по известным именам
+                known_functions = ['find_max', 'count_words', 'sort_list', 'fibonacci', 'filter_even']
+                function_call = None
+                
+                for func_name in known_functions:
+                    if func_name in code:
+                        if isinstance(input_data_value, str):
+                            function_call = f"{func_name}({repr(input_data_value)})"
+                        else:
+                            function_call = f"{func_name}({repr(input_data_value)})"
+                        break
+                
+                if function_call:
+                    test_code = f"""# -*- coding: utf-8 -*-
+{code}
+
+# Testing
+try:
+    result = {function_call}
+    print(result)
+except Exception as e:
+    print(f"Error: {{e}}")
+"""
+                else:
+                    # Если не нашли функцию, просто выполняем код и проверяем вывод
+                    test_code = f"# -*- coding: utf-8 -*-\n{code}"
+                    # Если ожидается вывод, проверяем наличие print
+                    if 'print(' not in code:
+                        test_code = f"""# -*- coding: utf-8 -*-
+{code}
+print(result)
 """
             
-            # Выполнение кода
-            success, output, execution_time, error = self.run_code(test_code)
+            # Проверка безопасности только для кода студента
+            student_code_safe, violations = self.check_security(code)
+            if not student_code_safe:
+                # Если код студента небезопасен, пропускаем выполнение
+                success = False
+                output = ""
+                execution_time = 0.0
+                error = f"Нарушения безопасности: {', '.join(violations)}"
+            else:
+                # Если код студента безопасен, выполняем тестовый код
+                # Пропускаем повторную проверку безопасности, так как код студента уже проверен
+                # и тестовая обертка безопасна (не содержит exec/eval/import)
+                success, output, execution_time, error = self.run_code(test_code, skip_security_check=True)
             
             # Очистка вывода
             if success:
                 output = output.strip()
-                # Убираем "Ошибка: " если есть
-                if output.startswith("Ошибка: "):
+                # Убираем "Error: " если есть (англ. версия для совместимости)
+                if output.startswith("Error: ") or output.startswith("Ошибка: "):
                     success = False
                     error = output
                     output = ""

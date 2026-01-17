@@ -2,7 +2,7 @@
 Маршруты для веб-приложения системы заданий Python
 """
 
-from flask import Blueprint, render_template, request, jsonify, redirect, url_for
+from flask import Blueprint, render_template, request, jsonify, redirect, url_for, make_response
 import json
 from .models import TaskGenerator, CodeChecker, SimpleNeuralNetwork
 from .utils import DatabaseManager
@@ -99,22 +99,27 @@ def solve_task(task_id):
     if not task:
         return redirect(url_for('main.index'))
     
-    return render_template('solve.html', task=task)
+    response = make_response(render_template('solve.html', task=task))
+    # Запрет кэширования для страницы решения
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 
 @bp.route('/api/check-solution', methods=['POST'])
 def api_check_solution():
     """API для проверки решения"""
     try:
-        print("🔍 Получен запрос на проверку решения")
-        print(f"📝 Метод: {request.method}")
-        print(f"📋 Заголовки: {dict(request.headers)}")
+        print("[CHECK] Получен запрос на проверку решения")
+        print(f"[CHECK] Метод: {request.method}")
+        print(f"[CHECK] Заголовки: {dict(request.headers)}")
         
         data = request.get_json()
-        print(f"📊 Данные запроса: {data}")
+        print(f"[CHECK] Данные запроса: {data}")
         
         if not data:
-            print("❌ Нет данных в запросе")
+            print("[ERROR] Нет данных в запросе")
             return jsonify({
                 'success': False,
                 'error': 'Нет данных в запросе'
@@ -123,8 +128,8 @@ def api_check_solution():
         task_id = data.get('task_id')
         student_code = data.get('code')
         
-        print(f"📋 ID задания: {task_id}")
-        print(f"💻 Код студента: {student_code[:100]}..." if student_code else "❌ Код не найден")
+        print(f"[CHECK] ID задания: {task_id}")
+        print(f"[CHECK] Код студента: {student_code[:100]}..." if student_code else "[ERROR] Код не найден")
         
         # Получение задания
         task = db_manager.get_task(task_id)
@@ -147,26 +152,26 @@ def api_check_solution():
                 'score': 0
             })
         
-        print("🧪 Начинаем тестирование решения...")
+        print("[TEST] Начинаем тестирование решения...")
         
         # Тестирование решения
         test_results = code_checker.test_solution(student_code, task['test_cases'])
-        print(f"✅ Тестирование завершено: {len(test_results)} тестов")
+        print(f"[TEST] Тестирование завершено: {len(test_results)} тестов")
         
         # Анализ кода
-        print("📊 Анализируем код...")
+        print("[ANALYZE] Анализируем код...")
         analysis = code_checker.analyze_code(student_code)
-        print(f"✅ Анализ завершен: {analysis.lines_of_code} строк, {analysis.functions_count} функций")
+        print(f"[ANALYZE] Анализ завершен: {analysis.lines_of_code} строк, {analysis.functions_count} функций")
         
         # Извлечение признаков для нейронной сети
-        print("🧠 Извлекаем признаки для нейронной сети...")
+        print("[NN] Извлекаем признаки для нейронной сети...")
         features = code_checker.get_code_features(student_code)
-        print(f"✅ Признаки извлечены: {len(features)} параметров")
+        print(f"[NN] Признаки извлечены: {len(features)} параметров")
         
         # Оценка качества кода нейронной сетью
-        print("🤖 Оцениваем качество кода...")
+        print("[NN] Оцениваем качество кода...")
         quality_scores = neural_network.evaluate_code_quality(features)
-        print(f"✅ Оценка завершена: правильность={quality_scores['correctness']:.2f}")
+        print(f"[NN] Оценка завершена: правильность={quality_scores['correctness']:.2f}")
         
         # Расчет итогового балла
         passed_tests = sum(1 for result in test_results if result.passed)
@@ -420,7 +425,7 @@ def api_train_model():
         final_loss = history['loss'][-1]
         improvement = ((initial_loss - final_loss) / initial_loss) * 100
         
-        print(f"✅ Обучение завершено за {training_time:.2f} сек")
+        print(f"[TRAIN] Обучение завершено за {training_time:.2f} сек")
         print(f"   Начальная ошибка: {initial_loss:.6f}")
         print(f"   Финальная ошибка: {final_loss:.6f}")
         print(f"   Улучшение: {improvement:.2f}%")
@@ -490,8 +495,8 @@ def api_save_model():
         with open(history_path, 'w', encoding='utf-8') as f:
             json.dump(trained_history, f, ensure_ascii=False, indent=2)
         
-        print(f"💾 Модель сохранена: {model_path}")
-        print(f"📊 История сохранена: {history_path}")
+        print(f"[SAVE] Модель сохранена: {model_path}")
+        print(f"[SAVE] История сохранена: {history_path}")
         
         return jsonify({
             'success': True,
@@ -645,7 +650,7 @@ def api_load_model():
         # Загружаем веса
         neural_network.load_model(model_path)
         
-        print(f"✅ Модель загружена: {model_name}")
+        print(f"[LOAD] Модель загружена: {model_name}")
         
         return jsonify({
             'success': True,
@@ -856,7 +861,7 @@ def api_import_model():
                 'error': 'Неверный формат JSON'
             }), 400
         
-        print(f"📥 Модель импортирована: {filename}")
+        print(f"[IMPORT] Модель импортирована: {filename}")
         
         return jsonify({
             'success': True,
